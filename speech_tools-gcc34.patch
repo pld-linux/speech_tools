@@ -1,6 +1,6 @@
 diff -uNr speech_tools.orig/base_class/EST_TMatrix.cc speech_tools/base_class/EST_TMatrix.cc
 --- speech_tools.orig/base_class/EST_TMatrix.cc	2001-07-25 13:02:35.000000000 +0200
-+++ speech_tools/base_class/EST_TMatrix.cc	2004-04-19 13:20:23.750220584 +0200
++++ speech_tools/base_class/EST_TMatrix.cc	2004-04-19 14:09:52.129958272 +0200
 @@ -101,7 +101,7 @@
  {
  
@@ -162,7 +162,7 @@ diff -uNr speech_tools.orig/base_class/EST_TMatrix.cc speech_tools/base_class/ES
    
 diff -uNr speech_tools.orig/base_class/EST_TNamedEnum.cc speech_tools/base_class/EST_TNamedEnum.cc
 --- speech_tools.orig/base_class/EST_TNamedEnum.cc	2001-04-04 15:11:27.000000000 +0200
-+++ speech_tools/base_class/EST_TNamedEnum.cc	2004-04-19 13:20:27.309679464 +0200
++++ speech_tools/base_class/EST_TNamedEnum.cc	2004-04-19 14:09:52.130958120 +0200
 @@ -58,15 +58,15 @@
    for(n=1; defs[n].token != defs[0].token; n++)
      ;
@@ -425,7 +425,7 @@ diff -uNr speech_tools.orig/base_class/EST_TNamedEnum.cc speech_tools/base_class
        }
 diff -uNr speech_tools.orig/base_class/EST_TSimpleMatrix.cc speech_tools/base_class/EST_TSimpleMatrix.cc
 --- speech_tools.orig/base_class/EST_TSimpleMatrix.cc	2001-04-04 13:55:32.000000000 +0200
-+++ speech_tools/base_class/EST_TSimpleMatrix.cc	2004-04-19 13:20:23.754219976 +0200
++++ speech_tools/base_class/EST_TSimpleMatrix.cc	2004-04-19 14:09:52.132957816 +0200
 @@ -49,23 +49,23 @@
  template<class T> 
  void EST_TSimpleMatrix<T>::copy_data(const EST_TSimpleMatrix<T> &a)
@@ -555,7 +555,7 @@ diff -uNr speech_tools.orig/base_class/EST_TSimpleMatrix.cc speech_tools/base_cl
  
 diff -uNr speech_tools.orig/base_class/EST_TSimpleVector.cc speech_tools/base_class/EST_TSimpleVector.cc
 --- speech_tools.orig/base_class/EST_TSimpleVector.cc	2001-04-04 13:55:32.000000000 +0200
-+++ speech_tools/base_class/EST_TSimpleVector.cc	2004-04-19 13:20:23.756219672 +0200
++++ speech_tools/base_class/EST_TSimpleVector.cc	2004-04-19 14:09:52.137957056 +0200
 @@ -46,10 +46,10 @@
  
  template<class T> void EST_TSimpleVector<T>::copy(const EST_TSimpleVector<T> &a)
@@ -670,7 +670,7 @@ diff -uNr speech_tools.orig/base_class/EST_TSimpleVector.cc speech_tools/base_cl
  
 diff -uNr speech_tools.orig/base_class/EST_Tvectlist.cc speech_tools/base_class/EST_Tvectlist.cc
 --- speech_tools.orig/base_class/EST_Tvectlist.cc	2001-04-04 13:55:32.000000000 +0200
-+++ speech_tools/base_class/EST_Tvectlist.cc	2004-04-19 13:20:31.226084080 +0200
++++ speech_tools/base_class/EST_Tvectlist.cc	2004-04-19 14:09:52.138956904 +0200
 @@ -38,6 +38,7 @@
  /*                                                                       */
  /*=======================================================================*/
@@ -700,7 +700,7 @@ diff -uNr speech_tools.orig/base_class/EST_Tvectlist.cc speech_tools/base_class/
      return a;
 diff -uNr speech_tools.orig/base_class/inst_tmpl/vector_dmatrix_t.cc speech_tools/base_class/inst_tmpl/vector_dmatrix_t.cc
 --- speech_tools.orig/base_class/inst_tmpl/vector_dmatrix_t.cc	2001-04-04 13:55:32.000000000 +0200
-+++ speech_tools/base_class/inst_tmpl/vector_dmatrix_t.cc	2004-04-19 13:20:37.370150040 +0200
++++ speech_tools/base_class/inst_tmpl/vector_dmatrix_t.cc	2004-04-19 14:09:52.139956752 +0200
 @@ -52,8 +52,8 @@
  #endif
  static const EST_DMatrix def_val_DMatrix;
@@ -714,7 +714,7 @@ diff -uNr speech_tools.orig/base_class/inst_tmpl/vector_dmatrix_t.cc speech_tool
  		const EST_DMatrix &fm2)
 diff -uNr speech_tools.orig/base_class/inst_tmpl/vector_dvector_t.cc speech_tools/base_class/inst_tmpl/vector_dvector_t.cc
 --- speech_tools.orig/base_class/inst_tmpl/vector_dvector_t.cc	2001-04-04 13:55:32.000000000 +0200
-+++ speech_tools/base_class/inst_tmpl/vector_dvector_t.cc	2004-04-19 13:20:35.197480336 +0200
++++ speech_tools/base_class/inst_tmpl/vector_dvector_t.cc	2004-04-19 14:09:52.140956600 +0200
 @@ -52,8 +52,8 @@
  #endif
  static const EST_DVector def_val_DVector;
@@ -728,7 +728,7 @@ diff -uNr speech_tools.orig/base_class/inst_tmpl/vector_dvector_t.cc speech_tool
  		const EST_DVector &fv2)
 diff -uNr speech_tools.orig/base_class/inst_tmpl/vector_fmatrix_t.cc speech_tools/base_class/inst_tmpl/vector_fmatrix_t.cc
 --- speech_tools.orig/base_class/inst_tmpl/vector_fmatrix_t.cc	2001-04-04 13:55:32.000000000 +0200
-+++ speech_tools/base_class/inst_tmpl/vector_fmatrix_t.cc	2004-04-19 13:20:33.112797256 +0200
++++ speech_tools/base_class/inst_tmpl/vector_fmatrix_t.cc	2004-04-19 14:09:52.141956448 +0200
 @@ -52,8 +52,8 @@
  #endif
  static const EST_FMatrix def_val_FMatrix;
@@ -740,9 +740,49 @@ diff -uNr speech_tools.orig/base_class/inst_tmpl/vector_fmatrix_t.cc speech_tool
  
  int operator !=(const EST_FMatrix &fm1, 
  		const EST_FMatrix &fm2)
+diff -uNr speech_tools.orig/grammar/scfg/EST_SCFG_inout.cc speech_tools/grammar/scfg/EST_SCFG_inout.cc
+--- speech_tools.orig/grammar/scfg/EST_SCFG_inout.cc	2001-04-04 13:55:32.000000000 +0200
++++ speech_tools/grammar/scfg/EST_SCFG_inout.cc	2004-04-19 14:10:14.762517600 +0200
+@@ -54,8 +54,8 @@
+ 
+ static const EST_bracketed_string def_val_s;
+ static EST_bracketed_string error_return_s;
+-const EST_bracketed_string *EST_TVector<EST_bracketed_string>::def_val=&def_val_s;
+-EST_bracketed_string *EST_TVector<EST_bracketed_string>::error_return=&error_return_s;
++template <> const EST_bracketed_string *EST_TVector<EST_bracketed_string>::def_val=&def_val_s;
++template <> EST_bracketed_string *EST_TVector<EST_bracketed_string>::error_return=&error_return_s;
+ 
+ 
+ #if defined(INSTANTIATE_TEMPLATES)
+diff -uNr speech_tools.orig/grammar/wfst/wfst_ops.cc speech_tools/grammar/wfst/wfst_ops.cc
+--- speech_tools.orig/grammar/wfst/wfst_ops.cc	2001-09-25 19:02:06.000000000 +0200
++++ speech_tools/grammar/wfst/wfst_ops.cc	2004-04-19 14:10:16.664228496 +0200
+@@ -57,8 +57,8 @@
+ 	static EST_IList int_EST_IList_kv_def_EST_IList_s; 
+ 	static int int_EST_IList_kv_def_int_s; 
+ 	
+-	EST_IList *EST_TKVL< int, EST_IList >::default_val=&int_EST_IList_kv_def_EST_IList_s; 
+-	int *EST_TKVL< int, EST_IList >::default_key=&int_EST_IList_kv_def_int_s; 
++	template <> EST_IList *EST_TKVL< int, EST_IList >::default_val=&int_EST_IList_kv_def_EST_IList_s; 
++	template <> int *EST_TKVL< int, EST_IList >::default_key=&int_EST_IList_kv_def_int_s; 
+ 	
+ 	Declare_TList_N(KVI_int_EST_IList_t, 0)
+ 
+diff -uNr speech_tools.orig/grammar/wfst/wfst_train.cc speech_tools/grammar/wfst/wfst_train.cc
+--- speech_tools.orig/grammar/wfst/wfst_train.cc	2002-12-26 21:29:40.000000000 +0100
++++ speech_tools/grammar/wfst/wfst_train.cc	2004-04-19 14:10:18.652926168 +0200
+@@ -95,7 +95,7 @@
+ 	LISP s = NIL;
+ 	do
+ 	{
+-	    t = ts.get();
++	    t = ts.get().String();
+ 	    id = wfst.in_symbol(t);
+ 	    if (id == -1)
+ 	    {
 diff -uNr speech_tools.orig/include/EST_THash.h speech_tools/include/EST_THash.h
 --- speech_tools.orig/include/EST_THash.h	2002-12-26 16:48:53.000000000 +0100
-+++ speech_tools/include/EST_THash.h	2004-04-19 13:20:23.758219368 +0200
++++ speech_tools/include/EST_THash.h	2004-04-19 14:09:52.143956144 +0200
 @@ -279,7 +279,7 @@
  public:
  
@@ -781,7 +821,7 @@ diff -uNr speech_tools.orig/include/EST_THash.h speech_tools/include/EST_THash.h
  
 diff -uNr speech_tools.orig/include/EST_TIterator.h speech_tools/include/EST_TIterator.h
 --- speech_tools.orig/include/EST_TIterator.h	2002-12-26 16:48:54.000000000 +0100
-+++ speech_tools/include/EST_TIterator.h	2004-04-19 13:20:23.760219064 +0200
++++ speech_tools/include/EST_TIterator.h	2004-04-19 14:09:52.144955992 +0200
 @@ -201,18 +201,18 @@
    typedef EST_TIterator<Container, IPointer, Entry> Iter;
  
@@ -870,7 +910,7 @@ diff -uNr speech_tools.orig/include/EST_TIterator.h speech_tools/include/EST_TIt
  #endif
 diff -uNr speech_tools.orig/include/EST_TMatrix.h speech_tools/include/EST_TMatrix.h
 --- speech_tools.orig/include/EST_TMatrix.h	2001-07-25 13:02:36.000000000 +0200
-+++ speech_tools/include/EST_TMatrix.h	2004-04-19 13:20:23.762218760 +0200
++++ speech_tools/include/EST_TMatrix.h	2004-04-19 14:09:52.146955688 +0200
 @@ -104,7 +104,7 @@
      {
  
@@ -922,7 +962,7 @@ diff -uNr speech_tools.orig/include/EST_TMatrix.h speech_tools/include/EST_TMatr
    EST_TMatrix &operator=(const EST_TMatrix &s); 
 diff -uNr speech_tools.orig/include/EST_TNamedEnum.h speech_tools/include/EST_TNamedEnum.h
 --- speech_tools.orig/include/EST_TNamedEnum.h	2001-04-04 13:55:32.000000000 +0200
-+++ speech_tools/include/EST_TNamedEnum.h	2004-04-19 13:20:23.764218456 +0200
++++ speech_tools/include/EST_TNamedEnum.h	2004-04-19 14:09:52.147955536 +0200
 @@ -124,9 +124,9 @@
  public:
  
@@ -964,7 +1004,7 @@ diff -uNr speech_tools.orig/include/EST_TNamedEnum.h speech_tools/include/EST_TN
    EST_read_status load(EST_String name, EST_TNamedEnum &definitive) { return priv_load(name, &definitive); };
 diff -uNr speech_tools.orig/include/EST_TSimpleVector.h speech_tools/include/EST_TSimpleVector.h
 --- speech_tools.orig/include/EST_TSimpleVector.h	2001-04-04 13:55:32.000000000 +0200
-+++ speech_tools/include/EST_TSimpleVector.h	2004-04-19 13:20:23.765218304 +0200
++++ speech_tools/include/EST_TSimpleVector.h	2004-04-19 14:09:52.148955384 +0200
 @@ -74,7 +74,7 @@
      void zero(void);
  
@@ -976,7 +1016,7 @@ diff -uNr speech_tools.orig/include/EST_TSimpleVector.h speech_tools/include/EST
  #endif
 diff -uNr speech_tools.orig/include/instantiate/EST_TDequeI.h speech_tools/include/instantiate/EST_TDequeI.h
 --- speech_tools.orig/include/instantiate/EST_TDequeI.h	2001-04-04 15:11:27.000000000 +0200
-+++ speech_tools/include/instantiate/EST_TDequeI.h	2004-04-19 13:20:41.347545384 +0200
++++ speech_tools/include/instantiate/EST_TDequeI.h	2004-04-19 14:09:52.149955232 +0200
 @@ -54,16 +54,16 @@
  #define Instantiate_TDEQ(T) Instantiate_TDEQ_T(T, T) 
  
@@ -999,7 +1039,7 @@ diff -uNr speech_tools.orig/include/instantiate/EST_TDequeI.h speech_tools/inclu
  
 diff -uNr speech_tools.orig/include/instantiate/EST_THashI.h speech_tools/include/instantiate/EST_THashI.h
 --- speech_tools.orig/include/instantiate/EST_THashI.h	2001-04-04 15:11:27.000000000 +0200
-+++ speech_tools/include/instantiate/EST_THashI.h	2004-04-19 13:20:23.766218152 +0200
++++ speech_tools/include/instantiate/EST_THashI.h	2004-04-19 14:09:52.149955232 +0200
 @@ -77,17 +77,17 @@
  
  
@@ -1026,7 +1066,7 @@ diff -uNr speech_tools.orig/include/instantiate/EST_THashI.h speech_tools/includ
  
 diff -uNr speech_tools.orig/include/instantiate/EST_TKVLI.h speech_tools/include/instantiate/EST_TKVLI.h
 --- speech_tools.orig/include/instantiate/EST_TKVLI.h	2001-04-04 15:11:27.000000000 +0200
-+++ speech_tools/include/instantiate/EST_TKVLI.h	2004-04-19 13:20:23.768217848 +0200
++++ speech_tools/include/instantiate/EST_TKVLI.h	2004-04-19 14:09:52.150955080 +0200
 @@ -71,8 +71,8 @@
  	static VAL TAG##_kv_def_val_s; \
  	static KEY TAG##_kv_def_key_s; \
@@ -1062,7 +1102,7 @@ diff -uNr speech_tools.orig/include/instantiate/EST_TKVLI.h speech_tools/include
  #define Declare_KVL_Class_T(KEY, VAL, DEFV, DEFK,TAG) \
 diff -uNr speech_tools.orig/include/instantiate/EST_TListI.h speech_tools/include/instantiate/EST_TListI.h
 --- speech_tools.orig/include/instantiate/EST_TListI.h	2001-04-04 15:11:27.000000000 +0200
-+++ speech_tools/include/instantiate/EST_TListI.h	2004-04-19 13:20:23.769217696 +0200
++++ speech_tools/include/instantiate/EST_TListI.h	2004-04-19 14:09:52.151954928 +0200
 @@ -64,9 +64,9 @@
  
  #define Declare_TList_TN(TYPE,MaxFree,TAG) \
@@ -1078,7 +1118,7 @@ diff -uNr speech_tools.orig/include/instantiate/EST_TListI.h speech_tools/includ
  
 diff -uNr speech_tools.orig/include/instantiate/EST_TVectorI.h speech_tools/include/instantiate/EST_TVectorI.h
 --- speech_tools.orig/include/instantiate/EST_TVectorI.h	2001-04-04 15:11:27.000000000 +0200
-+++ speech_tools/include/instantiate/EST_TVectorI.h	2004-04-19 13:20:29.334371664 +0200
++++ speech_tools/include/instantiate/EST_TVectorI.h	2004-04-19 14:09:52.152954776 +0200
 @@ -62,22 +62,22 @@
  	static TYPE const TAG##_vec_def_val_s; \
  	static TYPE TAG##_vec_error_return_s; \
@@ -1108,3 +1148,19 @@ diff -uNr speech_tools.orig/include/instantiate/EST_TVectorI.h speech_tools/incl
  
  #define Declare_TVector(TYPE) Declare_TVector_T(TYPE,TYPE)
  #define Declare_TVector_Base(TYPE,DEFAULT,ERROR)  Declare_TVector_Base_T(TYPE,DEFAULT,ERROR,TYPE)
+diff -uNr speech_tools.orig/stats/dynamic_program.cc speech_tools/stats/dynamic_program.cc
+--- speech_tools.orig/stats/dynamic_program.cc	2001-04-04 13:55:32.000000000 +0200
++++ speech_tools/stats/dynamic_program.cc	2004-04-19 14:10:12.709829656 +0200
+@@ -50,10 +50,10 @@
+ #endif
+ 
+ static EST_Item *const def_val_item_ptr = NULL;
+-EST_Item* const *EST_Item_ptr_Vector::def_val = &def_val_item_ptr;
++template <> EST_Item* const *EST_Item_ptr_Vector::def_val = &def_val_item_ptr;
+ 
+ static EST_Item* error_return_item_ptr = NULL;
+-EST_Item* *EST_Item_ptr_Vector::error_return = &error_return_item_ptr;
++template <> EST_Item* *EST_Item_ptr_Vector::error_return = &error_return_item_ptr;
+ 
+ typedef
+ float (*local_cost_function)(const EST_Item *item1,
