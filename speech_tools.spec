@@ -7,7 +7,7 @@ License:	distributable
 Group:		Applications/Sound
 Source0:	http://www.cstr.ed.ac.uk/download/festival/1.4.3/%{name}-%{version}-release.tar.gz
 # Source0-md5:	783051edfa493b5325ac3ff205bdf265
-#Patch0:		%{name}-termcap.patch not needed eny more
+Patch0:		%{name}-termcap.patch
 Patch1:		%{name}-shared.patch
 Patch2:		%{name}-soname.patch
 Patch3:		%{name}-gcc3.patch
@@ -31,7 +31,7 @@ u¿ytkowych, które czêsto u¿ywa siê w syntezatorach mowy.
 Summary:	Developement files for speech tools
 Summary(pl):	Pliki nag³ówkowe do narzêdzi mowy
 Group:		Applications/Sound
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description devel
 Developement files for speech tools.
@@ -43,7 +43,7 @@ Pliki nag³ówkowe do narzêdzi mowy.
 Summary:	Static libraries for speech tools
 Summary(pl):	Statyczne biblioteki narzêdzi mowy
 Group:		Applications/Sound
-Requires:	%{name}-devel = %{version}
+Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 Static libraries for speech tools.
@@ -55,7 +55,7 @@ Statyczne biblioteki narzêdzi mowy.
 Summary:	Speech tools utils
 Summary(pl):	Programy u¿ytkowe narzêdzi mowy Edinburgh
 Group:		Applications/Sound
-Requires:	%{name} = %{version}
+Requires:	%{name} = %{version}-%{release}
 
 %description utils
 Speech tools utils.
@@ -65,7 +65,7 @@ Programy u¿ytkowe narzêdzi mowy Edinburgh.
 
 %prep
 %setup -q -n %{name}
-#%patch0 -p1
+%patch0 -p1
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
