@@ -36,7 +36,7 @@ Pliki nag³ówkowe do narzêdzi mowy.
 Summary:	Static libraries for speech tools
 Summary(pl):	Statyczne biblioteki narzêdzi mowy
 Group:		Applications/Sound
-Requires:	%{name}-devel
+Requires:	%{name}-devel = %{version}
 
 %description static
 Static libraries for speech tools.
@@ -48,7 +48,7 @@ Statyczne biblioteki narzêdzi mowy.
 Summary:	Speech tools utils
 Summary(pl):	Programy u¿ytkowe narzêdzi mowy Edinburgh
 Group:		Applications/Sound
-Requires:	%{name}-devel
+Requires:	%{name} = %{version}
 
 %description utils
 Speech tools utils.
