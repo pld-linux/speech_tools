@@ -5,21 +5,20 @@
 Summary:	Edinburgh Speech Tools Library
 Summary(pl):	Biblioteka narzêdzi mowy Edinburgh
 Name:		speech_tools
-Version:	1.2.4
-%define		_snap	20030804
-Release:	0.%{_snap}.5
+Version:	1.2.95
+#define		_snap	20030804
+Release:	0.beta.1
 License:	distributable
 Group:		Applications/Sound
 #Source0:	http://www.cstr.ed.ac.uk/download/festival/1.4.3/%{name}-%{version}-release.tar.gz
-Source0:	http://www.festvox.org/packed/festival/latest/%{name}-%{version}-current%{_snap}.tar.gz
-# Source0-md5:	3a0859af4a441970b7a35f5412b041c7
+#Source0:	http://www.festvox.org/packed/festival/latest/%{name}-%{version}-current%{_snap}.tar.gz
+Source0:	http://www.festvox.org/packed/festival/1.95/%{name}-%{version}-beta.tar.gz
+# Source0-md5:	4a0a58d8c4bafaee9f0a913372ded8bd
 Patch0:		%{name}-termcap.patch
 Patch1:		%{name}-shared.patch
 Patch2:		%{name}-soname.patch
 Patch3:		%{name}-bin_printf.patch
-# Broken dont reenable unles syou want to fix it
-#Patch4:		%{name}-gcc34.patch
-Patch5:		%{name}-PIC.patch
+#Patch4:		%{name}-PIC.patch		- obsolete
 URL:		http://www.cstr.ed.ac.uk/projects/speech_tools/
 BuildRequires:	automake
 BuildRequires:	coreutils >= 5.0-7
@@ -78,7 +77,6 @@ Programy u¿ytkowe narzêdzi mowy Edinburgh.
 %patch2 -p1
 %patch3 -p0
 #patch4 -p1
-%patch5 -p1
 
 %build
 cp -f /usr/share/automake/config.* .
