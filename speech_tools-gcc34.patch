@@ -1,6 +1,6 @@
 diff -uNr speech_tools.orig/base_class/EST_TMatrix.cc speech_tools/base_class/EST_TMatrix.cc
 --- speech_tools.orig/base_class/EST_TMatrix.cc	2001-07-25 13:02:35.000000000 +0200
-+++ speech_tools/base_class/EST_TMatrix.cc	2004-04-20 01:06:36.242622616 +0200
++++ speech_tools/base_class/EST_TMatrix.cc	2004-04-22 21:02:04.942810976 +0200
 @@ -101,7 +101,7 @@
  {
  
@@ -162,7 +162,7 @@ diff -uNr speech_tools.orig/base_class/EST_TMatrix.cc speech_tools/base_class/ES
    
 diff -uNr speech_tools.orig/base_class/EST_TNamedEnum.cc speech_tools/base_class/EST_TNamedEnum.cc
 --- speech_tools.orig/base_class/EST_TNamedEnum.cc	2001-04-04 15:11:27.000000000 +0200
-+++ speech_tools/base_class/EST_TNamedEnum.cc	2004-04-20 01:06:36.244622312 +0200
++++ speech_tools/base_class/EST_TNamedEnum.cc	2004-04-22 21:02:04.943810824 +0200
 @@ -58,15 +58,15 @@
    for(n=1; defs[n].token != defs[0].token; n++)
      ;
@@ -425,7 +425,7 @@ diff -uNr speech_tools.orig/base_class/EST_TNamedEnum.cc speech_tools/base_class
        }
 diff -uNr speech_tools.orig/base_class/EST_TSimpleMatrix.cc speech_tools/base_class/EST_TSimpleMatrix.cc
 --- speech_tools.orig/base_class/EST_TSimpleMatrix.cc	2001-04-04 13:55:32.000000000 +0200
-+++ speech_tools/base_class/EST_TSimpleMatrix.cc	2004-04-20 01:06:36.245622160 +0200
++++ speech_tools/base_class/EST_TSimpleMatrix.cc	2004-04-22 21:02:04.945810520 +0200
 @@ -49,23 +49,23 @@
  template<class T> 
  void EST_TSimpleMatrix<T>::copy_data(const EST_TSimpleMatrix<T> &a)
@@ -555,7 +555,7 @@ diff -uNr speech_tools.orig/base_class/EST_TSimpleMatrix.cc speech_tools/base_cl
  
 diff -uNr speech_tools.orig/base_class/EST_TSimpleVector.cc speech_tools/base_class/EST_TSimpleVector.cc
 --- speech_tools.orig/base_class/EST_TSimpleVector.cc	2001-04-04 13:55:32.000000000 +0200
-+++ speech_tools/base_class/EST_TSimpleVector.cc	2004-04-20 01:06:36.246622008 +0200
++++ speech_tools/base_class/EST_TSimpleVector.cc	2004-04-22 21:02:04.946810368 +0200
 @@ -46,10 +46,10 @@
  
  template<class T> void EST_TSimpleVector<T>::copy(const EST_TSimpleVector<T> &a)
@@ -670,7 +670,7 @@ diff -uNr speech_tools.orig/base_class/EST_TSimpleVector.cc speech_tools/base_cl
  
 diff -uNr speech_tools.orig/base_class/EST_Tvectlist.cc speech_tools/base_class/EST_Tvectlist.cc
 --- speech_tools.orig/base_class/EST_Tvectlist.cc	2001-04-04 13:55:32.000000000 +0200
-+++ speech_tools/base_class/EST_Tvectlist.cc	2004-04-20 01:06:48.954690088 +0200
++++ speech_tools/base_class/EST_Tvectlist.cc	2004-04-22 21:02:04.947810216 +0200
 @@ -38,6 +38,7 @@
  /*                                                                       */
  /*=======================================================================*/
@@ -700,9 +700,141 @@ diff -uNr speech_tools.orig/base_class/EST_Tvectlist.cc speech_tools/base_class/
  	a[i] = in.item(p);
  
      return a;
+diff -uNr speech_tools.orig/base_class/inst_tmpl/hash_fi_t.cc speech_tools/base_class/inst_tmpl/hash_fi_t.cc
+--- speech_tools.orig/base_class/inst_tmpl/hash_fi_t.cc	2001-04-04 13:55:32.000000000 +0200
++++ speech_tools/base_class/inst_tmpl/hash_fi_t.cc	2004-04-22 18:39:16.000000000 +0200
+@@ -38,7 +38,8 @@
+ #include "EST_String.h"
+ #include "EST_THash.h"
+ 
+-Declare_THash(float, int)
++template <> float EST_THash<float, int>::Dummy_Key = 0.0;
++template <> int EST_THash<float, int>::Dummy_Value = 0;
+ 
+ #if defined(INSTANTIATE_TEMPLATES)
+ 
+diff -uNr speech_tools.orig/base_class/inst_tmpl/hash_ii_t.cc speech_tools/base_class/inst_tmpl/hash_ii_t.cc
+--- speech_tools.orig/base_class/inst_tmpl/hash_ii_t.cc	2001-04-04 13:55:32.000000000 +0200
++++ speech_tools/base_class/inst_tmpl/hash_ii_t.cc	2004-04-22 18:40:17.000000000 +0200
+@@ -38,7 +38,8 @@
+ #include "EST_String.h"
+ #include "EST_THash.h"
+ 
+-Declare_THash(int,int)
++template <> int EST_THash<int, int>::Dummy_Key = 0;
++template <> int EST_THash<int, int>::Dummy_Value = 0;
+ 
+ #if defined(INSTANTIATE_TEMPLATES)
+ 
+diff -uNr speech_tools.orig/base_class/inst_tmpl/hash_iv_t.cc speech_tools/base_class/inst_tmpl/hash_iv_t.cc
+--- speech_tools.orig/base_class/inst_tmpl/hash_iv_t.cc	2001-04-04 13:55:32.000000000 +0200
++++ speech_tools/base_class/inst_tmpl/hash_iv_t.cc	2004-04-22 19:56:17.000000000 +0200
+@@ -42,7 +42,9 @@
+ #include "EST_THash.h"
+ #include "EST_Val.h"
+ 
+-Declare_THash(int,EST_Val)
++static EST_Val Dummy_Val;
++template <> int EST_THash<int, EST_Val>::Dummy_Key = 0;
++template <> EST_Val EST_THash<int, EST_Val>::Dummy_Value = Dummy_Val;
+ 
+ #if defined(INSTANTIATE_TEMPLATES)
+ 
+diff -uNr speech_tools.orig/base_class/inst_tmpl/hash_sd_t.cc speech_tools/base_class/inst_tmpl/hash_sd_t.cc
+--- speech_tools.orig/base_class/inst_tmpl/hash_sd_t.cc	2001-04-04 13:55:32.000000000 +0200
++++ speech_tools/base_class/inst_tmpl/hash_sd_t.cc	2004-04-22 18:42:26.000000000 +0200
+@@ -39,7 +39,8 @@
+ #include "EST_String.h"
+ #include "EST_THash.h"
+ 
+-Declare_TStringHash(double)
++template <> EST_String EST_THash<EST_String, double>::Dummy_Key = "DUMMY";
++template <> double EST_THash<EST_String, double>::Dummy_Value = 0.0;
+ 
+ #if defined(INSTANTIATE_TEMPLATES)
+ 
+diff -uNr speech_tools.orig/base_class/inst_tmpl/hash_sfmp_t.cc speech_tools/base_class/inst_tmpl/hash_sfmp_t.cc
+--- speech_tools.orig/base_class/inst_tmpl/hash_sfmp_t.cc	2001-04-04 13:55:32.000000000 +0200
++++ speech_tools/base_class/inst_tmpl/hash_sfmp_t.cc	2004-04-22 20:00:40.000000000 +0200
+@@ -40,7 +40,8 @@
+ #include "EST_FMatrix.h"
+ #include "EST_THash.h"
+ 
+-Declare_TStringHash_T(EST_FMatrix*,EST_StringFMatrixP)
++template <> EST_String EST_THash<EST_String, EST_FMatrix *>::Dummy_Key = "DUMMY";
++template <> EST_FMatrix *EST_THash<EST_String, EST_FMatrix *>::Dummy_Value = NULL;
+ 
+ #if defined(INSTANTIATE_TEMPLATES)
+ 
+diff -uNr speech_tools.orig/base_class/inst_tmpl/hash_sf_t.cc speech_tools/base_class/inst_tmpl/hash_sf_t.cc
+--- speech_tools.orig/base_class/inst_tmpl/hash_sf_t.cc	2001-04-04 13:55:32.000000000 +0200
++++ speech_tools/base_class/inst_tmpl/hash_sf_t.cc	2004-04-22 18:44:42.000000000 +0200
+@@ -38,7 +38,8 @@
+ #include "EST_String.h"
+ #include "EST_THash.h"
+ 
+-Declare_TStringHash(float)
++template <> EST_String EST_THash<EST_String, float>::Dummy_Key = "DUMMY";
++template <> float EST_THash<EST_String, float>::Dummy_Value = 0.0;
+ 
+ #if defined(INSTANTIATE_TEMPLATES)
+ 
+diff -uNr speech_tools.orig/base_class/inst_tmpl/hash_si_t.cc speech_tools/base_class/inst_tmpl/hash_si_t.cc
+--- speech_tools.orig/base_class/inst_tmpl/hash_si_t.cc	2001-04-04 13:55:32.000000000 +0200
++++ speech_tools/base_class/inst_tmpl/hash_si_t.cc	2004-04-22 19:04:09.000000000 +0200
+@@ -38,7 +38,8 @@
+ #include "EST_String.h"
+ #include "EST_THash.h"
+ 
+-Declare_TStringHash(int)
++template <> EST_String EST_THash<EST_String, int>::Dummy_Key = "DUMMY";
++template <> int EST_THash<EST_String, int>::Dummy_Value = 0;
+ 
+ #if defined(INSTANTIATE_TEMPLATES)
+ 
+diff -uNr speech_tools.orig/base_class/inst_tmpl/hash_srp.cc speech_tools/base_class/inst_tmpl/hash_srp.cc
+--- speech_tools.orig/base_class/inst_tmpl/hash_srp.cc	2001-04-04 13:55:32.000000000 +0200
++++ speech_tools/base_class/inst_tmpl/hash_srp.cc	2004-04-22 20:04:22.000000000 +0200
+@@ -40,7 +40,8 @@
+ #include "ling_class/EST_Relation.h"
+ #include "EST_THash.h"
+ 
+-Declare_TStringHash_T(EST_Relation*,EST_StringRelationP)
++template <> EST_String EST_THash<EST_String, EST_Relation *>::Dummy_Key = "DUMMY";
++template <> EST_Relation *EST_THash<EST_String, EST_Relation *>::Dummy_Value = NULL;
+ 
+ #if defined(INSTANTIATE_TEMPLATES)
+ 
+diff -uNr speech_tools.orig/base_class/inst_tmpl/hash_ss_t.cc speech_tools/base_class/inst_tmpl/hash_ss_t.cc
+--- speech_tools.orig/base_class/inst_tmpl/hash_ss_t.cc	2001-04-04 13:55:32.000000000 +0200
++++ speech_tools/base_class/inst_tmpl/hash_ss_t.cc	2004-04-22 18:46:06.000000000 +0200
+@@ -41,7 +41,8 @@
+ #include "EST_String.h"
+ #include "EST_THash.h"
+ 
+-Declare_TStringHash(EST_String)
++template <> EST_String EST_THash<EST_String, EST_String>::Dummy_Key = "DUMMY";
++template <> EST_String EST_THash<EST_String, EST_String>::Dummy_Value = "DUMMY";
+ 
+ #if defined(INSTANTIATE_TEMPLATES)
+ 
+diff -uNr speech_tools.orig/base_class/inst_tmpl/hash_sv_t.cc speech_tools/base_class/inst_tmpl/hash_sv_t.cc
+--- speech_tools.orig/base_class/inst_tmpl/hash_sv_t.cc	2001-04-04 13:55:32.000000000 +0200
++++ speech_tools/base_class/inst_tmpl/hash_sv_t.cc	2004-04-22 19:51:06.000000000 +0200
+@@ -42,7 +42,9 @@
+ #include "EST_String.h"
+ #include "EST_Val.h"
+ 
+-Declare_TStringHash(EST_Val)
++static EST_Val Dummy_Val;
++template <> EST_String EST_THash<EST_String, EST_Val>::Dummy_Key = "DUMMY";
++template <> EST_Val EST_THash<EST_String, EST_Val>::Dummy_Value = Dummy_Val;
+ 
+ #if defined(INSTANTIATE_TEMPLATES)
+ 
 diff -uNr speech_tools.orig/base_class/inst_tmpl/vector_dmatrix_t.cc speech_tools/base_class/inst_tmpl/vector_dmatrix_t.cc
 --- speech_tools.orig/base_class/inst_tmpl/vector_dmatrix_t.cc	2001-04-04 13:55:32.000000000 +0200
-+++ speech_tools/base_class/inst_tmpl/vector_dmatrix_t.cc	2004-04-20 01:06:36.254620792 +0200
++++ speech_tools/base_class/inst_tmpl/vector_dmatrix_t.cc	2004-04-22 21:02:04.952809456 +0200
 @@ -52,8 +52,8 @@
  #endif
  static const EST_DMatrix def_val_DMatrix;
@@ -716,7 +848,7 @@ diff -uNr speech_tools.orig/base_class/inst_tmpl/vector_dmatrix_t.cc speech_tool
  		const EST_DMatrix &fm2)
 diff -uNr speech_tools.orig/base_class/inst_tmpl/vector_dvector_t.cc speech_tools/base_class/inst_tmpl/vector_dvector_t.cc
 --- speech_tools.orig/base_class/inst_tmpl/vector_dvector_t.cc	2001-04-04 13:55:32.000000000 +0200
-+++ speech_tools/base_class/inst_tmpl/vector_dvector_t.cc	2004-04-20 01:06:36.255620640 +0200
++++ speech_tools/base_class/inst_tmpl/vector_dvector_t.cc	2004-04-22 21:02:04.953809304 +0200
 @@ -52,8 +52,8 @@
  #endif
  static const EST_DVector def_val_DVector;
@@ -730,7 +862,7 @@ diff -uNr speech_tools.orig/base_class/inst_tmpl/vector_dvector_t.cc speech_tool
  		const EST_DVector &fv2)
 diff -uNr speech_tools.orig/base_class/inst_tmpl/vector_fmatrix_t.cc speech_tools/base_class/inst_tmpl/vector_fmatrix_t.cc
 --- speech_tools.orig/base_class/inst_tmpl/vector_fmatrix_t.cc	2001-04-04 13:55:32.000000000 +0200
-+++ speech_tools/base_class/inst_tmpl/vector_fmatrix_t.cc	2004-04-20 01:06:36.256620488 +0200
++++ speech_tools/base_class/inst_tmpl/vector_fmatrix_t.cc	2004-04-22 21:02:04.954809152 +0200
 @@ -52,8 +52,8 @@
  #endif
  static const EST_FMatrix def_val_FMatrix;
@@ -744,7 +876,7 @@ diff -uNr speech_tools.orig/base_class/inst_tmpl/vector_fmatrix_t.cc speech_tool
  		const EST_FMatrix &fm2)
 diff -uNr speech_tools.orig/grammar/scfg/EST_SCFG_inout.cc speech_tools/grammar/scfg/EST_SCFG_inout.cc
 --- speech_tools.orig/grammar/scfg/EST_SCFG_inout.cc	2001-04-04 13:55:32.000000000 +0200
-+++ speech_tools/grammar/scfg/EST_SCFG_inout.cc	2004-04-20 01:06:36.257620336 +0200
++++ speech_tools/grammar/scfg/EST_SCFG_inout.cc	2004-04-22 21:02:04.955809000 +0200
 @@ -54,8 +54,8 @@
  
  static const EST_bracketed_string def_val_s;
@@ -758,7 +890,7 @@ diff -uNr speech_tools.orig/grammar/scfg/EST_SCFG_inout.cc speech_tools/grammar/
  #if defined(INSTANTIATE_TEMPLATES)
 diff -uNr speech_tools.orig/grammar/wfst/wfst_ops.cc speech_tools/grammar/wfst/wfst_ops.cc
 --- speech_tools.orig/grammar/wfst/wfst_ops.cc	2001-09-25 19:02:06.000000000 +0200
-+++ speech_tools/grammar/wfst/wfst_ops.cc	2004-04-20 01:06:36.259620032 +0200
++++ speech_tools/grammar/wfst/wfst_ops.cc	2004-04-22 21:02:04.957808696 +0200
 @@ -57,8 +57,8 @@
  	static EST_IList int_EST_IList_kv_def_EST_IList_s; 
  	static int int_EST_IList_kv_def_int_s; 
@@ -772,7 +904,7 @@ diff -uNr speech_tools.orig/grammar/wfst/wfst_ops.cc speech_tools/grammar/wfst/w
  
 diff -uNr speech_tools.orig/include/EST_THash.h speech_tools/include/EST_THash.h
 --- speech_tools.orig/include/EST_THash.h	2002-12-26 16:48:53.000000000 +0100
-+++ speech_tools/include/EST_THash.h	2004-04-20 01:06:36.261619728 +0200
++++ speech_tools/include/EST_THash.h	2004-04-22 21:02:04.958808544 +0200
 @@ -279,7 +279,7 @@
  public:
  
@@ -811,7 +943,7 @@ diff -uNr speech_tools.orig/include/EST_THash.h speech_tools/include/EST_THash.h
  
 diff -uNr speech_tools.orig/include/EST_TIterator.h speech_tools/include/EST_TIterator.h
 --- speech_tools.orig/include/EST_TIterator.h	2002-12-26 16:48:54.000000000 +0100
-+++ speech_tools/include/EST_TIterator.h	2004-04-20 01:06:36.263619424 +0200
++++ speech_tools/include/EST_TIterator.h	2004-04-22 21:02:04.959808392 +0200
 @@ -201,18 +201,18 @@
    typedef EST_TIterator<Container, IPointer, Entry> Iter;
  
@@ -900,7 +1032,7 @@ diff -uNr speech_tools.orig/include/EST_TIterator.h speech_tools/include/EST_TIt
  #endif
 diff -uNr speech_tools.orig/include/EST_TMatrix.h speech_tools/include/EST_TMatrix.h
 --- speech_tools.orig/include/EST_TMatrix.h	2001-07-25 13:02:36.000000000 +0200
-+++ speech_tools/include/EST_TMatrix.h	2004-04-20 01:06:36.264619272 +0200
++++ speech_tools/include/EST_TMatrix.h	2004-04-22 21:02:04.960808240 +0200
 @@ -104,7 +104,7 @@
      {
  
@@ -952,7 +1084,7 @@ diff -uNr speech_tools.orig/include/EST_TMatrix.h speech_tools/include/EST_TMatr
    EST_TMatrix &operator=(const EST_TMatrix &s); 
 diff -uNr speech_tools.orig/include/EST_TNamedEnum.h speech_tools/include/EST_TNamedEnum.h
 --- speech_tools.orig/include/EST_TNamedEnum.h	2001-04-04 13:55:32.000000000 +0200
-+++ speech_tools/include/EST_TNamedEnum.h	2004-04-20 01:06:36.265619120 +0200
++++ speech_tools/include/EST_TNamedEnum.h	2004-04-22 21:02:04.961808088 +0200
 @@ -124,9 +124,9 @@
  public:
  
@@ -994,7 +1126,7 @@ diff -uNr speech_tools.orig/include/EST_TNamedEnum.h speech_tools/include/EST_TN
    EST_read_status load(EST_String name, EST_TNamedEnum &definitive) { return priv_load(name, &definitive); };
 diff -uNr speech_tools.orig/include/EST_TSimpleVector.h speech_tools/include/EST_TSimpleVector.h
 --- speech_tools.orig/include/EST_TSimpleVector.h	2001-04-04 13:55:32.000000000 +0200
-+++ speech_tools/include/EST_TSimpleVector.h	2004-04-20 01:06:36.266618968 +0200
++++ speech_tools/include/EST_TSimpleVector.h	2004-04-22 21:02:04.962807936 +0200
 @@ -74,7 +74,7 @@
      void zero(void);
  
@@ -1006,7 +1138,7 @@ diff -uNr speech_tools.orig/include/EST_TSimpleVector.h speech_tools/include/EST
  #endif
 diff -uNr speech_tools.orig/include/instantiate/EST_TDequeI.h speech_tools/include/instantiate/EST_TDequeI.h
 --- speech_tools.orig/include/instantiate/EST_TDequeI.h	2001-04-04 15:11:27.000000000 +0200
-+++ speech_tools/include/instantiate/EST_TDequeI.h	2004-04-20 01:06:36.266618968 +0200
++++ speech_tools/include/instantiate/EST_TDequeI.h	2004-04-22 21:02:04.963807784 +0200
 @@ -54,16 +54,16 @@
  #define Instantiate_TDEQ(T) Instantiate_TDEQ_T(T, T) 
  
@@ -1029,16 +1161,17 @@ diff -uNr speech_tools.orig/include/instantiate/EST_TDequeI.h speech_tools/inclu
  
 diff -uNr speech_tools.orig/include/instantiate/EST_THashI.h speech_tools/include/instantiate/EST_THashI.h
 --- speech_tools.orig/include/instantiate/EST_THashI.h	2001-04-04 15:11:27.000000000 +0200
-+++ speech_tools/include/instantiate/EST_THashI.h	2004-04-20 01:06:36.267618816 +0200
-@@ -77,17 +77,17 @@
++++ speech_tools/include/instantiate/EST_THashI.h	2004-04-22 21:09:06.751686280 +0200
+@@ -76,18 +76,20 @@
+ 	  Instantiate_THash_T_IT(KEY, VAL, KEY ## VAL, IP)
  
  
++/* disabled. it's INVALID !!!
  #define Declare_THash_T(KEY, VAL, TAG) \
--	VAL EST_THash< KEY, VAL >::Dummy_Value; \
--	KEY EST_THash< KEY, VAL >::Dummy_Key; \
-+	template VAL EST_THash< KEY, VAL >::Dummy_Value; \
-+	template KEY EST_THash< KEY, VAL >::Dummy_Key; \
+ 	VAL EST_THash< KEY, VAL >::Dummy_Value; \
+ 	KEY EST_THash< KEY, VAL >::Dummy_Key; \
  	EST_THash< KEY, VAL > TAG ## _hash_dummy(0);
++*/
  
  #define Declare_THash_Base_T(KEY, VAL, DEFAULTK, DEFAULT, ERROR,TAG) \
 -	KEY EST_THash< KEY, VAL >::Dummy_Key=DEFAULTK; \
@@ -1056,7 +1189,7 @@ diff -uNr speech_tools.orig/include/instantiate/EST_THashI.h speech_tools/includ
  
 diff -uNr speech_tools.orig/include/instantiate/EST_TKVLI.h speech_tools/include/instantiate/EST_TKVLI.h
 --- speech_tools.orig/include/instantiate/EST_TKVLI.h	2001-04-04 15:11:27.000000000 +0200
-+++ speech_tools/include/instantiate/EST_TKVLI.h	2004-04-20 01:06:36.268618664 +0200
++++ speech_tools/include/instantiate/EST_TKVLI.h	2004-04-22 21:02:04.965807480 +0200
 @@ -71,8 +71,8 @@
  	static VAL TAG##_kv_def_val_s; \
  	static KEY TAG##_kv_def_key_s; \
@@ -1092,7 +1225,7 @@ diff -uNr speech_tools.orig/include/instantiate/EST_TKVLI.h speech_tools/include
  #define Declare_KVL_Class_T(KEY, VAL, DEFV, DEFK,TAG) \
 diff -uNr speech_tools.orig/include/instantiate/EST_TListI.h speech_tools/include/instantiate/EST_TListI.h
 --- speech_tools.orig/include/instantiate/EST_TListI.h	2001-04-04 15:11:27.000000000 +0200
-+++ speech_tools/include/instantiate/EST_TListI.h	2004-04-20 01:06:36.269618512 +0200
++++ speech_tools/include/instantiate/EST_TListI.h	2004-04-22 21:02:04.966807328 +0200
 @@ -64,9 +64,9 @@
  
  #define Declare_TList_TN(TYPE,MaxFree,TAG) \
@@ -1108,7 +1241,7 @@ diff -uNr speech_tools.orig/include/instantiate/EST_TListI.h speech_tools/includ
  
 diff -uNr speech_tools.orig/include/instantiate/EST_TVectorI.h speech_tools/include/instantiate/EST_TVectorI.h
 --- speech_tools.orig/include/instantiate/EST_TVectorI.h	2001-04-04 15:11:27.000000000 +0200
-+++ speech_tools/include/instantiate/EST_TVectorI.h	2004-04-20 01:06:36.270618360 +0200
++++ speech_tools/include/instantiate/EST_TVectorI.h	2004-04-22 21:02:04.967807176 +0200
 @@ -62,22 +62,22 @@
  	static TYPE const TAG##_vec_def_val_s; \
  	static TYPE TAG##_vec_error_return_s; \
@@ -1138,9 +1271,68 @@ diff -uNr speech_tools.orig/include/instantiate/EST_TVectorI.h speech_tools/incl
  
  #define Declare_TVector(TYPE) Declare_TVector_T(TYPE,TYPE)
  #define Declare_TVector_Base(TYPE,DEFAULT,ERROR)  Declare_TVector_Base_T(TYPE,DEFAULT,ERROR,TYPE)
+diff -uNr speech_tools.orig/ling_class/EST_FeatureFunctionContext.cc speech_tools/ling_class/EST_FeatureFunctionContext.cc
+--- speech_tools.orig/ling_class/EST_FeatureFunctionContext.cc	2001-04-04 13:55:32.000000000 +0200
++++ speech_tools/ling_class/EST_FeatureFunctionContext.cc	2004-04-22 20:11:32.000000000 +0200
+@@ -210,7 +210,11 @@
+     return NULL;
+ }
+ 
+-Declare_TStringHash(EST_Item_featfunc)
++static EST_Val Dummy_Func(EST_Item *) { return EST_Val(); }
++template <> EST_String
++EST_THash<EST_String, EST_Item_featfunc>::Dummy_Key = "DUMMY";
++template <> EST_Item_featfunc
++EST_THash<EST_String, EST_Item_featfunc>::Dummy_Value = Dummy_Func;
+ Declare_TList_T(EST_FeatureFunctionPackage *, EST_FeatureFunctionPackageP)
+ 
+ 
+diff -uNr speech_tools.orig/ling_class/EST_FeatureFunctionPackage.cc speech_tools/ling_class/EST_FeatureFunctionPackage.cc
+--- speech_tools.orig/ling_class/EST_FeatureFunctionPackage.cc	2001-04-04 13:55:32.000000000 +0200
++++ speech_tools/ling_class/EST_FeatureFunctionPackage.cc	2004-04-22 20:10:09.000000000 +0200
+@@ -41,7 +41,12 @@
+ #include "ling_class/EST_FeatureFunctionPackage.h"
+ 
+ 			
+-Declare_TStringHash_T(EST_FeatureFunctionPackage::Entry, EST_FeatureFunctionPackage_Entry)
++static EST_Val Dummy_Func(EST_Item *) { return EST_Val(); }
++static struct EST_FeatureFunctionPackage::Entry Dummy_Entry = { Dummy_Func };
++template <> EST_String
++EST_THash<EST_String, EST_FeatureFunctionPackage::Entry>::Dummy_Key = "DUMMY";
++template <> EST_FeatureFunctionPackage::Entry
++EST_THash<EST_String, EST_FeatureFunctionPackage::Entry>::Dummy_Value = Dummy_Entry;
+ 
+ 
+ #if defined(INSTANTIATE_TEMPLATES)
+diff -uNr speech_tools.orig/ling_class/genxml.cc speech_tools/ling_class/genxml.cc
+--- speech_tools.orig/ling_class/genxml.cc	2001-04-04 15:11:27.000000000 +0200
++++ speech_tools/ling_class/genxml.cc	2004-04-22 20:07:48.000000000 +0200
+@@ -736,7 +736,8 @@
+   est_error_throw();
+ }
+ 
+-Declare_TStringHash_T(EST_Item_Content *, THash_String_ItemC_P)
++template <> EST_String EST_THash<EST_String, EST_Item_Content *>::Dummy_Key = "DUMMY";
++template <> EST_Item_Content *EST_THash<EST_String, EST_Item_Content *>::Dummy_Value = NULL;
+ 
+ #if defined(INSTANTIATE_TEMPLATES)
+ 
+diff -uNr speech_tools.orig/siod/siod.cc speech_tools/siod/siod.cc
+--- speech_tools.orig/siod/siod.cc	2001-07-21 02:30:32.000000000 +0200
++++ speech_tools/siod/siod.cc	2004-04-22 21:06:50.261435952 +0200
+@@ -38,7 +38,8 @@
+ 
+ extern "C" const char * repl_prompt;
+ 
+-Declare_TStringHash_T(EST_Regex *, hash_string_regex)
++template <> EST_String EST_THash<EST_String, EST_Regex *>::Dummy_Key = "DUMMY";
++template <> EST_Regex *EST_THash<EST_String, EST_Regex *>::Dummy_Value = NULL;
+ 
+ #if defined(INSTANTIATE_TEMPLATES)
+ #include "../base_class/EST_THash.cc"
 diff -uNr speech_tools.orig/stats/dynamic_program.cc speech_tools/stats/dynamic_program.cc
 --- speech_tools.orig/stats/dynamic_program.cc	2001-04-04 13:55:32.000000000 +0200
-+++ speech_tools/stats/dynamic_program.cc	2004-04-20 01:06:36.271618208 +0200
++++ speech_tools/stats/dynamic_program.cc	2004-04-22 21:02:04.968807024 +0200
 @@ -50,10 +50,10 @@
  #endif
  
@@ -1154,3 +1346,16 @@ diff -uNr speech_tools.orig/stats/dynamic_program.cc speech_tools/stats/dynamic_
  
  typedef
  float (*local_cost_function)(const EST_Item *item1,
+diff -uNr speech_tools.orig/testsuite/hash_example.cc speech_tools/testsuite/hash_example.cc
+--- speech_tools.orig/testsuite/hash_example.cc	2001-04-04 13:55:32.000000000 +0200
++++ speech_tools/testsuite/hash_example.cc	2004-04-22 20:34:50.000000000 +0200
+@@ -135,7 +135,8 @@
+ }
+ 
+ 
+-Declare_THash(int,float)
++template <> int EST_THash<int, float>::Dummy_Key = 0;
++template <> float EST_THash<int, float>::Dummy_Value = 0.0;
+ 
+ #if defined(INSTANTIATE_TEMPLATES)
+ #include "../base_class/EST_THash.cc"
