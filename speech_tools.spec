@@ -17,6 +17,7 @@ Patch0:		%{name}-termcap.patch
 Patch1:		%{name}-shared.patch
 Patch2:		%{name}-soname.patch
 Patch3:		%{name}-bin_printf.patch
+# Broken dont reenable unles syou want to fix it
 #Patch4:		%{name}-gcc34.patch
 Patch5:		%{name}-PIC.patch
 URL:		http://www.cstr.ed.ac.uk/projects/speech_tools/
