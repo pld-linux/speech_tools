@@ -14,6 +14,7 @@ Patch1:		%{name}-shared.patch
 Patch2:		%{name}-soname.patch
 Patch3:		%{name}-bin_printf.patch
 URL:		http://www.cstr.ed.ac.uk/projects/speech_tools/
+BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	coreutils >= 5.0-7
 BuildRequires:	libstdc++-devel
