@@ -1,0 +1,188 @@
+--- speech_tools/include/EST_TMatrix.h.orig	2001-07-25 13:02:36.000000000 +0200
++++ speech_tools/include/EST_TMatrix.h	2004-04-18 17:41:23.739336864 +0200
+@@ -104,7 +104,7 @@
+     {
+ 
+       return mcell_pos(r, c, 
+-		       p_row_step, p_column_step);
++		       this->p_row_step, this->p_column_step);
+     }
+ 
+   INLINE unsigned int mcell_pos_1(int r, int c) const
+@@ -116,14 +116,14 @@
+ 
+   /// quick method for returning {\tt x[m][n]}
+   INLINE const T &fast_a_m(int r, int c) const 
+-    { return p_memory[mcell_pos(r,c)]; }
++    { return this->p_memory[mcell_pos(r,c)]; }
+   INLINE T &fast_a_m(int r, int c) 
+-    { return p_memory[mcell_pos(r,c)]; }
++    { return this->p_memory[mcell_pos(r,c)]; }
+ 
+   INLINE const T &fast_a_1(int r, int c) const 
+-    { return p_memory[mcell_pos_1(r,c)]; }
++    { return this->p_memory[mcell_pos_1(r,c)]; }
+   INLINE T &fast_a_1(int r, int c) 
+-    { return p_memory[mcell_pos_1(r,c)]; }
++    { return this->p_memory[mcell_pos_1(r,c)]; }
+   
+ 
+     /// Get and set values from array
+@@ -173,9 +173,9 @@
+   //@{
+ 
+   /// return number of rows
+-  int num_rows() const {return p_num_rows;}
++  int num_rows() const {return this->p_num_rows;}
+   /// return number of columns
+-  int num_columns() const {return p_num_columns;}
++  int num_columns() const {return this->p_num_columns;}
+ 
+   /// const access with no bounds check, care recommend
+   INLINE const T &a_no_check(int row, int col) const 
+@@ -214,7 +214,7 @@
+ 
+   /// fill matrix with value v
+   void fill(const T &v);
+-  void fill() { fill(*def_val); }
++  void fill() { fill(*this->def_val); }
+ 
+   /// assignment operator
+   EST_TMatrix &operator=(const EST_TMatrix &s); 
+--- speech_tools/include/EST_TIterator.h.orig	2002-12-26 16:48:54.000000000 +0100
++++ speech_tools/include/EST_TIterator.h	2004-04-18 18:04:17.978420768 +0200
+@@ -201,18 +201,18 @@
+   typedef EST_TIterator<Container, IPointer, Entry> Iter;
+ 
+   /// Create an iterator not associated with any specific container.
+-  EST_TStructIterator() {cont=NULL;}
++  EST_TStructIterator() {this->cont=NULL;}
+ 
+   /// Copy an iterator by assignment
+   Iter &operator = (const Iter &orig)
+-    { cont=orig.cont; pos=orig.pos; pointer=orig.pointer; return *this;}
++    { this->cont=orig.cont; this->pos=orig.pos; this->pointer=orig.pointer; return *this;}
+ 
+   /// Create an iterator ready to run over the given container.
+   EST_TStructIterator(const Container &over)
+     { begin(over); }
+ 
+   const Entry *operator ->() const
+-    {return &current();}
++    {return &this->current();}
+ };
+ 
+ template <class Container, class IPointer, class Entry>
+@@ -231,11 +231,11 @@
+   typedef EST_TIterator<Container, IPointer, Entry> Iter;
+ 
+   /// Create an iterator not associated with any specific container.
+-  EST_TRwIterator() {cont=NULL;}
++  EST_TRwIterator() {this->cont=NULL;}
+ 
+   /// Copy an iterator by assignment
+   Iter &operator = (const Iter &orig)
+-    { cont=orig.cont; pos=orig.pos; pointer=orig.pointer; return *this;}
++    { this->cont=orig.cont; this->pos=orig.pos; this->pointer=orig.pointer; return *this;}
+ 
+   /// Create an iterator ready to run over the given container.
+   EST_TRwIterator(Container &over)
+@@ -243,14 +243,14 @@
+ 
+   /// Set the iterator ready to run over this container.
+   void begin(Container &over)
+-    {cont=&over; beginning();}
++    {this->cont=&over; this->beginning();}
+ 
+   /**@name Access
+     */
+   //@{
+   /// Return the element currentl pointed to.
+   Entry& current() const
+-    {return cont->points_at(pointer);}
++    {return this->cont->points_at(this->pointer);}
+ 
+   /// The * operator returns the current element. 
+   Entry &operator *() const
+@@ -264,8 +264,8 @@
+   /// Return the current element and move the pointer forwards.
+   Entry& next_element() 
+ 	{ 
+-	  Entry &it = cont->points_at(pointer); 
+-	  cont->move_pointer_forwards(pointer); 
++	  Entry &it = this->cont->points_at(this->pointer); 
++	  this->cont->move_pointer_forwards(this->pointer); 
+ 	  return it; 
+ 	}
+ 
+@@ -281,18 +281,18 @@
+   typedef EST_TIterator<Container, IPointer, Entry> Iter;
+ 
+   /// Create an iterator not associated with any specific container.
+-  EST_TRwStructIterator() {cont=NULL;}
++  EST_TRwStructIterator() {this->cont=NULL;}
+ 
+   /// Copy an iterator by assignment
+   Iter &operator = (const Iter &orig)
+-    { cont=orig.cont; pos=orig.pos; pointer=orig.pointer; return *this;}
++    { this->cont=orig.cont; this->pos=orig.pos; this->pointer=orig.pointer; return *this;}
+ 
+   /// Create an iterator ready to run over the given container.
+   EST_TRwStructIterator(Container &over)
+     { begin(over); }
+ 
+   Entry *operator ->() const
+-    {return &current();}
++    {return &this->current();}
+ };
+ 
+ #endif
+--- speech_tools/include/EST_TSimpleVector.h.orig	2001-04-04 13:55:32.000000000 +0200
++++ speech_tools/include/EST_TSimpleVector.h	2004-04-18 17:44:27.672374792 +0200
+@@ -74,7 +74,7 @@
+     void zero(void);
+ 
+     /// Fill vector with default value
+-    void empty(void) { if (*def_val == 0) zero(); else fill(*def_val); }
++    void empty(void) { if (*this->def_val == 0) zero(); else fill(*this->def_val); }
+ };
+ 
+ #endif
+--- speech_tools/include/EST_THash.h.orig	2002-12-26 16:48:53.000000000 +0100
++++ speech_tools/include/EST_THash.h	2004-04-18 18:37:45.163282288 +0200
+@@ -279,7 +279,7 @@
+ public:
+ 
+   /// Create a string hash table of <parameter>size</parameter> buckets.
+-  EST_TStringHash(int size) : EST_THash<EST_String, V>(size, StringHash) {};
++  EST_TStringHash(int size) : EST_THash<EST_String, V>(size, EST_HashFunctions::StringHash) {};
+ 
+   /// An entry returned by the iterator is a key value pair.
+   typedef EST_Hash_Pair<EST_String, V> Entry;
+@@ -289,9 +289,11 @@
+ 
+ 
+   /// Give the iterator a sensible name.
+-  typedef EST_TStructIterator< EST_THash<EST_String, V>, IPointer, EST_Hash_Pair<EST_String, V> > Entries;
++  typedef EST_TStructIterator< EST_THash<EST_String, V>, typename EST_THash<EST_String, V>::IPointer,
++				    EST_Hash_Pair<EST_String, V> > Entries;
+ 
+-  typedef EST_TRwStructIterator< EST_THash<EST_String, V>, IPointer, EST_Hash_Pair<EST_String, V> > RwEntries;
++  typedef EST_TRwStructIterator< EST_THash<EST_String, V>, typename EST_THash<EST_String, V>::IPointer,
++				    EST_Hash_Pair<EST_String, V> > RwEntries;
+   //@}
+ 
+   typedef EST_String KeyEntry;
+@@ -300,8 +302,10 @@
+     typedef struct IPointer_k_s IPointer_k; */
+ 
+   /// Give the iterator a sensible name.
+-  typedef EST_TIterator< EST_THash<EST_String, V>, IPointer_k, EST_String > KeyEntries;
+-  typedef EST_TRwIterator< EST_THash<EST_String, V>, IPointer_k, EST_String > KeyRwEntries;
++  typedef EST_TIterator< EST_THash<EST_String, V>, typename EST_THash<EST_String, V>::IPointer_k,
++			    EST_String > KeyEntries;
++  typedef EST_TRwIterator< EST_THash<EST_String, V>, typename EST_THash<EST_String, V>::IPointer_k,
++			    EST_String > KeyRwEntries;
+ };
+ 
+ 
