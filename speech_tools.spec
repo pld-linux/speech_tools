@@ -14,7 +14,7 @@ Patch3:		%{name}-gcc3.patch
 Patch4:		%{name}-PIC.patch
 Patch5:		%{name}-bin_printf.patch
 Patch6:		%{name}-gcc34.patch
-URL:		http://www.cstr.ed.ac.uk/projects/speech_tools.html
+URL:		http://www.cstr.ed.ac.uk/projects/speech_tools/
 BuildRequires:	automake
 BuildRequires:  libstdc++-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -83,10 +83,12 @@ cp -f /usr/share/automake/config.* .
 %{__make} \
 	CC="%{__cc}" \
 	CXX="%{__cxx}" \
-	OPTIMISE_CCFLAGS="%{rpmcflags}" \
-	OPTIMISE_CXXFLAGS="%{rpmcflags}" \
+	OPTIMISE_CCFLAGS="-O" \
+	OPTIMISE_CXXFLAGS="-O" \
 	OPTIMISE_LINKFLAGS="%{rpmldflags}" \
 	OS_LIBS="-ldl -lncurses"
+#	OPTIMISE_CCFLAGS="%{rpmcflags}" \
+#	OPTIMISE_CXXFLAGS="%{rpmcflags}" \
 
 %install
 rm -rf $RPM_BUILD_ROOT
