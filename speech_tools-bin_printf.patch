@@ -1,0 +1,11 @@
+--- /home/users/hunter/.vim/backup/Linux.mak~	2001-04-04 13:55:32.000000000 +0200
++++ config/systems/Linux.mak	2004-04-17 22:13:38.000000000 +0200
+@@ -52,7 +52,7 @@
+ NATIVE_AUDIO_MODULE = LINUX16
+ 
+ ## echo -n doesn't work
+-ECHO_N = /usr/bin/printf "%s"
++ECHO_N = /bin/printf "%s"
+ 
+ GNUTEST=test
+ 
