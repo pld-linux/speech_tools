@@ -7,7 +7,7 @@ Summary(pl):	Biblioteka narzêdzi mowy Edinburgh
 Name:		speech_tools
 Version:	1.2.4
 %define		_snap	20030804
-Release:	0.%{_snap}.4
+Release:	0.%{_snap}.5
 License:	distributable
 Group:		Applications/Sound
 #Source0:	http://www.cstr.ed.ac.uk/download/festival/1.4.3/%{name}-%{version}-release.tar.gz
@@ -105,7 +105,8 @@ find $RPM_BUILD_ROOT%{_includedir}/EST -name Makefile -exec rm \{\} \;
 for file in `find $RPM_BUILD_ROOT%{_includedir}/EST -type f`
 do
 	sed 's/\"\(.*h\)\"/\<EST\/\1\>/g' $file > $file.tmp
-	sed -e 's,include \"est_string_config.h\",,g' $file.tmp > $file
+	grep -v est_string_config\.h $file.tmp > $file
+	rm -f $file.tmp
 done
 sed 's/\<EST\//&rxp\//g' $RPM_BUILD_ROOT%{_includedir}/EST/rxp/rxp.h > bzzz
 mv bzzz $RPM_BUILD_ROOT%{_includedir}/EST/rxp/rxp.h
