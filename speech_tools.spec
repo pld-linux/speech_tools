@@ -60,8 +60,8 @@ Speech tools utils
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_includedir}/EST,%{_sharedir}/%{name}/example_data}
-install -d $RPM_BUILD_ROOT{%{_libdir}/%{name}/{scripts,siod,stats/wagon,grammar/{scfg,wfst}}}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_includedir}/EST,%{_datadir}/%{name}/example_data}
+install -d $RPM_BUILD_ROOT%{_libdir}/%{name}/{scripts,siod,stats/wagon,grammar/{scfg,wfst}}
 
 # includes
 cp -r include/* $RPM_BUILD_ROOT%{_includedir}/EST
@@ -84,13 +84,12 @@ done
 install `find bin -type f -perm +1` $RPM_BUILD_ROOT%{_bindir}
 
 # scripts
-install scripts/{example_to_doc++.prl,make_wagon_desc.sh*,resynth.sh*, \
-		shared_script,shared_setup_prl,shared_setup_sh} \
+install scripts/{example_to_doc++.prl,make_wagon_desc.sh,resynth.sh,shared_script,shared_setup_prl,shared_setup_sh} \
 		$RPM_BUILD_ROOT%{_libdir}/%{name}/scripts
 
 # example data
-install example_data/* $RPM_BUILD_ROOT%{_sharedir}/%{name}/example_data
-rm $RPM_BUILD_ROOT%{_sharedir}/%{name}/example_data/Makefile
+install lib/example_data/* $RPM_BUILD_ROOT%{_datadir}/%{name}/example_data
+rm $RPM_BUILD_ROOT%{_datadir}/%{name}/example_data/Makefile
 
 # more shit
 cp -r config $RPM_BUILD_ROOT%{_libdir}/%{name}
@@ -112,7 +111,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README
 %attr(755,root,root) %{_libdir}/lib*.so.*.*
-%{_sharedir}/%{name}
+%{_datadir}/%{name}
 
 %files devel
 %defattr(644,root,root,755)
