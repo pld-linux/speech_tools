@@ -7,7 +7,7 @@ Summary(pl):	Biblioteka narzêdzi mowy Edinburgh
 Name:		speech_tools
 Version:	1.2.4
 %define		_snap	20030804
-Release:	0.%{_snap}.2
+Release:	0.%{_snap}.3
 License:	distributable
 Group:		Applications/Sound
 #Source0:	http://www.cstr.ed.ac.uk/download/festival/1.4.3/%{name}-%{version}-release.tar.gz
@@ -17,7 +17,7 @@ Patch0:		%{name}-termcap.patch
 Patch1:		%{name}-shared.patch
 Patch2:		%{name}-soname.patch
 Patch3:		%{name}-bin_printf.patch
-Patch4:		%{name}-gcc34.patch
+#Patch4:		%{name}-gcc34.patch
 Patch5:		%{name}-PIC.patch
 URL:		http://www.cstr.ed.ac.uk/projects/speech_tools/
 BuildRequires:	automake
@@ -76,7 +76,7 @@ Programy u¿ytkowe narzêdzi mowy Edinburgh.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p0
-%patch4 -p1
+#patch4 -p1
 %patch5 -p1
 
 %build
