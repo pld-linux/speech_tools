@@ -770,18 +770,6 @@ diff -uNr speech_tools.orig/grammar/wfst/wfst_ops.cc speech_tools/grammar/wfst/w
  	
  	Declare_TList_N(KVI_int_EST_IList_t, 0)
  
-diff -uNr speech_tools.orig/grammar/wfst/wfst_train.cc speech_tools/grammar/wfst/wfst_train.cc
---- speech_tools.orig/grammar/wfst/wfst_train.cc	2002-12-26 21:29:40.000000000 +0100
-+++ speech_tools/grammar/wfst/wfst_train.cc	2004-04-20 01:06:36.260619880 +0200
-@@ -95,7 +95,7 @@
- 	LISP s = NIL;
- 	do
- 	{
--	    t = ts.get();
-+	    t = ts.get().String();
- 	    id = wfst.in_symbol(t);
- 	    if (id == -1)
- 	    {
 diff -uNr speech_tools.orig/include/EST_THash.h speech_tools/include/EST_THash.h
 --- speech_tools.orig/include/EST_THash.h	2002-12-26 16:48:53.000000000 +0100
 +++ speech_tools/include/EST_THash.h	2004-04-20 01:06:36.261619728 +0200
