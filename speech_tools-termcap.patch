@@ -1,0 +1,11 @@
+diff -ruN speech_tools./config/modules/editline.mak speech_tools/config/modules/editline.mak
+--- speech_tools./config/modules/editline.mak	Wed Apr  4 13:55:32 2001
++++ speech_tools/config/modules/editline.mak	Fri Jul  5 01:55:39 2002
+@@ -43,7 +43,6 @@
+ MOD_DESC_EDITLINE=Use editline for command line editing and history
+ 
+ IO_DEFINES   += -DSUPPORT_EDITLINE $(MODULE_EDITLINE_OPTIONS:%=-DEDITLINE_%)
+-MODULE_LIBS  += -ltermcap
+ 
+ ifeq ($(DIRNAME),siod)
+     CSRCS := $(CSRCS) el_complete.c editline.c el_sys_unix.c
