@@ -1,0 +1,24 @@
+--- speech_tools-orig/config/compilers/gcc_defaults.mak	Tue Apr 22 02:24:57 2003
++++ speech_tools/config/compilers/gcc_defaults.mak	Tue Apr 22 02:25:19 2003
+@@ -78,7 +78,7 @@
+ SHARED_LINKFLAGS = -fno-shared-data
+ 
+ ifndef GCC_MAKE_SHARED_LIB
+-    MAKE_SHARED_LIB = gcc -shared -fno-shared-data -o XXX
++    MAKE_SHARED_LIB = gcc -shared -fno-shared-data -o XXX -Wl,-soname -Wl,YYY
+ else
+     MAKE_SHARED_LIB = $(GCC_MAKE_SHARED_LIB)
+ endif
+--- speech_tools-orig/config/rules/library.mak	Tue Apr 22 02:24:00 2003
++++ speech_tools/config/rules/library.mak	Tue Apr 22 02:46:14 2003
+@@ -108,7 +108,7 @@
+ 	@(cd shared_space ; $(AR) x ../$< ) 
+ 	@echo Link Shared Library $*
+ 	if [ -n "$(PROJECT_LIBRARY_NEEDS_SYSLIBS_$*)" ] ; then libs='$(JAVA_PROJECT_LIBS)' ; fi ;\
+-	$(subst XXX,$@.$(PROJECT_LIBRARY_VERSION_$*),$(MAKE_SHARED_LIB)) shared_space/*.o $(PROJECT_LIBRARY_USES_$*:%=-L. -l%) $$libs
++	$(subst YYY,$@,$(subst XXX,$@.$(PROJECT_LIBRARY_VERSION_$*),$(MAKE_SHARED_LIB))) shared_space/*.o $(PROJECT_LIBRARY_USES_$*:%=-L. -l%) $$libs
+ 	@$(RM) -f shared_space/*.o $@
+ 	@ln -s $@.$(PROJECT_LIBRARY_VERSION_$*) $@
+ 
+
+
