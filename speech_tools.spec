@@ -23,6 +23,7 @@ u¿ytkowych, które czêsto u¿ywa siê w syntezatorach mowy.
 %package devel
 Summary:	Developement files for speech tools
 Group:		Applications/Sound
+Requires:	%{name}
 
 %description devel
 Developement files for speech tools.
@@ -30,6 +31,7 @@ Developement files for speech tools.
 %package static
 Summary:	Static libraries for speech tools
 Group:		Applications/Sound
+Requires:	%{name}-devel
 
 %description static
 Static libraries for speech tools.
