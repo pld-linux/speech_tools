@@ -12,10 +12,10 @@ Source0:	http://www.festvox.org/packed/festival/latest/%{name}-%{version}-curren
 Patch0:		%{name}-termcap.patch
 Patch1:		%{name}-shared.patch
 Patch2:		%{name}-soname.patch
-Patch3:		%{name}-bin_printf.patch
-Patch4:		%{name}-gcc34.patch
+Patch3:		%{name}-gcc34.patch
 URL:		http://www.cstr.ed.ac.uk/projects/speech_tools/
 BuildRequires:	automake
+BuildRequires:	coreutils >= 5.0-12
 BuildRequires:  libstdc++-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -69,8 +69,7 @@ Programy u¿ytkowe narzêdzi mowy Edinburgh.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p0
-#%patch4 -p1
+#%patch3 -p1
 
 %build
 cp -f /usr/share/automake/config.* .
