@@ -1036,8 +1036,8 @@ diff -uNr speech_tools.orig/include/instantiate/EST_THashI.h speech_tools/includ
  #define Declare_THash_T(KEY, VAL, TAG) \
 -	VAL EST_THash< KEY, VAL >::Dummy_Value; \
 -	KEY EST_THash< KEY, VAL >::Dummy_Key; \
-+	template <> VAL EST_THash< KEY, VAL >::Dummy_Value; \
-+	template <> KEY EST_THash< KEY, VAL >::Dummy_Key; \
++	template VAL EST_THash< KEY, VAL >::Dummy_Value; \
++	template KEY EST_THash< KEY, VAL >::Dummy_Key; \
  	EST_THash< KEY, VAL > TAG ## _hash_dummy(0);
  
  #define Declare_THash_Base_T(KEY, VAL, DEFAULTK, DEFAULT, ERROR,TAG) \
