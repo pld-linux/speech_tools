@@ -1,12 +1,7 @@
-#
-# TODO:
-#		- fix undefined references in libestools.so
-#
 Summary:	Edinburgh Speech Tools Library
 Summary(pl):	Biblioteka narzêdzi mowy Edinburgh
 Name:		speech_tools
 Version:	1.2.95
-#define		_snap	20030804
 Release:	0.beta.1
 License:	distributable
 Group:		Applications/Sound
@@ -18,7 +13,6 @@ Patch0:		%{name}-termcap.patch
 Patch1:		%{name}-shared.patch
 Patch2:		%{name}-soname.patch
 Patch3:		%{name}-bin_printf.patch
-#Patch4:		%{name}-PIC.patch		- obsolete
 URL:		http://www.cstr.ed.ac.uk/projects/speech_tools/
 BuildRequires:	automake
 BuildRequires:	coreutils >= 5.0-7
@@ -76,7 +70,6 @@ Programy u¿ytkowe narzêdzi mowy Edinburgh.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p0
-#patch4 -p1
 
 %build
 cp -f /usr/share/automake/config.* .
