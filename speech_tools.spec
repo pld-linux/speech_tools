@@ -10,6 +10,7 @@ Source0:	http://www.cstr.ed.ac.uk/download/festival/1.4.2/%{name}-%{version}-rel
 Patch0:		%{name}-termcap.patch
 Patch1:		%{name}-shared.patch
 Patch2:		%{name}-soname.patch
+Patch3:		%{name}-gcc3.patch
 URL:		http://www.cstr.ed.ac.uk/projects/speech_tools.html
 BuildRequires:	automake
 BuildRequires:  libstdc++-devel
@@ -65,6 +66,7 @@ Programy u¿ytkowe narzêdzi mowy Edinburgh.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
+%patch3 -p1
 
 %build
 cp -f /usr/share/automake/config.* .

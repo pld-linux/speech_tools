@@ -1,0 +1,209 @@
+diff -urN speech_tools-orig/include/EST_iostream.h speech_tools/include/EST_iostream.h
+--- speech_tools-orig/include/EST_iostream.h	2001-04-04 13:55:32.000000000 +0200
++++ speech_tools/include/EST_iostream.h	2003-12-16 17:53:46.000000000 +0100
+@@ -51,7 +51,7 @@
+ #   include <strstrea.h>
+ #elif defined(SYSTEM_IS_UNIX)
+ #   include <iostream.h>
+-#   include <strstream.h>
++#   include <sstream>
+ #elif defined(SYSTEM_IS_WIN32)
+ #   include "win32/EST_iostream_win32.h"
+ #   include <strstrea.h>
+diff -urN speech_tools-orig/ling_class/EST_relation_aux.cc speech_tools/ling_class/EST_relation_aux.cc
+--- speech_tools-orig/ling_class/EST_relation_aux.cc	2001-04-04 13:55:32.000000000 +0200
++++ speech_tools/ling_class/EST_relation_aux.cc	2003-12-16 18:35:32.000000000 +0100
+@@ -416,7 +416,7 @@
+ 	if (k->F("end") > lab.head()->F("end"))
+ 	    break;
+ 
+-    filename = k->f("file");
++    filename = (int) k->f("file");
+     a.f.set("name", (filename + ext));
+     kstart = 0.0;
+     
+@@ -454,7 +454,7 @@
+ 	    k = next(k);
+ 	    kstart = start(k);
+ 	    a.clear();
+-	    filename = k->f("file");
++	    filename = (int)k->f("file");
+ 	    a.f.set("name", (filename + ext));
+ 	}
+ 	else
+diff -urN speech_tools-orig/siod/slib_file.cc speech_tools/siod/slib_file.cc
+--- speech_tools-orig/siod/slib_file.cc	2001-04-04 15:11:27.000000000 +0200
++++ speech_tools/siod/slib_file.cc	2003-12-16 18:00:13.000000000 +0100
+@@ -13,7 +13,7 @@
+ #include "siodp.h"
+ #include "EST_Pathname.h"
+ 
+-static void siod_string_print(LISP exp, ostrstream &sd);
++static void siod_string_print(LISP exp, std::ostringstream &sd);
+ 
+ LISP open_files = NIL;
+ 
+@@ -109,7 +109,7 @@
+     return NIL;
+ }
+ 
+-static void siod_string_print(LISP exp, ostrstream &sd)
++static void siod_string_print(LISP exp, std::ostringstream &sd)
+ {
+     LISP tmp;
+     int i;
+@@ -206,17 +206,17 @@
+ 
+ EST_String siod_sprint(LISP exp)
+ {
+-    ostrstream sd;
++    std::ostringstream sd;
+     EST_String r;
+ 
+     siod_string_print(exp,sd);
+ 
+     sd << '\0';
+-    r = sd.str();
++    r = sd.str().c_str();
+ 
+ #ifdef __GNUC__
+     // need to do this otherwise sd doesn't free its internal buffer
+-    sd.freeze(0);
++    //sd.freeze(0);
+ #endif
+ 
+     return r;
+diff -urN speech_tools-orig/speech_class/EST_TrackFile.cc speech_tools/speech_class/EST_TrackFile.cc
+--- speech_tools-orig/speech_class/EST_TrackFile.cc	2001-04-04 13:55:32.000000000 +0200
++++ speech_tools/speech_class/EST_TrackFile.cc	2003-12-16 18:53:58.000000000 +0100
+@@ -555,15 +555,15 @@
+     
+     while (1)
+     {
+-	t = ts.get_upto_eoln();
++	t =(int) ts.get_upto_eoln();
+ 	//	cout << "t=" << t << endl;
+ 	if (t.contains("teaching output included"))
+ 	    teaching = 1;
+ 	if (!t.contains(":"))
+ 	    break;
+ 	str.open_string(t);
+-	k = str.get_upto(":");
+-	v = str.get_upto_eoln();
++	k =(int) str.get_upto(":");
++	v =(int) str.get_upto_eoln();
+ 	if (k == "No. of output units")
+ 	    num_channels = v.Int();
+ 	if (k == "No. of patterns")
+diff -urN speech_tools-orig/speech_class/EST_wave_cuts.cc speech_tools/speech_class/EST_wave_cuts.cc
+--- speech_tools-orig/speech_class/EST_wave_cuts.cc	2001-04-04 13:55:32.000000000 +0200
++++ speech_tools/speech_class/EST_wave_cuts.cc	2003-12-16 18:47:03.000000000 +0100
+@@ -67,7 +67,7 @@
+ 	if (end < start)
+ 	    continue;
+ 	wave_subwave(a, sig, start, end-start);
+-	filename = k->f("file");
++	filename = (int)k->f("file");
+ 	a.set_name(filename + ext);
+ 	wl.append(a);
+ 	start = end;
+@@ -87,7 +87,7 @@
+     for (k = keylab.head(); k; k = next(k))
+     {
+ 	end = k->F("end",0);
+-	key_file_name = k->f("file");
++	key_file_name = (int)k->f("file");
+ 	if (key_file_name == file)
+ 	{
+ 	    wave_subwave(part, sig, start, end-start);
+diff -urN speech_tools-orig/speech_class/ssff.cc speech_tools/speech_class/ssff.cc
+--- speech_tools-orig/speech_class/ssff.cc	2001-04-04 13:55:32.000000000 +0200
++++ speech_tools/speech_class/ssff.cc	2003-12-16 18:50:49.000000000 +0100
+@@ -99,7 +99,7 @@
+     
+     while (ts.peek() != "-----------------")
+     {
+-	c = ts.get();
++	c =(long) ts.get();
+ 	if (c == "Comment")
+ 	    ts.get_upto_eoln();
+ 	else if (c == "Start_Time")
+@@ -124,9 +124,9 @@
+ 	}
+ 	else if (c == "Column")
+ 	{
+-	    name = ts.get();
+-	    type = ts.get();
+-	    size = ts.get();
++	    name = (long)ts.get();
++	    type = (long)ts.get();
++	    size = (long)ts.get();
+ 	    cname = EST_String("Channel_")+itoString(num_channels);
+ 	    channels.set(cname+".name",name);
+ 	    channels.set(cname+".type",type);
+@@ -141,7 +141,7 @@
+ 		 (c == "preemphasis") ||
+ 		 (c == "frame_duration"))
+ 	{
+-		type = ts.get();
++		type = (long)ts.get();
+ 		if (type == "SHORT")
+ 		    tr.f_set(c,atoi(ts.get().string()));
+ 		else if (type == "DOUBLE")
+diff -urN speech_tools-orig/stats/wagon/dlist.cc speech_tools/stats/wagon/dlist.cc
+--- speech_tools-orig/stats/wagon/dlist.cc	2001-04-04 15:11:28.000000000 +0200
++++ speech_tools/stats/wagon/dlist.cc	2003-12-16 18:58:52.000000000 +0100
+@@ -83,7 +83,7 @@
+ 
+     for (p=dataset.head(); p != 0; p=next(p))
+     {
+-	predict = dlist->predict(*dataset(p));
++	predict = (int)dlist->predict(*dataset(p));
+ 	type = dataset.ftype(0);
+ 	real = wgn_discretes[type].name(dataset(p)->get_int_val(0));
+ 	pairs.add_item(real,predict,1);
+diff -urN speech_tools-orig/stats/wagon/wagon.cc speech_tools/stats/wagon/wagon.cc
+--- speech_tools-orig/stats/wagon/wagon.cc	2001-04-04 15:11:28.000000000 +0200
++++ speech_tools/stats/wagon/wagon.cc	2003-12-16 19:00:20.000000000 +0100
+@@ -275,7 +275,7 @@
+     for (p=dataset.head(); p != 0; p=next(p))
+     {
+ 	pnode = tree.predict_node((*dataset(p)));
+-	predict = pnode->get_impurity().value();
++	predict = (int)pnode->get_impurity().value();
+ 	if (wgn_count_field == -1)
+ 	    count = 1.0;
+ 	else
+diff -urN speech_tools-orig/utils/EST_ServiceTable.cc speech_tools/utils/EST_ServiceTable.cc
+--- speech_tools-orig/utils/EST_ServiceTable.cc	2001-06-04 20:52:50.000000000 +0200
++++ speech_tools/utils/EST_ServiceTable.cc	2003-12-16 18:23:37.000000000 +0100
+@@ -143,7 +143,7 @@
+       str.must_get("=");
+ 
+       EST_Token val = str.get_upto_eoln();
+-
++	
+       if (!entries.t.present(name))
+ 	{
+ 	  Entry newent;
+@@ -154,15 +154,15 @@
+       Entry &entry = entries.t.val(name);
+ 
+       if (type=="host")
+-	entry.hostname=val;
++	entry.hostname=(int)val;
+       else if (type=="address")
+-	entry.address=val;
++	entry.address=(int)val;
+       else if (type=="type")
+-	entry.type=val;
++	entry.type=(int)val;
+       else if (type=="port")
+-	entry.port=val;
++	entry.port=(int)val;
+       else if (type=="cookie")
+-	entry.cookie=val;
++	entry.cookie=(int)val;
+       else
+ 	EST_warning("Unknown entry field '%s' at %s",
+ 		    (const char *)type,
