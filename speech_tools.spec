@@ -1,9 +1,13 @@
+#
+# TODO:
+#		- fix undefined references in libestools.so
+#
 Summary:	Edinburgh Speech Tools Library
 Summary(pl):	Biblioteka narzêdzi mowy Edinburgh
 Name:		speech_tools
 Version:	1.2.4
 %define		_snap	20030804
-Release:	0.%{_snap}.1
+Release:	0.%{_snap}.2
 License:	distributable
 Group:		Applications/Sound
 #Source0:	http://www.cstr.ed.ac.uk/download/festival/1.4.3/%{name}-%{version}-release.tar.gz
@@ -72,7 +76,7 @@ Programy u¿ytkowe narzêdzi mowy Edinburgh.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p0
-#%patch4 -p1
+%patch4 -p1
 %patch5 -p1
 
 %build
