@@ -2,7 +2,7 @@ Summary:	Edinburgh Speech Tools Library
 Summary(pl):	Biblioteka narzêdzi mowy Edinburgh
 Name:		speech_tools
 Version:	1.2.2
-Release:	5
+Release:	6
 License:	distributable
 Group:		Applications/Sound
 Source0:	http://www.cstr.ed.ac.uk/download/festival/1.4.2/%{name}-%{version}-release.tar.gz
@@ -11,6 +11,7 @@ Patch0:		%{name}-termcap.patch
 Patch1:		%{name}-shared.patch
 Patch2:		%{name}-soname.patch
 Patch3:		%{name}-gcc3.patch
+Patch4:		%{name}-PIC.patch
 URL:		http://www.cstr.ed.ac.uk/projects/speech_tools.html
 BuildRequires:	automake
 BuildRequires:  libstdc++-devel
@@ -67,6 +68,7 @@ Programy u¿ytkowe narzêdzi mowy Edinburgh.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
+%patch4 -p1
 
 %build
 cp -f /usr/share/automake/config.* .
