@@ -22,27 +22,39 @@ u¿ytkowych, które czêsto u¿ywa siê w syntezatorach mowy.
 
 %package devel
 Summary:	Developement files for speech tools
+Summary(pl):	Pliki nag³ówkowe do narzêdzi mowy
 Group:		Applications/Sound
-Requires:	%{name}
+Requires:	%{name} = %{version}
 
 %description devel
 Developement files for speech tools.
 
+%description devel -l pl
+Pliki nag³ówkowe do narzêdzi mowy.
+
 %package static
 Summary:	Static libraries for speech tools
+Summary(pl):	Statyczne biblioteki narzêdzi mowy
 Group:		Applications/Sound
-Requires:	%{name}-devel
+Requires:	%{name}-devel = %{version}
 
 %description static
 Static libraries for speech tools.
 
+%description static -l pl
+Statyczne biblioteki narzêdzi mowy.
+
 %package utils
 Summary:	Speech tools utils
+Summary(pl):	Programy u¿ytkowe narzêdzi mowy Edinburgh
 Group:		Applications/Sound
-Requires:	%{name}-devel
+Requires:	%{name} = %{version}
 
 %description utils
-Speech tools utils
+Speech tools utils.
+
+%description utils -l pl
+Programy u¿ytkowe narzêdzi mowy Edinburgh.
 
 %prep
 %setup -q -n %{name}
