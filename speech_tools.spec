@@ -62,6 +62,11 @@ do
 done
 
 install lib/lib* $RPM_BUILD_ROOT%{_libdir}
+for i in $RPM_BUILD_ROOT%{_libdir}/*.so
+do
+	rm $i
+	ln -s `basename $i*` $i
+done
 
 %clean
 rm -rf $RPM_BUILD_ROOT
