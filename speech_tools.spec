@@ -62,6 +62,7 @@ Programy u¿ytkowe narzêdzi mowy Edinburgh.
 %setup -q -n %{name}
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 cp -f /usr/share/automake/config.* .
