@@ -7,6 +7,7 @@ License:	Distributable
 Group:		Applications/Sound
 Source0:	http://www.cstr.ed.ac.uk/download/festival/1.4.2/%{name}-%{version}-release.tar.gz
 Patch0:		%{name}-termcap.patch
+Patch1:		%{name}-shared.patch
 URL:		http://www.cstr.ed.ac.uk/projects/speech_tools.html
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -19,9 +20,24 @@ software.
 Narzêdzia mowy Edinburgh s± bibliotek± klas C++, funkcji i programów
 u¿ytkowych, które czêsto u¿ywa siê w syntezatorach mowy.
 
+%package devel
+Summary:	Developement files for speech tools
+Group:		Applications/Sound
+
+%description devel
+Developement files for speech tools.
+
+%package static
+Summary:	Static libraries for speech tools
+Group:		Applications/Sound
+
+%description static
+Static libraries for speech tools.
+
 %prep
 %setup -q -n %{name}
 %patch0 -p1
+%patch1 -p1
 
 %build
 %configure2_13
@@ -32,27 +48,36 @@ u¿ytkowych, które czêsto u¿ywa siê w syntezatorach mowy.
 	LDFLAGS="%{rpmldlags}" \
 	OS_LIBS="-ldl -lncurses"
 
-exit 1
-
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT{%{_includedir}/EST,%{_libdir}}
 
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_mandir}/man6,%{_pixmapsdir},%{_applnkdir}/Amusements}
-install oneko $RPM_BUILD_ROOT%{_bindir}
-install oneko.man $RPM_BUILD_ROOT%{_mandir}/man6/oneko.6
+cp -r include/* $RPM_BUILD_ROOT%{_includedir}/EST
+find $RPM_BUILD_ROOT%{_includedir}/EST -name Makefile -exec rm \{\} \;
 
-gzip -9nf README README-NEW sample.resource
+for file in `find $RPM_BUILD_ROOT%{_includedir}/EST -type f`
+do
+	sed 's/\"\(.*h\)\"/\<EST\/\1\>/g' $file > $file.tmp
+	mv $file.tmp $file
+done
 
-install %{SOURCE1} $RPM_BUILD_ROOT%{_applnkdir}/Amusements
-install %{SOURCE2} $RPM_BUILD_ROOT%{_pixmapsdir}
+install lib/lib* $RPM_BUILD_ROOT%{_libdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%post	-p /sbin/ldconfig
+%postun	-p /sbin/ldconfig
+
 %files
 %defattr(644,root,root,755)
-%doc *.gz
-%attr(755,root,root) %{_bindir}/*
-%{_mandir}/man6/*
-%{_pixmapsdir}/*
-%{_applnkdir}/Amusements/*
+%attr(755,root,root) %{_libdir}/lib*.so.*.*
+
+%files devel
+%defattr(644,root,root,755)
+%{_libdir}/lib*.so
+%{_includedir}/EST
+
+%files static
+%defattr(644,root,root,755)
+%{_libdir}/lib*.a
