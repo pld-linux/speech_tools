@@ -1,19 +1,19 @@
 Summary:	Edinburgh Speech Tools Library
 Summary(pl):	Biblioteka narzêdzi mowy Edinburgh
 Name:		speech_tools
-Version:	1.2.3
-Release:	1
+Version:	1.2.4
+%define		_snap	20030804
+Release:	0.%{_snap}.1
 License:	distributable
 Group:		Applications/Sound
-Source0:	http://www.cstr.ed.ac.uk/download/festival/1.4.3/%{name}-%{version}-release.tar.gz
-# Source0-md5:	783051edfa493b5325ac3ff205bdf265
+#Source0:	http://www.cstr.ed.ac.uk/download/festival/1.4.3/%{name}-%{version}-release.tar.gz
+Source0:	http://www.festvox.org/packed/festival/latest/%{name}-%{version}-current%{_snap}.tar.gz
+# Source0-md5:	3a0859af4a441970b7a35f5412b041c7
 Patch0:		%{name}-termcap.patch
 Patch1:		%{name}-shared.patch
 Patch2:		%{name}-soname.patch
-Patch3:		%{name}-gcc3.patch
-Patch4:		%{name}-PIC.patch
-Patch5:		%{name}-bin_printf.patch
-Patch6:		%{name}-gcc34.patch
+Patch3:		%{name}-bin_printf.patch
+Patch4:		%{name}-gcc34.patch
 URL:		http://www.cstr.ed.ac.uk/projects/speech_tools/
 BuildRequires:	automake
 BuildRequires:  libstdc++-devel
@@ -69,10 +69,8 @@ Programy u¿ytkowe narzêdzi mowy Edinburgh.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p0
-%patch6 -p1
+%patch3 -p0
+#%patch4 -p1
 
 %build
 cp -f /usr/share/automake/config.* .
@@ -83,12 +81,10 @@ cp -f /usr/share/automake/config.* .
 %{__make} \
 	CC="%{__cc}" \
 	CXX="%{__cxx}" \
-	OPTIMISE_CCFLAGS="-O" \
-	OPTIMISE_CXXFLAGS="-O" \
+	OPTIMISE_CCFLAGS="%{rpmcflags}" \
+	OPTIMISE_CXXFLAGS="%{rpmcflags}" \
 	OPTIMISE_LINKFLAGS="%{rpmldflags}" \
 	OS_LIBS="-ldl -lncurses"
-#	OPTIMISE_CCFLAGS="%{rpmcflags}" \
-#	OPTIMISE_CXXFLAGS="%{rpmcflags}" \
 
 %install
 rm -rf $RPM_BUILD_ROOT
