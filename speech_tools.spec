@@ -36,7 +36,7 @@ Pliki nag³ówkowe do narzêdzi mowy.
 Summary:	Static libraries for speech tools
 Summary(pl):	Statyczne biblioteki narzêdzi mowy
 Group:		Applications/Sound
-Requires:	%{name}-devel = %{version}
+Requires:	%{name}-devel
 
 %description static
 Static libraries for speech tools.
@@ -48,7 +48,7 @@ Statyczne biblioteki narzêdzi mowy.
 Summary:	Speech tools utils
 Summary(pl):	Programy u¿ytkowe narzêdzi mowy Edinburgh
 Group:		Applications/Sound
-Requires:	%{name} = %{version}
+Requires:	%{name}-devel
 
 %description utils
 Speech tools utils.
@@ -83,6 +83,13 @@ do
 	sed 's/\"\(.*h\)\"/\<EST\/\1\>/g' $file > $file.tmp
 	mv $file.tmp $file
 done
+sed 's/\<EST\//&rxp\//g' $RPM_BUILD_ROOT%{_includedir}/EST/rxp/rxp.h > bzzz
+mv bzzz $RPM_BUILD_ROOT%{_includedir}/EST/rxp/rxp.h
+for i in $RPM_BUILD_ROOT%{_includedir}/EST/rxp/*
+do
+	ln -s %{_includedir}/EST/rxp/`basename $i` $RPM_BUILD_ROOT%{_includedir}/EST/`basename $i`
+done
+ln -s /usr/include/EST $RPM_BUILD_ROOT%{_libdir}/%{name}/include
 
 # libraries
 install lib/lib* $RPM_BUILD_ROOT%{_libdir}
@@ -108,6 +115,7 @@ cp -r config $RPM_BUILD_ROOT%{_libdir}/%{name}
 cp -r testsuite $RPM_BUILD_ROOT%{_libdir}/%{name}
 rm $RPM_BUILD_ROOT%{_libdir}/%{name}/testsuite/*.o
 install siod/siod.mak $RPM_BUILD_ROOT%{_libdir}/%{name}/siod
+install lib/siod/*.scm $RPM_BUILD_ROOT%{_libdir}/%{name}/siod
 install stats/ols.mak $RPM_BUILD_ROOT%{_libdir}/%{name}/stats
 install stats/wagon/wagon.mak $RPM_BUILD_ROOT%{_libdir}/%{name}/stats/wagon
 install grammar/scfg/scfg.mak $RPM_BUILD_ROOT%{_libdir}/%{name}/grammar/scfg
