@@ -22,7 +22,7 @@ Patch5:		%{name}-PIC.patch
 URL:		http://www.cstr.ed.ac.uk/projects/speech_tools/
 BuildRequires:	automake
 BuildRequires:	coreutils >= 5.0-7
-BuildRequires:  libstdc++-devel
+BuildRequires:	libstdc++-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
