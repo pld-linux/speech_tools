@@ -14,6 +14,7 @@ Patch1:		%{name}-shared.patch
 Patch2:		%{name}-soname.patch
 Patch3:		%{name}-bin_printf.patch
 Patch4:		%{name}-gcc34.patch
+Patch5:		%{name}-PIC.patch
 URL:		http://www.cstr.ed.ac.uk/projects/speech_tools/
 BuildRequires:	automake
 BuildRequires:	coreutils >= 5.0-7
@@ -72,6 +73,7 @@ Programy u¿ytkowe narzêdzi mowy Edinburgh.
 %patch2 -p1
 %patch3 -p0
 #%patch4 -p1
+%patch5 -p1
 
 %build
 cp -f /usr/share/automake/config.* .
