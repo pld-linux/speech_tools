@@ -1,56 +1,787 @@
---- speech_tools/include/EST_TMatrix.h.orig	2001-07-25 13:02:36.000000000 +0200
-+++ speech_tools/include/EST_TMatrix.h	2004-04-18 17:41:23.739336864 +0200
-@@ -104,7 +104,7 @@
-     {
+diff -uNr speech_tools.orig/base_class/EST_TMatrix.cc speech_tools/base_class/EST_TMatrix.cc
+--- speech_tools.orig/base_class/EST_TMatrix.cc	2001-07-25 13:02:35.000000000 +0200
++++ speech_tools/base_class/EST_TMatrix.cc	2004-04-19 13:20:23.750220584 +0200
+@@ -101,7 +101,7 @@
+ {
  
-       return mcell_pos(r, c, 
--		       p_row_step, p_column_step);
-+		       this->p_row_step, this->p_column_step);
+   if (!EST_matrix_bounds_check(row, col, num_rows(), num_columns(), FALSE))
+-    return *error_return;
++    return *this->error_return;
+     
+   return a_no_check(row,col);
+ }
+@@ -212,9 +212,9 @@
+ {
+     T *new_m;
+ 
+-    if (num_rows() != new_rows || num_columns() != new_cols || p_memory == NULL )
++    if (num_rows() != new_rows || num_columns() != new_cols || this->p_memory == NULL )
+       {
+-	if (p_sub_matrix)
++	if (this->p_sub_matrix)
+ 	  EST_error("Attempt to resize Sub-Matrix");
+ 
+ 	if (new_cols < 0 || new_rows < 0)
+@@ -225,22 +225,22 @@
+ 	
+ 	new_m = new T[new_rows*new_cols];
+ 
+-	if (p_memory != NULL)
++	if (this->p_memory != NULL)
+ 	  if (old_vals != NULL)
+-	    *old_vals = p_memory;
+-	  else  if (!p_sub_matrix)
+-	    delete [] (p_memory-p_offset);
++	    *old_vals = this->p_memory;
++	  else  if (!this->p_sub_matrix)
++	    delete [] (this->p_memory-this->p_offset);
+     
+ 	p_num_rows = new_rows;
+-	p_num_columns = new_cols;
+-	p_offset=0;
+-	p_row_step=p_num_columns; 
+-	p_column_step=1;
++	this->p_num_columns = new_cols;
++	this->p_offset=0;
++	p_row_step=this->p_num_columns; 
++	this->p_column_step=1;
+ 	
+-	p_memory = new_m;
++	this->p_memory = new_m;
+       }
+     else
+-      *old_vals = p_memory;
++      *old_vals = this->p_memory;
+ 	
+ }
+ 
+@@ -248,12 +248,12 @@
+ void EST_TMatrix<T>::resize(int new_rows, int new_cols, int set)
+ {
+   int i,j;
+-  T * old_vals = p_memory;
++  T * old_vals = this->p_memory;
+   int old_rows = num_rows();
+   int old_cols = num_columns();
+   int old_row_step = p_row_step;
+-  int old_offset = p_offset;
+-  int old_column_step = p_column_step;
++  int old_offset = this->p_offset;
++  int old_column_step = this->p_column_step;
+ 
+   if (new_rows<0)
+     new_rows = old_rows;
+@@ -285,27 +285,27 @@
+       
+       for(i=0; i<copy_r; i++)
+ 	for(j=copy_c; j<new_cols; j++)
+-	  a_no_check(i,j) =  *def_val;
++	  a_no_check(i,j) =  *this->def_val;
+       
+       for(i=copy_r; i<new_rows; i++)
+ 	for(j=0; j<new_cols; j++)
+-	  a_no_check(i,j) =  *def_val;
++	  a_no_check(i,j) =  *this->def_val;
      }
  
-   INLINE unsigned int mcell_pos_1(int r, int c) const
-@@ -116,14 +116,14 @@
+-  if (old_vals && old_vals != p_memory && !p_sub_matrix)
++  if (old_vals && old_vals != this->p_memory && !this->p_sub_matrix)
+     delete [] (old_vals-old_offset);
+ }
  
-   /// quick method for returning {\tt x[m][n]}
-   INLINE const T &fast_a_m(int r, int c) const 
--    { return p_memory[mcell_pos(r,c)]; }
-+    { return this->p_memory[mcell_pos(r,c)]; }
-   INLINE T &fast_a_m(int r, int c) 
--    { return p_memory[mcell_pos(r,c)]; }
-+    { return this->p_memory[mcell_pos(r,c)]; }
+ template<class T>
+ bool EST_TMatrix<T>::have_rows_before(int n) const
+ {
+-  return p_offset >= n*p_row_step;
++  return this->p_offset >= n*p_row_step;
+ }
  
-   INLINE const T &fast_a_1(int r, int c) const 
--    { return p_memory[mcell_pos_1(r,c)]; }
-+    { return this->p_memory[mcell_pos_1(r,c)]; }
-   INLINE T &fast_a_1(int r, int c) 
--    { return p_memory[mcell_pos_1(r,c)]; }
-+    { return this->p_memory[mcell_pos_1(r,c)]; }
+ template<class T>
+ bool EST_TMatrix<T>::have_columns_before(int n) const
+ {
+-  return p_offset >= n*p_column_step;
++  return this->p_offset >= n*this->p_column_step;
+ }
+ 
+ template<class T>
+@@ -335,10 +335,10 @@
+ 	  *outf 
+ #if 0
+ 	    << "{" <<i<<","<<j
+-		<<",m="<<((int)p_memory)<<","
+-		<<"r'="<<((int)((T *) mx_move_pointer_f(p_memory, sizeof(T)*p_row_step, i)))<<","
+-		<<"r="<<((int)mx_move_pointer(p_memory, T, p_row_step, i))<<","
+-		<<"c="<<((int)mx_move_pointer(p_memory, T, p_column_step, j))<<","
++		<<",m="<<((int)this->p_memory)<<","
++		<<"r'="<<((int)((T *) mx_move_pointer_f(this->p_memory, sizeof(T)*p_row_step, i)))<<","
++		<<"r="<<((int)mx_move_pointer(this->p_memory, T, p_row_step, i))<<","
++		<<"c="<<((int)mx_move_pointer(this->p_memory, T, this->p_column_step, j))<<","
+ 		<<((int)(&fast_a_m_gcc(i,j)))
+ 		<<"}"
+ #endif
+@@ -506,12 +506,12 @@
+ 
+   rv.p_sub_matrix = TRUE;
+   rv.p_num_columns = len;
+-  rv.p_offset = p_offset + start_c*p_column_step + r*p_row_step;
+-  rv.p_memory = p_memory - p_offset + rv.p_offset;
++  rv.p_offset = this->p_offset + start_c*this->p_column_step + r*p_row_step;
++  rv.p_memory = this->p_memory - this->p_offset + rv.p_offset;
+ //  cout << "mrow: mem: " << rv.p_memory << " (" << (int)rv.p_memory << ")\n";
+ //  cout << "mrow: ofset: " << rv.p_offset << " (" << (int)rv.p_offset << ")\n";
+ 
+-  rv.p_column_step=p_column_step;
++  rv.p_column_step=this->p_column_step;
+ }
+ 
+ template<class T>
+@@ -528,8 +528,8 @@
+ 
+   cv.p_sub_matrix = TRUE;
+   cv.p_num_columns = len;
+-  cv.p_offset = p_offset + c*p_column_step + start_r*p_row_step;
+-  cv.p_memory = p_memory -p_offset + cv.p_offset;
++  cv.p_offset = this->p_offset + c*this->p_column_step + start_r*p_row_step;
++  cv.p_memory = this->p_memory - this->p_offset + cv.p_offset;
+ //  cout << "mcol: mem: " << cv.p_memory << " (" << (int)cv.p_memory << ")\n";
+ //  cout << "mcol: offset: " << cv.p_offset << " (" << (int)cv.p_offset << ")\n";
+ 
+@@ -552,10 +552,10 @@
+     delete [] (sm.p_memory - sm.p_offset);
+ 
+   sm.p_sub_matrix = TRUE;
+-  sm.p_offset =  p_offset + c*p_column_step + r*p_row_step;
+-  sm.p_memory = p_memory - p_offset + sm.p_offset;
++  sm.p_offset = this->p_offset + c*this->p_column_step + r*p_row_step;
++  sm.p_memory = this->p_memory - this->p_offset + sm.p_offset;
+   sm.p_row_step=p_row_step;
+-  sm.p_column_step=p_column_step;
++  sm.p_column_step=this->p_column_step;
+   sm.p_num_rows = len_r;
+   sm.p_num_columns = len_c;
    
+diff -uNr speech_tools.orig/base_class/EST_TNamedEnum.cc speech_tools/base_class/EST_TNamedEnum.cc
+--- speech_tools.orig/base_class/EST_TNamedEnum.cc	2001-04-04 15:11:27.000000000 +0200
++++ speech_tools/base_class/EST_TNamedEnum.cc	2004-04-19 13:20:27.309679464 +0200
+@@ -58,15 +58,15 @@
+   for(n=1; defs[n].token != defs[0].token; n++)
+     ;
  
-     /// Get and set values from array
-@@ -173,9 +173,9 @@
-   //@{
+-  ndefinitions = n;
+-  definitions = new defn[n];
++  this->ndefinitions = n;
++  this->definitions = new defn[n];
  
-   /// return number of rows
--  int num_rows() const {return p_num_rows;}
-+  int num_rows() const {return this->p_num_rows;}
-   /// return number of columns
--  int num_columns() const {return p_num_columns;}
-+  int num_columns() const {return this->p_num_columns;}
+-  definitions[0] = defs[0];
++  this->definitions[0] = defs[0];
+   for(n=1; defs[n].token != defs[0].token; n++)
+-    definitions[n] = defs[n];
++    this->definitions[n] = defs[n];
  
-   /// const access with no bounds check, care recommend
-   INLINE const T &a_no_check(int row, int col) const 
-@@ -214,7 +214,7 @@
+-  p_unknown_enum = defs[n].token;
+-  p_unknown_value = defs[n].values[0];
++  this->p_unknown_enum = defs[n].token;
++  this->p_unknown_value = defs[n].values[0];
+ }
  
-   /// fill matrix with value v
-   void fill(const T &v);
--  void fill() { fill(*def_val); }
-+  void fill() { fill(*this->def_val); }
+ template<class ENUM, class VAL, class INFO> 
+@@ -87,37 +87,37 @@
+       // fprintf(stderr, ": %d '%s' '%s'\n", n, defs[n].token, defs[0].token);
+     }
  
-   /// assignment operator
-   EST_TMatrix &operator=(const EST_TMatrix &s); 
---- speech_tools/include/EST_TIterator.h.orig	2002-12-26 16:48:54.000000000 +0100
-+++ speech_tools/include/EST_TIterator.h	2004-04-18 18:04:17.978420768 +0200
+-  ndefinitions = n;
++  this->ndefinitions = n;
+   typedef EST_TValuedEnumDefinition<ENUM,VAL,INFO> defn;
+-  definitions = new defn[n];
++  this->definitions = new defn[n];
+ 
+-  definitions[0].token = conv(defs[0].token);  
++  this->definitions[0].token = conv(defs[0].token);  
+   for(int i=0; i<NAMED_ENUM_MAX_SYNONYMS; i++)
+-    definitions[0].values[i] = defs[0].values[i];
+-  definitions[0].info = defs[0].info;
++    this->definitions[0].values[i] = defs[0].values[i];
++  this->definitions[0].info = defs[0].info;
+   for(n=1; strcmp(defs[n].token, defs[0].token) != 0; n++)
+     {
+-      definitions[n].token = conv(defs[n].token);
++      this->definitions[n].token = conv(defs[n].token);
+       for(int i2=0; i2<NAMED_ENUM_MAX_SYNONYMS; i2++)
+-	definitions[n].values[i2] = defs[n].values[i2];
+-      definitions[n].info = defs[n].info;
++	this->definitions[n].values[i2] = defs[n].values[i2];
++      this->definitions[n].info = defs[n].info;
+     }
+ 
+-  p_unknown_enum = conv(defs[n].token);
+-  p_unknown_value = defs[n].values[0];
++  this->p_unknown_enum = conv(defs[n].token);
++  this->p_unknown_value = defs[n].values[0];
+ }
+ 
+ template<class ENUM, class VAL, class INFO>
+ EST_TValuedEnumI<ENUM,VAL,INFO>::~EST_TValuedEnumI(void)
+ {
+-  if (definitions)
+-     delete[] definitions;
++  if (this->definitions)
++     delete[] this->definitions;
+ }
+ 
+ template<class ENUM, class VAL, class INFO> 
+ int EST_TValuedEnumI<ENUM,VAL,INFO>::n(void) const
+ { 
+-return ndefinitions; 
++return this->ndefinitions; 
+ }
+ 
+ template<class ENUM, class VAL, class INFO>
+@@ -125,11 +125,11 @@
+ {
+   int i;
+ 
+-  for(i=0; i<ndefinitions; i++)
+-    if (definitions[i].token == token)
+-      return definitions[i].values[n];
++  for(i=0; i<this->ndefinitions; i++)
++    if (this->definitions[i].token == token)
++      return this->definitions[i].values[n];
+ 
+-  return p_unknown_value;
++  return this->p_unknown_value;
+ }
+ 
+ template<class ENUM, class VAL, class INFO>
+@@ -137,9 +137,9 @@
+ {
+   int i;
+ 
+-  for(i=0; i<ndefinitions; i++)
+-    if (definitions[i].token == token)
+-      return definitions[i].info;
++  for(i=0; i<this->ndefinitions; i++)
++    if (this->definitions[i].token == token)
++      return this->definitions[i].info;
+ 
+   cerr << "Fetching info for invalid entry\n";
+   abort();
+@@ -151,10 +151,10 @@
+ template<class ENUM, class VAL, class INFO>
+ ENUM EST_TValuedEnumI<ENUM,VAL,INFO>::nth_token (int n) const
+ {
+-  if (n>=0 && n < ndefinitions)
+-    return definitions[n].token;
++  if (n>=0 && n < this->ndefinitions)
++    return this->definitions[n].token;
+ 
+-  return p_unknown_enum;
++  return this->p_unknown_enum;
+ }
+ 
+ template<class ENUM, class VAL, class INFO> 
+@@ -162,12 +162,12 @@
+ {
+     int i,j;
+ 
+-    for(i=0; i<ndefinitions; i++)
+-	for(j=0; j<NAMED_ENUM_MAX_SYNONYMS && definitions[i].values[j] ; j++)
+-	    if (eq_vals(definitions[i].values[j], value))
+-		return definitions[i].token;
++    for(i=0; i<this->ndefinitions; i++)
++	for(j=0; j<NAMED_ENUM_MAX_SYNONYMS && this->definitions[i].values[j] ; j++)
++	    if (eq_vals(this->definitions[i].values[j], value))
++		return this->definitions[i].token;
+ 
+-    return p_unknown_enum;
++    return this->p_unknown_enum;
+ }
+ 
+ template<class ENUM> 
+@@ -186,11 +186,11 @@
+   if ((file=fopen(name, "rb"))==NULL)
+     return misc_read_error;
+ 
+-  if (definitions)
+-    delete[] definitions;
++  if (this->definitions)
++    delete[] this->definitions;
+ 
+-  ndefinitions= -1;
+-  definitions=NULL;
++  this->ndefinitions= -1;
++  this->definitions=NULL;
+ 
+   buffer[LINE_LENGTH-1] = 'x';
+ 
+@@ -202,27 +202,27 @@
+ 	  return wrong_format;
+ 	}
+ 
+-      if (ndefinitions>=0 && quote != '\0' && buffer[0] == '=')
++      if (this->ndefinitions>=0 && quote != '\0' && buffer[0] == '=')
+ 	{
+ 	  // definition by number
+ 
+-	  if ( n>= ndefinitions)
++	  if ( n>= this->ndefinitions)
+ 	    {
+ 	      cerr << "too many definitions\n";
+ 	      return wrong_format;
+ 	    }
+ 
+ 	  int ntokens = split(line, tokens, NAMED_ENUM_MAX_SYNONYMS+2, RXwhite, '"');
+-	  definitions[n].token = (ENUM)atoi(tokens[0].after(0,1));
++	  this->definitions[n].token = (ENUM)atoi(tokens[0].after(0,1));
+ 
+ 	  for(int i=1; i<ntokens; i++)
+-	      definitions[n].values[i-1] = wstrdup(tokens[i].unquote_if_needed(quote));
++	      this->definitions[n].values[i-1] = wstrdup(tokens[i].unquote_if_needed(quote));
+ 	  for(int j=ntokens-1 ; j< NAMED_ENUM_MAX_SYNONYMS; j++)
+-	    definitions[n].values[j]=NULL;
++	    this->definitions[n].values[j]=NULL;
+ 
+ 	  n++;
+ 	}
+-      else if (have_unknown && ndefinitions>=0 && quote != '\0' && buffer[0] == quote)
++      else if (have_unknown && this->ndefinitions>=0 && quote != '\0' && buffer[0] == quote)
+ 	{
+ 	  // definition by standard name
+ 	  if (!definitive)
+@@ -230,7 +230,7 @@
+ 	      cerr << "can't use names in this definition\n";
+ 	      return wrong_format;
+ 	    }
+-	  if ( n>= ndefinitions)
++	  if ( n>= this->ndefinitions)
+ 	    {
+ 	      cerr << "too many definitions\n";
+ 	      return wrong_format;
+@@ -238,12 +238,12 @@
+ 
+ 	  int ntokens = split(line, tokens, NAMED_ENUM_MAX_SYNONYMS+2, RXwhite, quote);
+ 
+-	  definitions[n].token = definitive->token(tokens[0].unquote(quote));
++	  this->definitions[n].token = definitive->token(tokens[0].unquote(quote));
+ 
+ 	  for(int i=1; i<ntokens; i++)
+-	    definitions[n].values[i-1] = wstrdup(tokens[i].unquote_if_needed(quote));
++	    this->definitions[n].values[i-1] = wstrdup(tokens[i].unquote_if_needed(quote));
+ 	  for(int j=ntokens-1 ; j< NAMED_ENUM_MAX_SYNONYMS; j++)
+-	    definitions[n].values[j]=NULL;
++	    this->definitions[n].values[j]=NULL;
+ 
+ 	  n++;
+ 	}
+@@ -269,16 +269,16 @@
+ 	    }
+ 	  else if (key == "number")
+ 	    {
+-	      ndefinitions=atoi(line.after(eq,1));
++	      this->ndefinitions=atoi(line.after(eq,1));
+ 	      // cout << "n = '" << ndefinitions << "'\n";
+-	      definitions = new Defn[ndefinitions];
+-	      for(int i=0; i<ndefinitions; i++)
+-		definitions[i].values[0] =NULL;
++	      this->definitions = new Defn[this->ndefinitions];
++	      for(int i=0; i<this->ndefinitions; i++)
++		this->definitions[i].values[0] =NULL;
+ 	      n=0;
+ 	    }
+ 	  else if (key == "unknown")
+ 	    {
+-	      p_unknown_enum=(ENUM)atoi(line.after(eq,1));
++	      this->p_unknown_enum=(ENUM)atoi(line.after(eq,1));
+ 	      // cout << "unknown = '" << p_unknown_enum << "'\n";
+ 	      have_unknown=1;
+ 	    }
+@@ -305,20 +305,20 @@
+   if ((file=fopen(name, "wb"))==NULL)
+     return write_fail;
+ 
+-  fprintf(file, "unknown=%d\n", p_unknown_enum);
++  fprintf(file, "unknown=%d\n", this->p_unknown_enum);
+   fprintf(file, "quote=%c\n", quote);
+-  fprintf(file, "number=%d\n", ndefinitions);
++  fprintf(file, "number=%d\n", this->ndefinitions);
+ 
+-  for(int i=0; i<ndefinitions; i++)
+-    if (definitions[i].values[0])
++  for(int i=0; i<this->ndefinitions; i++)
++    if (this->definitions[i].values[0])
+       {
+ 	if (definitive)
+-	  fprintf(file, "%s ", (const char *)EST_String(definitive->name(definitions[i].token)).quote(quote));
++	  fprintf(file, "%s ", (const char *)EST_String(definitive->name(this->definitions[i].token)).quote(quote));
+ 	else
+-	  fprintf(file, "=%d ", (int)definitions[i].token);
++	  fprintf(file, "=%d ", (int)this->definitions[i].token);
+ 
+-	for(int j=0; j<NAMED_ENUM_MAX_SYNONYMS && definitions[i].values[j] != NULL; j++)
+-	  fprintf(file, "%s ", (const char *) EST_String(definitions[i].values[j]).quote_if_needed(quote));
++	for(int j=0; j<NAMED_ENUM_MAX_SYNONYMS && this->definitions[i].values[j] != NULL; j++)
++	  fprintf(file, "%s ", (const char *) EST_String(this->definitions[i].values[j]).quote_if_needed(quote));
+       
+ 	fputc('\n', file);
+       }
+diff -uNr speech_tools.orig/base_class/EST_TSimpleMatrix.cc speech_tools/base_class/EST_TSimpleMatrix.cc
+--- speech_tools.orig/base_class/EST_TSimpleMatrix.cc	2001-04-04 13:55:32.000000000 +0200
++++ speech_tools/base_class/EST_TSimpleMatrix.cc	2004-04-19 13:20:23.754219976 +0200
+@@ -49,23 +49,23 @@
+ template<class T> 
+ void EST_TSimpleMatrix<T>::copy_data(const EST_TSimpleMatrix<T> &a)
+ {
+-  if (!a.p_sub_matrix && !p_sub_matrix)
+-    memcpy((void *)&a_no_check(0,0),
++  if (!a.p_sub_matrix && !this->p_sub_matrix)
++    memcpy((void *)&this->a_no_check(0,0),
+ 	   (const void *)&a.a_no_check(0,0),
+-	   num_rows()*num_columns()*sizeof(T)
++	   this->num_rows()*this->num_columns()*sizeof(T)
+ 	   );
+   else
+     {
+-    for (int i = 0; i < num_rows(); ++i)
+-      for (int j = 0; j < num_columns(); ++j)
+-	a_no_check(i,j) = a.a_no_check(i,j);
++    for (int i = 0; i < this->num_rows(); ++i)
++      for (int j = 0; j < this->num_columns(); ++j)
++	this->a_no_check(i,j) = a.a_no_check(i,j);
+     }
+ }
+ 
+ template<class T> 
+ void EST_TSimpleMatrix<T>::copy(const EST_TSimpleMatrix<T> &a)
+ {
+-  if (num_rows() != a.num_rows() || num_columns() != a.num_columns())
++  if (this->num_rows() != a.num_rows() || this->num_columns() != a.num_columns())
+     resize(a.num_rows(), a.num_columns(), 0);
+   
+   copy_data(a);
+@@ -83,31 +83,31 @@
+ 				  int set)
+ {
+   T* old_vals=NULL;
+-  int old_offset = p_offset;
++  int old_offset = this->p_offset;
+ 
+   if (new_rows<0)
+-    new_rows = num_rows();
++    new_rows = this->num_rows();
+   if (new_cols<0)
+-    new_cols = num_columns();
++    new_cols = this->num_columns();
+ 
+   if (set)
+     {
+-      if (!p_sub_matrix && new_cols == num_columns() && new_rows != num_rows())
++      if (!this->p_sub_matrix && new_cols == this->num_columns() && new_rows != this->num_rows())
+ 	{
+-	  int copy_r = Lof(num_rows(), new_rows);
++	  int copy_r = Lof(this->num_rows(), new_rows);
+ 
+ 	  just_resize(new_rows, new_cols, &old_vals);
+ 
+-	  memcpy((void *)p_memory, 
++	  memcpy((void *)this->p_memory, 
+ 		 (const void *)old_vals,
+ 		 copy_r*new_cols*sizeof(T));
+ 	  
+ 	  int i,j;
+ 	  
+ 	  if (new_rows > copy_r)
+-	    if (*def_val == 0)
++	    if (*this->def_val == 0)
+ 	      {
+-		memset((void *)(p_memory + copy_r*p_row_step),
++		memset((void *)(this->p_memory + copy_r*this->p_row_step),
+ 		       0,
+ 		       (new_rows-copy_r)*new_cols*sizeof(T));
+ 	      }
+@@ -115,15 +115,15 @@
+ 	      {
+ 		for(j=0; j<new_cols; j++)
+ 		  for(i=copy_r; i<new_rows; i++)
+-		    a_no_check(i,j) = *def_val;
++		    this->a_no_check(i,j) = *this->def_val;
+ 	      }
+ 	}
+-      else if (!p_sub_matrix)
++      else if (!this->p_sub_matrix)
+ 	{
+-	  int old_row_step = p_row_step;
+-	  int old_column_step = p_column_step;
+-	  int copy_r = Lof(num_rows(), new_rows);
+-	  int copy_c = Lof(num_columns(), new_cols);
++	  int old_row_step = this->p_row_step;
++	  int old_column_step = this->p_column_step;
++	  int copy_r = Lof(this->num_rows(), new_rows);
++	  int copy_c = Lof(this->num_columns(), new_cols);
+ 	  
+ 	  just_resize(new_rows, new_cols, &old_vals);
+ 
+@@ -136,12 +136,12 @@
+ 	  
+ 	  for(i=0; i<copy_r; i++)
+ 	    for(j=copy_c; j<new_cols; j++)
+-	      a_no_check(i,j) =  *def_val;
++	      this->a_no_check(i,j) =  *this->def_val;
+ 	  
+ 	  if (new_rows > copy_r)
+-	    if (*def_val == 0)
++	    if (*this->def_val == 0)
+ 	      {
+-		memset((void *)(p_memory + copy_r*p_row_step),
++		memset((void *)(this->p_memory + copy_r*this->p_row_step),
+ 		       0,
+ 		       (new_rows-copy_r)*new_cols*sizeof(T));
+ 	      }
+@@ -149,7 +149,7 @@
+ 	      {
+ 		for(j=0; j<new_cols; j++)
+ 		  for(i=copy_r; i<new_rows; i++)
+-		    a_no_check(i,j) = *def_val;
++		    this->a_no_check(i,j) = *this->def_val;
+ 	      }
+ 	}
+       else
+@@ -158,7 +158,7 @@
+   else
+     EST_TMatrix<T>::resize(new_rows, new_cols, 0);
+ 
+-  if (old_vals && old_vals != p_memory)
++  if (old_vals && old_vals != this->p_memory)
+     delete [] (old_vals-old_offset);
+ }
+ 
+diff -uNr speech_tools.orig/base_class/EST_TSimpleVector.cc speech_tools/base_class/EST_TSimpleVector.cc
+--- speech_tools.orig/base_class/EST_TSimpleVector.cc	2001-04-04 13:55:32.000000000 +0200
++++ speech_tools/base_class/EST_TSimpleVector.cc	2004-04-19 13:20:23.756219672 +0200
+@@ -46,10 +46,10 @@
+ 
+ template<class T> void EST_TSimpleVector<T>::copy(const EST_TSimpleVector<T> &a)
+ {
+-  if (p_column_step==1 && a.p_column_step==1)
++  if (this->p_column_step==1 && a.p_column_step==1)
+     {
+     resize(a.n(), FALSE);
+-    memcpy((void *)(p_memory), (const void *)(a.p_memory), n() * sizeof(T));
++    memcpy((void *)(this->p_memory), (const void *)(a.p_memory), this->n() * sizeof(T));
+     }
+ else
+   ((EST_TVector<T> *)this)->copy(a);
+@@ -57,33 +57,33 @@
+ 
+ template<class T> EST_TSimpleVector<T>::EST_TSimpleVector(const EST_TSimpleVector<T> &in)
+ {
+-    default_vals();    
++    this->default_vals();
+     copy(in);
+ }
+ 
+ // should copy from and delete old version first
+ template<class T> void EST_TSimpleVector<T>::resize(int newn, int set)
+ {
+-  int oldn = n();
++  int oldn = this->n();
+   T *old_vals =NULL;
+-  int old_offset = p_offset;
++  int old_offset = this->p_offset;
+ 
+   just_resize(newn, &old_vals);
+ 
+   if (set && old_vals)
+     {
+       int copy_c = 0;
+-      if (p_memory != NULL)
++      if (this->p_memory != NULL)
+ 	{
+-	  copy_c = Lof(n(), oldn);
+-	  memcpy((void *)p_memory, (const void *)old_vals,  copy_c* sizeof(T));
++	  copy_c = Lof(this->n(), oldn);
++	  memcpy((void *)this->p_memory, (const void *)old_vals,  copy_c* sizeof(T));
+ 	}
+       
+-      for (int i=copy_c; i < n(); ++i)
+-	p_memory[i] = *def_val;
++      for (int i=copy_c; i < this->n(); ++i)
++	this->p_memory[i] = *this->def_val;
+     }
+   
+-  if (old_vals != NULL && old_vals != p_memory && !p_sub_matrix)
++  if (old_vals != NULL && old_vals != this->p_memory && !this->p_sub_matrix)
+     delete [] (old_vals - old_offset);
+ 
+ }
+@@ -92,32 +92,32 @@
+ void EST_TSimpleVector<T>::copy_section(T* dest, int offset, int num) const
+ {
+   if (num<0)
+-    num = num_columns()-offset;
++    num = this->num_columns()-offset;
+ 
+-  if (!EST_vector_bounds_check(num+offset-1, num_columns(), FALSE))
++  if (!EST_vector_bounds_check(num+offset-1, this->num_columns(), FALSE))
+     return;
+ 
+-  if (!p_sub_matrix && p_column_step==1)
+-    memcpy((void *)dest, (const void *)(p_memory+offset), num*sizeof(T));
++  if (!this->p_sub_matrix && this->p_column_step==1)
++    memcpy((void *)dest, (const void *)(this->p_memory+offset), num*sizeof(T));
+   else
+     for(int i=0; i<num; i++)
+-      dest[i] = a_no_check(offset+i);
++      dest[i] = this->a_no_check(offset+i);
+ }
+ 
+ template<class T>
+ void EST_TSimpleVector<T>::set_section(const T* src, int offset, int num)
+ {
+   if (num<0)
+-    num = num_columns()-offset;
++    num = this->num_columns()-offset;
+ 
+-  if (!EST_vector_bounds_check(num+offset-1, num_columns(), FALSE))
++  if (!EST_vector_bounds_check(num+offset-1, this->num_columns(), FALSE))
+     return;
+   
+-  if (!p_sub_matrix && p_column_step==1)
+-    memcpy((void *)(p_memory+offset), (void *)src, num*sizeof(T));
++  if (!this->p_sub_matrix && this->p_column_step==1)
++    memcpy((void *)(this->p_memory+offset), (void *)src, num*sizeof(T));
+   else
+     for(int i=0; i<num; i++)
+-      a_no_check(offset+i) = src[i];
++      this->a_no_check(offset+i) = src[i];
+ }
+ 
+ template<class T> EST_TSimpleVector<T> &EST_TSimpleVector<T>::operator=(const EST_TSimpleVector<T> &in)
+@@ -128,9 +128,9 @@
+ 
+ template<class T> void EST_TSimpleVector<T>::zero()
+ {
+-  if (p_column_step==1)
+-    memset((void *)(p_memory), 0, n() * sizeof(T));
++  if (this->p_column_step==1)
++    memset((void *)(this->p_memory), 0, this->n() * sizeof(T));
+   else
+-    ((EST_TVector<T> *)this)->fill(*def_val);
++    ((EST_TVector<T> *)this)->fill(*this->def_val);
+ }
+ 
+diff -uNr speech_tools.orig/base_class/EST_Tvectlist.cc speech_tools/base_class/EST_Tvectlist.cc
+--- speech_tools.orig/base_class/EST_Tvectlist.cc	2001-04-04 13:55:32.000000000 +0200
++++ speech_tools/base_class/EST_Tvectlist.cc	2004-04-19 13:20:31.226084080 +0200
+@@ -38,6 +38,7 @@
+ /*                                                                       */
+ /*=======================================================================*/
+ #include <fstream.h>
++#include "EST_TList.h"
+ #include "EST_TVector.h"
+ #include "EST_cutils.h"
+ 
+@@ -46,8 +47,7 @@
+ {
+   v.resize(in.length(), FALSE);
+   EST_Litem *p;
+-  int i;
+-  for (i = 0, p = in.head(); p!= 0; p = next(p), ++i)
++  for (int i = 0, p = in.head(); p!= 0; p = next(p), ++i)
+     v.a_no_check(i) = in.item(p);
+   
+   return v;
+@@ -57,7 +57,7 @@
+ {
+     a.resize(in.length(), FALSE);
+     EST_Litem *p;
+-    for (i = 0, p = in.head(); p!= 0; p = next(p), ++i)
++    for (int i = 0, p = in.head(); p!= 0; p = next(p), ++i)
+ 	a[i] = in.item(p);
+ 
+     return a;
+diff -uNr speech_tools.orig/base_class/inst_tmpl/vector_dmatrix_t.cc speech_tools/base_class/inst_tmpl/vector_dmatrix_t.cc
+--- speech_tools.orig/base_class/inst_tmpl/vector_dmatrix_t.cc	2001-04-04 13:55:32.000000000 +0200
++++ speech_tools/base_class/inst_tmpl/vector_dmatrix_t.cc	2004-04-19 13:20:37.370150040 +0200
+@@ -52,8 +52,8 @@
+ #endif
+ static const EST_DMatrix def_val_DMatrix;
+ static EST_DMatrix error_return_DMatrix;
+-const EST_DMatrix *EST_TVector<EST_DMatrix>::def_val = &def_val_DMatrix;
+-EST_DMatrix *EST_TVector<EST_DMatrix>::error_return = &error_return_DMatrix;
++template <> const EST_DMatrix *EST_TVector<EST_DMatrix>::def_val = &def_val_DMatrix;
++template <> EST_DMatrix *EST_TVector<EST_DMatrix>::error_return = &error_return_DMatrix;
+ 
+ int operator !=(const EST_DMatrix &fm1, 
+ 		const EST_DMatrix &fm2)
+diff -uNr speech_tools.orig/base_class/inst_tmpl/vector_dvector_t.cc speech_tools/base_class/inst_tmpl/vector_dvector_t.cc
+--- speech_tools.orig/base_class/inst_tmpl/vector_dvector_t.cc	2001-04-04 13:55:32.000000000 +0200
++++ speech_tools/base_class/inst_tmpl/vector_dvector_t.cc	2004-04-19 13:20:35.197480336 +0200
+@@ -52,8 +52,8 @@
+ #endif
+ static const EST_DVector def_val_DVector;
+ static EST_DVector error_return_DVector;
+-const EST_DVector *EST_TVector<EST_DVector>::def_val = &def_val_DVector;
+-EST_DVector *EST_TVector<EST_DVector>::error_return = &error_return_DVector;
++template <> const EST_DVector *EST_TVector<EST_DVector>::def_val = &def_val_DVector;
++template <> EST_DVector *EST_TVector<EST_DVector>::error_return = &error_return_DVector;
+ 
+ int operator !=(const EST_DVector &fv1, 
+ 		const EST_DVector &fv2)
+diff -uNr speech_tools.orig/base_class/inst_tmpl/vector_fmatrix_t.cc speech_tools/base_class/inst_tmpl/vector_fmatrix_t.cc
+--- speech_tools.orig/base_class/inst_tmpl/vector_fmatrix_t.cc	2001-04-04 13:55:32.000000000 +0200
++++ speech_tools/base_class/inst_tmpl/vector_fmatrix_t.cc	2004-04-19 13:20:33.112797256 +0200
+@@ -52,8 +52,8 @@
+ #endif
+ static const EST_FMatrix def_val_FMatrix;
+ static EST_FMatrix error_return_FMatrix;
+-const EST_FMatrix *EST_TVector<EST_FMatrix>::def_val = &def_val_FMatrix;
+-EST_FMatrix *EST_TVector<EST_FMatrix>::error_return = &error_return_FMatrix;
++template <> const EST_FMatrix *EST_TVector<EST_FMatrix>::def_val = &def_val_FMatrix;
++template <> EST_FMatrix *EST_TVector<EST_FMatrix>::error_return = &error_return_FMatrix;
+ 
+ int operator !=(const EST_FMatrix &fm1, 
+ 		const EST_FMatrix &fm2)
+diff -uNr speech_tools.orig/include/EST_THash.h speech_tools/include/EST_THash.h
+--- speech_tools.orig/include/EST_THash.h	2002-12-26 16:48:53.000000000 +0100
++++ speech_tools/include/EST_THash.h	2004-04-19 13:20:23.758219368 +0200
+@@ -279,7 +279,7 @@
+ public:
+ 
+   /// Create a string hash table of <parameter>size</parameter> buckets.
+-  EST_TStringHash(int size) : EST_THash<EST_String, V>(size, StringHash) {};
++  EST_TStringHash(int size) : EST_THash<EST_String, V>(size, EST_HashFunctions::StringHash) {};
+ 
+   /// An entry returned by the iterator is a key value pair.
+   typedef EST_Hash_Pair<EST_String, V> Entry;
+@@ -289,9 +289,11 @@
+ 
+ 
+   /// Give the iterator a sensible name.
+-  typedef EST_TStructIterator< EST_THash<EST_String, V>, IPointer, EST_Hash_Pair<EST_String, V> > Entries;
++  typedef EST_TStructIterator< EST_THash<EST_String, V>, typename EST_THash<EST_String, V>::IPointer,
++				    EST_Hash_Pair<EST_String, V> > Entries;
+ 
+-  typedef EST_TRwStructIterator< EST_THash<EST_String, V>, IPointer, EST_Hash_Pair<EST_String, V> > RwEntries;
++  typedef EST_TRwStructIterator< EST_THash<EST_String, V>, typename EST_THash<EST_String, V>::IPointer,
++				    EST_Hash_Pair<EST_String, V> > RwEntries;
+   //@}
+ 
+   typedef EST_String KeyEntry;
+@@ -300,8 +302,10 @@
+     typedef struct IPointer_k_s IPointer_k; */
+ 
+   /// Give the iterator a sensible name.
+-  typedef EST_TIterator< EST_THash<EST_String, V>, IPointer_k, EST_String > KeyEntries;
+-  typedef EST_TRwIterator< EST_THash<EST_String, V>, IPointer_k, EST_String > KeyRwEntries;
++  typedef EST_TIterator< EST_THash<EST_String, V>, typename EST_THash<EST_String, V>::IPointer_k,
++			    EST_String > KeyEntries;
++  typedef EST_TRwIterator< EST_THash<EST_String, V>, typename EST_THash<EST_String, V>::IPointer_k,
++			    EST_String > KeyRwEntries;
+ };
+ 
+ 
+diff -uNr speech_tools.orig/include/EST_TIterator.h speech_tools/include/EST_TIterator.h
+--- speech_tools.orig/include/EST_TIterator.h	2002-12-26 16:48:54.000000000 +0100
++++ speech_tools/include/EST_TIterator.h	2004-04-19 13:20:23.760219064 +0200
 @@ -201,18 +201,18 @@
    typedef EST_TIterator<Container, IPointer, Entry> Iter;
  
@@ -137,8 +868,103 @@
  };
  
  #endif
---- speech_tools/include/EST_TSimpleVector.h.orig	2001-04-04 13:55:32.000000000 +0200
-+++ speech_tools/include/EST_TSimpleVector.h	2004-04-18 17:44:27.672374792 +0200
+diff -uNr speech_tools.orig/include/EST_TMatrix.h speech_tools/include/EST_TMatrix.h
+--- speech_tools.orig/include/EST_TMatrix.h	2001-07-25 13:02:36.000000000 +0200
++++ speech_tools/include/EST_TMatrix.h	2004-04-19 13:20:23.762218760 +0200
+@@ -104,7 +104,7 @@
+     {
+ 
+       return mcell_pos(r, c, 
+-		       p_row_step, p_column_step);
++		       this->p_row_step, this->p_column_step);
+     }
+ 
+   INLINE unsigned int mcell_pos_1(int r, int c) const
+@@ -116,14 +116,14 @@
+ 
+   /// quick method for returning {\tt x[m][n]}
+   INLINE const T &fast_a_m(int r, int c) const 
+-    { return p_memory[mcell_pos(r,c)]; }
++    { return this->p_memory[mcell_pos(r,c)]; }
+   INLINE T &fast_a_m(int r, int c) 
+-    { return p_memory[mcell_pos(r,c)]; }
++    { return this->p_memory[mcell_pos(r,c)]; }
+ 
+   INLINE const T &fast_a_1(int r, int c) const 
+-    { return p_memory[mcell_pos_1(r,c)]; }
++    { return this->p_memory[mcell_pos_1(r,c)]; }
+   INLINE T &fast_a_1(int r, int c) 
+-    { return p_memory[mcell_pos_1(r,c)]; }
++    { return this->p_memory[mcell_pos_1(r,c)]; }
+   
+ 
+     /// Get and set values from array
+@@ -173,9 +173,9 @@
+   //@{
+ 
+   /// return number of rows
+-  int num_rows() const {return p_num_rows;}
++  int num_rows() const {return this->p_num_rows;}
+   /// return number of columns
+-  int num_columns() const {return p_num_columns;}
++  int num_columns() const {return this->p_num_columns;}
+ 
+   /// const access with no bounds check, care recommend
+   INLINE const T &a_no_check(int row, int col) const 
+@@ -214,7 +214,7 @@
+ 
+   /// fill matrix with value v
+   void fill(const T &v);
+-  void fill() { fill(*def_val); }
++  void fill() { fill(*this->def_val); }
+ 
+   /// assignment operator
+   EST_TMatrix &operator=(const EST_TMatrix &s); 
+diff -uNr speech_tools.orig/include/EST_TNamedEnum.h speech_tools/include/EST_TNamedEnum.h
+--- speech_tools.orig/include/EST_TNamedEnum.h	2001-04-04 13:55:32.000000000 +0200
++++ speech_tools/include/EST_TNamedEnum.h	2004-04-19 13:20:23.764218456 +0200
+@@ -124,9 +124,9 @@
+ public:
+ 
+   EST_TNamedEnumI(EST_TValuedEnumDefinition<ENUM,const char *,INFO> defs[])
+-	{initialise((const void *)defs); };
++	{this->initialise((const void *)defs); };
+   EST_TNamedEnumI(EST_TValuedEnumDefinition<const char *,const char *,INFO> defs[], ENUM (*conv)(const char *))
+-	{initialise((const void *)defs, conv); };
++	{this->initialise((const void *)defs, conv); };
+   const char *name(ENUM tok, int n=0) const {return value(tok,n); };
+ 
+ };
+@@ -136,9 +136,9 @@
+ template<class ENUM, class VAL> class EST_TValuedEnum : public EST_TValuedEnumI<ENUM,VAL,NO_INFO> { 
+ public:
+   EST_TValuedEnum(EST_TValuedEnumDefinition<ENUM,VAL,NO_INFO> defs[]) 
+-	{initialise((const void *)defs);};
++	{this->initialise((const void *)defs);};
+   EST_TValuedEnum(EST_TValuedEnumDefinition<const char *,VAL,NO_INFO> defs[], ENUM (*conv)(const char *)) 
+-	{initialise((const void *)defs, conv);};
++	{this->initialise((const void *)defs, conv);};
+ };
+ 
+ 
+@@ -148,11 +148,11 @@
+   EST_write_status priv_save(EST_String name, EST_TNamedEnum *definitive, char quote) const;
+ public:
+   EST_TNamedEnum(ENUM undef_e, const char *undef_n = NULL) 
+-	{initialise(undef_e, undef_n);};
++	{this->initialise(undef_e, undef_n);};
+   EST_TNamedEnum(EST_TValuedEnumDefinition<ENUM,const char *,NO_INFO> defs[]) 
+-	{initialise((const void *)defs);};
++	{this->initialise((const void *)defs);};
+   EST_TNamedEnum(EST_TValuedEnumDefinition<const char *,const char *,NO_INFO> defs[], ENUM (*conv)(const char *)) 
+-	{initialise((const void *)defs, conv);};
++	{this->initialise((const void *)defs, conv);};
+ 
+   EST_read_status load(EST_String name) { return priv_load(name, NULL); };
+   EST_read_status load(EST_String name, EST_TNamedEnum &definitive) { return priv_load(name, &definitive); };
+diff -uNr speech_tools.orig/include/EST_TSimpleVector.h speech_tools/include/EST_TSimpleVector.h
+--- speech_tools.orig/include/EST_TSimpleVector.h	2001-04-04 13:55:32.000000000 +0200
++++ speech_tools/include/EST_TSimpleVector.h	2004-04-19 13:20:23.765218304 +0200
 @@ -74,7 +74,7 @@
      void zero(void);
  
@@ -148,41 +974,137 @@
  };
  
  #endif
---- speech_tools/include/EST_THash.h.orig	2002-12-26 16:48:53.000000000 +0100
-+++ speech_tools/include/EST_THash.h	2004-04-18 18:37:45.163282288 +0200
-@@ -279,7 +279,7 @@
- public:
+diff -uNr speech_tools.orig/include/instantiate/EST_TDequeI.h speech_tools/include/instantiate/EST_TDequeI.h
+--- speech_tools.orig/include/instantiate/EST_TDequeI.h	2001-04-04 15:11:27.000000000 +0200
++++ speech_tools/include/instantiate/EST_TDequeI.h	2004-04-19 13:20:41.347545384 +0200
+@@ -54,16 +54,16 @@
+ #define Instantiate_TDEQ(T) Instantiate_TDEQ_T(T, T) 
  
-   /// Create a string hash table of <parameter>size</parameter> buckets.
--  EST_TStringHash(int size) : EST_THash<EST_String, V>(size, StringHash) {};
-+  EST_TStringHash(int size) : EST_THash<EST_String, V>(size, EST_HashFunctions::StringHash) {};
+ #define Declare_TDEQ_T(T, TAG)  \
+-	const T *EST_TDeque< T >::Filler=NULL;
++	template <> const T *EST_TDeque< T >::Filler=NULL;
  
-   /// An entry returned by the iterator is a key value pair.
-   typedef EST_Hash_Pair<EST_String, V> Entry;
-@@ -289,9 +289,11 @@
+ #define Declare_TDEQ_Base_T(T, FILLER ,TAG) \
+ 	const T TAG ## _deq_filler=FILLER; \
+-	const T *EST_TDeque< T >::Filler=& TAG ## _deq_filler;
++	template <> const T *EST_TDeque< T >::Filler=& TAG ## _deq_filler;
+ 	
  
+ #define Declare_TDEQ_Class_T(T, FILLER,TAG) \
+ 	const T TAG ## _deq_filler(FILLER); \
+-	const T *EST_TDeque< T >::Filler=& TAG ## _deq_filler;
++	template <> const T *EST_TDeque< T >::Filler=& TAG ## _deq_filler;
  
-   /// Give the iterator a sensible name.
--  typedef EST_TStructIterator< EST_THash<EST_String, V>, IPointer, EST_Hash_Pair<EST_String, V> > Entries;
-+  typedef EST_TStructIterator< EST_THash<EST_String, V>, typename EST_THash<EST_String, V>::IPointer,
-+				    EST_Hash_Pair<EST_String, V> > Entries;
+ #define Declare_TDEQ(T) Declare_TDEQ_T(T, T)
  
--  typedef EST_TRwStructIterator< EST_THash<EST_String, V>, IPointer, EST_Hash_Pair<EST_String, V> > RwEntries;
-+  typedef EST_TRwStructIterator< EST_THash<EST_String, V>, typename EST_THash<EST_String, V>::IPointer,
-+				    EST_Hash_Pair<EST_String, V> > RwEntries;
-   //@}
- 
-   typedef EST_String KeyEntry;
-@@ -300,8 +302,10 @@
-     typedef struct IPointer_k_s IPointer_k; */
- 
-   /// Give the iterator a sensible name.
--  typedef EST_TIterator< EST_THash<EST_String, V>, IPointer_k, EST_String > KeyEntries;
--  typedef EST_TRwIterator< EST_THash<EST_String, V>, IPointer_k, EST_String > KeyRwEntries;
-+  typedef EST_TIterator< EST_THash<EST_String, V>, typename EST_THash<EST_String, V>::IPointer_k,
-+			    EST_String > KeyEntries;
-+  typedef EST_TRwIterator< EST_THash<EST_String, V>, typename EST_THash<EST_String, V>::IPointer_k,
-+			    EST_String > KeyRwEntries;
- };
+diff -uNr speech_tools.orig/include/instantiate/EST_THashI.h speech_tools/include/instantiate/EST_THashI.h
+--- speech_tools.orig/include/instantiate/EST_THashI.h	2001-04-04 15:11:27.000000000 +0200
++++ speech_tools/include/instantiate/EST_THashI.h	2004-04-19 13:20:23.766218152 +0200
+@@ -77,17 +77,17 @@
  
  
+ #define Declare_THash_T(KEY, VAL, TAG) \
+-	VAL EST_THash< KEY, VAL >::Dummy_Value; \
+-	KEY EST_THash< KEY, VAL >::Dummy_Key; \
++	template <> VAL EST_THash< KEY, VAL >::Dummy_Value; \
++	template <> KEY EST_THash< KEY, VAL >::Dummy_Key; \
+ 	EST_THash< KEY, VAL > TAG ## _hash_dummy(0);
+ 
+ #define Declare_THash_Base_T(KEY, VAL, DEFAULTK, DEFAULT, ERROR,TAG) \
+-	KEY EST_THash< KEY, VAL >::Dummy_Key=DEFAULTK; \
+-	VAL EST_THash<KEY, VAL>::Dummy_Value=DEFAULT;
++	template <> KEY EST_THash< KEY, VAL >::Dummy_Key=DEFAULTK; \
++	template <> VAL EST_THash<KEY, VAL>::Dummy_Value=DEFAULT;
+ 
+ #define Declare_THash_Class_T(KEY, VAL, DEFAULTK, DEFAULT, ERROR,TAG) \
+-	KEY EST_THash< KEY, VAL >::Dummy_Key(DEFAULTK); \
+-	VAL EST_THash<KEY, VAL>::Dummy_Value(DEFAULT);
++	template <> KEY EST_THash< KEY, VAL >::Dummy_Key(DEFAULTK); \
++	template <> VAL EST_THash<KEY, VAL>::Dummy_Value(DEFAULT);
+ 
+ #define Declare_THash(KEY, VAL) Declare_THash_T(KEY, VAL, KEY ## VAL)
+ 
+diff -uNr speech_tools.orig/include/instantiate/EST_TKVLI.h speech_tools/include/instantiate/EST_TKVLI.h
+--- speech_tools.orig/include/instantiate/EST_TKVLI.h	2001-04-04 15:11:27.000000000 +0200
++++ speech_tools/include/instantiate/EST_TKVLI.h	2004-04-19 13:20:23.768217848 +0200
+@@ -71,8 +71,8 @@
+ 	static VAL TAG##_kv_def_val_s; \
+ 	static KEY TAG##_kv_def_key_s; \
+ 	\
+-	VAL *EST_TKVL< KEY, VAL >::default_val=&TAG##_kv_def_val_s; \
+-	KEY *EST_TKVL< KEY, VAL >::default_key=&TAG##_kv_def_key_s; \
++	template <> VAL *EST_TKVL< KEY, VAL >::default_val=&TAG##_kv_def_val_s; \
++	template <> KEY *EST_TKVL< KEY, VAL >::default_key=&TAG##_kv_def_key_s; \
+ 	\
+ 	Declare_TList_N(KVI_ ## TAG ## _t, MaxFree)
+ #define Declare_KVL_T(KEY, VAL, TAG) \
+@@ -85,8 +85,8 @@
+ 	static VAL TAG##_kv_def_val_s=DEFV; \
+ 	static KEY TAG##_kv_def_key_s=DEFK; \
+ 	\
+-	VAL *EST_TKVL< KEY, VAL >::default_val=&TAG##_kv_def_val_s; \
+-	KEY *EST_TKVL< KEY, VAL >::default_key=&TAG##_kv_def_key_s; \
++	template <> VAL *EST_TKVL< KEY, VAL >::default_val=&TAG##_kv_def_val_s; \
++	template <> KEY *EST_TKVL< KEY, VAL >::default_key=&TAG##_kv_def_key_s; \
+ 	\
+ 	Declare_TList_N(KVI_ ## TAG ## _t, MaxFree)
+ #define Declare_KVL_Base_T(KEY, VAL, DEFV, DEFK, TAG) \
+@@ -99,8 +99,8 @@
+ 	static VAL TAG##_kv_def_val_s(DEFV); \
+ 	static KEY TAG##_kv_def_key_s(DEFK); \
+ 	\
+-	VAL *EST_TKVL< KEY, VAL >::default_val=&TAG##_kv_def_val_s; \
+-	KEY *EST_TKVL< KEY, VAL >::default_key=&TAG##_kv_def_key_s; \
++	template <> VAL *EST_TKVL< KEY, VAL >::default_val=&TAG##_kv_def_val_s; \
++	template <> KEY *EST_TKVL< KEY, VAL >::default_key=&TAG##_kv_def_key_s; \
+ 	\
+ 	Declare_TList_N(KVI_ ## TAG ## _t, MaxFree)
+ #define Declare_KVL_Class_T(KEY, VAL, DEFV, DEFK,TAG) \
+diff -uNr speech_tools.orig/include/instantiate/EST_TListI.h speech_tools/include/instantiate/EST_TListI.h
+--- speech_tools.orig/include/instantiate/EST_TListI.h	2001-04-04 15:11:27.000000000 +0200
++++ speech_tools/include/instantiate/EST_TListI.h	2004-04-19 13:20:23.769217696 +0200
+@@ -64,9 +64,9 @@
+ 
+ #define Declare_TList_TN(TYPE,MaxFree,TAG) \
+ 	typedef TYPE TLIST_ ## TAG ## _VAL; \
+-	EST_TItem< TYPE > * EST_TItem< TYPE >::s_free=NULL; \
+-	unsigned int EST_TItem< TYPE >::s_maxFree=MaxFree; \
+-	unsigned int EST_TItem< TYPE >::s_nfree=0;
++	template <> EST_TItem< TYPE > * EST_TItem< TYPE >::s_free=NULL; \
++	template <> unsigned int EST_TItem< TYPE >::s_maxFree=MaxFree; \
++	template <> unsigned int EST_TItem< TYPE >::s_nfree=0;
+ #define Declare_TList_T(TYPE,TAG) \
+ 	Declare_TList_TN(TYPE,0,TAG)
+ 
+diff -uNr speech_tools.orig/include/instantiate/EST_TVectorI.h speech_tools/include/instantiate/EST_TVectorI.h
+--- speech_tools.orig/include/instantiate/EST_TVectorI.h	2001-04-04 15:11:27.000000000 +0200
++++ speech_tools/include/instantiate/EST_TVectorI.h	2004-04-19 13:20:29.334371664 +0200
+@@ -62,22 +62,22 @@
+ 	static TYPE const TAG##_vec_def_val_s; \
+ 	static TYPE TAG##_vec_error_return_s; \
+ 	\
+-	TYPE const *EST_TVector< TYPE >::def_val=&TAG##_vec_def_val_s; \
+-	TYPE *EST_TVector< TYPE >::error_return=&TAG##_vec_error_return_s;
++	template <> TYPE const *EST_TVector< TYPE >::def_val=&TAG##_vec_def_val_s; \
++	template <> TYPE *EST_TVector< TYPE >::error_return=&TAG##_vec_error_return_s;
+ 
+ #define Declare_TVector_Base_T(TYPE,DEFAULT,ERROR,TAG)  \
+ 	static TYPE const TAG##_vec_def_val_s=DEFAULT; \
+ 	static TYPE TAG##_vec_error_return_s=ERROR; \
+ 	\
+-	TYPE const *EST_TVector<TYPE>::def_val=&TAG##_vec_def_val_s; \
+-	TYPE *EST_TVector<TYPE>::error_return=&TAG##_vec_error_return_s;
++	template <> TYPE const *EST_TVector<TYPE>::def_val=&TAG##_vec_def_val_s; \
++	template <> TYPE *EST_TVector<TYPE>::error_return=&TAG##_vec_error_return_s;
+ 
+ #define Declare_TVector_Class_T(TYPE,DEFAULT,ERROR,TAG)  \
+ 	static TYPE const TAG##_vec_def_val_s(DEFAULT); \
+ 	static TYPE TAG##_vec_error_return_s(ERROR); \
+ 	\
+-	TYPE const *EST_TVector<TYPE>::def_val=&TAG##_vec_def_val_s; \
+-	TYPE *EST_TVector<TYPE>::error_return=&TAG##_vec_error_return_s;
++	template <> TYPE const *EST_TVector<TYPE>::def_val=&TAG##_vec_def_val_s; \
++	template <> TYPE *EST_TVector<TYPE>::error_return=&TAG##_vec_error_return_s;
+ 
+ #define Declare_TVector(TYPE) Declare_TVector_T(TYPE,TYPE)
+ #define Declare_TVector_Base(TYPE,DEFAULT,ERROR)  Declare_TVector_Base_T(TYPE,DEFAULT,ERROR,TYPE)
