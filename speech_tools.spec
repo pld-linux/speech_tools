@@ -12,6 +12,7 @@ Patch1:		%{name}-shared.patch
 Patch2:		%{name}-soname.patch
 URL:		http://www.cstr.ed.ac.uk/projects/speech_tools.html
 BuildRequires:	automake
+BuildRequires:  libstdc++-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
