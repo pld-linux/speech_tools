@@ -9,6 +9,7 @@ Source0:	http://www.cstr.ed.ac.uk/download/festival/1.4.2/%{name}-%{version}-rel
 Patch0:		%{name}-termcap.patch
 Patch1:		%{name}-shared.patch
 URL:		http://www.cstr.ed.ac.uk/projects/speech_tools.html
+BuildRequires:	automake
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
