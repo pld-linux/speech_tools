@@ -1,0 +1,11 @@
+--- speech_tools/config/compilers/gcc_defaults.mak.orig	2004-01-09 23:36:31.000000000 +0000
++++ speech_tools/config/compilers/gcc_defaults.mak	2004-01-09 23:37:06.000000000 +0000
+@@ -73,7 +73,7 @@
+ PROFILE_gprof_CXXFLAGS  = -pg
+ PROFILE_gprof_LINKFLAGS = -pg
+ 
+-SHARED_CCFLAGS  = -fpic -fno-shared-data
++SHARED_CCFLAGS  = -fPIC -fno-shared-data
+ SHARED_CXXFLAGS  = -fPIC -fno-shared-data
+ SHARED_LINKFLAGS = -fno-shared-data
+ 
