@@ -67,13 +67,13 @@ Programy u¿ytkowe narzêdzi mowy Edinburgh.
 	CC="%{__cc}" \
 	CXX="%{__cxx}" \
 	CFLAGS="%{rpmcflags}" \
-	LDFLAGS="%{rpmldlags}" \
+	LDFLAGS="%{rpmldflags}" \
 	OS_LIBS="-ldl -lncurses"
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT{%{_bindir},%{_includedir}/EST,%{_datadir}/%{name}/example_data}
-install -d $RPM_BUILD_ROOT%{_libdir}/%{name}/{scripts,siod,stats/wagon,grammar/{scfg,wfst}}
+install -d $RPM_BUILD_ROOT{%{_bindir},%{_includedir}/EST,%{_datadir}/%{name}/example_data} \
+	$RPM_BUILD_ROOT%{_libdir}/%{name}/{scripts,siod,stats/wagon,grammar/{scfg,wfst}}
 
 # includes
 cp -r include/* $RPM_BUILD_ROOT%{_includedir}/EST
