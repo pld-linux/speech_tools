@@ -18,6 +18,7 @@ BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	coreutils >= 5.0-7
 BuildRequires:	libstdc++-devel
+BuildRequires:	ncurses-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -33,6 +34,7 @@ u¿ytkowych, które czêsto u¿ywa siê w syntezatorach mowy.
 Summary:	Developement files for speech tools
 Summary(pl):	Pliki nag³ówkowe do narzêdzi mowy
 Group:		Applications/Sound
+Requires:	libstdc++-devel
 Requires:	%{name} = %{version}-%{release}
 
 %description devel
