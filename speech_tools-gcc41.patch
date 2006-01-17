@@ -1,0 +1,88 @@
+--- speech_tools/base_class/EST_Pathname_unix.cc.orig	2001-06-18 20:15:04.000000000 +0200
++++ speech_tools/base_class/EST_Pathname_unix.cc	2006-01-17 19:14:14.867654750 +0100
+@@ -89,7 +89,7 @@
+     return *this;
+ 
+   if (length() > 0)
+-    return ::operator +(EST_String(*this), "/");
++    return ::operator + (*this, "/");
+   
+   return "./";
+ }
+@@ -144,11 +144,6 @@
+ EST_Pathname operator + (const char *p, const EST_Pathname addition) 
+ {return EST_Pathname::append(p, addition); }
+ 
+-EST_Pathname &operator += (EST_Pathname p, const EST_Pathname addition)
+-{ p = EST_Pathname::append(p, addition); return p; }
+-EST_Pathname &operator += (EST_Pathname p, const EST_String addition)
+-{ p = EST_Pathname::append(p, addition); return p; }
+-
+ EST_Pathname EST_Pathname::append(EST_Pathname directory, EST_Pathname addition)
+ {
+   if (addition.is_absolute())
+--- speech_tools/base_class/rateconv.cc.orig	2004-05-04 02:00:16.000000000 +0200
++++ speech_tools/base_class/rateconv.cc	2006-01-17 19:10:38.050104500 +0100
+@@ -384,7 +384,8 @@
+ 	    }
+ 	    fir_stereo(inp + inoffset + inbaseidx,
+ 		       coep + cycctr * firlen, firlen,
+-		       outp + outidx++, outp + outidx++);
++		       outp + outidx + 1, outp + outidx + 2);
++	    outidx += 2;
+ 	    cycctr++;
+ 	    if (!(cycctr %= up))
+ 		inbaseidx += 2*down;
+--- speech_tools/config/compilers/gcc_defaults.mak.orig	2006-01-17 15:54:48.000000000 +0100
++++ speech_tools/config/compilers/gcc_defaults.mak	2006-01-17 16:43:29.768237250 +0100
+@@ -52,7 +52,7 @@
+ DEBUG_LINKFLAGS = -g
+ 
+ WARN_CCFLAGS   = -Wall
+-WARN_CXXFLAGS  = -Wall
++WARN_CXXFLAGS  = -Wall -Wno-non-template-friend -Wno-deprecated
+ WARN_LINKFLAGS = -Wall
+ 
+ VERBOSE_CCFLAGS   =
+--- speech_tools/include/EST_Chunk.h.orig	2004-04-30 18:56:49.000000000 +0200
++++ speech_tools/include/EST_Chunk.h	2006-01-17 19:16:49.733333250 +0100
+@@ -103,6 +103,8 @@
+  /*                                                                      */
+  /************************************************************************/
+ 
++class EST_ChunkPtr;
++
+ class EST_Chunk  {
+   public:
+     typedef  unsigned short use_counter;
+@@ -142,6 +144,9 @@
+     friend void tester(void);
+ };
+ 
++void make_updatable(EST_ChunkPtr &cp, EST_Chunk::EST_chunk_size inuse);
++void make_updatable(EST_ChunkPtr &cp);
++
+  /************************************************************************/
+  /*                                                                      */
+  /* Pointers to chunks. Initialising them and assigning them around      */
+@@ -248,4 +253,8 @@
+     friend void tester(void);
+ };
+ 
++EST_ChunkPtr chunk_allocate(int bytes);
++EST_ChunkPtr chunk_allocate(int bytes, const char *initial, int initial_len);
++EST_ChunkPtr chunk_allocate(int bytes, const EST_ChunkPtr &initial, int initial_start, int initial_len);
++
+ #endif
+--- speech_tools/include/ling_class/EST_Item.h.orig	2004-04-30 18:56:49.000000000 +0200
++++ speech_tools/include/ling_class/EST_Item.h	2006-01-17 18:51:47.297967250 +0100
+@@ -79,6 +79,9 @@
+ 
+ */
+ 
++class EST_Item;
++int same_item(const EST_Item *l1,const EST_Item *l2);
++
+ class EST_Item 
+ {
+   private:
