@@ -88,6 +88,8 @@ cp -f /usr/share/automake/config.* .
 	OPTIMISE_LINKFLAGS="%{rpmldflags}" \
 	OS_LIBS="-ldl -lncurses"
 
+%{__make} test
+
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_bindir},%{_includedir}/EST,%{_datadir}/%{name}/example_data} \
