@@ -86,3 +86,20 @@
  class EST_Item 
  {
    private:
+--- speech_tools/siod/Makefile.orig	2001-04-04 13:55:32.000000000 +0200
++++ speech_tools/siod/Makefile	2006-01-18 20:24:44.390559250 +0100
+@@ -69,5 +69,6 @@
+ 
+ DEFINES  += $(IO_DEFINES)
+ INCLUDES += $(IO_INCLUDES)
++CXXFLAGS += -fno-strict-aliasing
+ 
+ 
+--- speech_tools/speech_class/Makefile.orig	2006-01-18 20:28:00.298802750 +0100
++++ speech_tools/speech_class/Makefile	2006-01-18 20:28:05.331117250 +0100
+@@ -59,4 +59,5 @@
+ 
+ include $(TOP)/config/common_make_rules
+ 
++CXXFLAGS += -fno-strict-aliasing
+ 
