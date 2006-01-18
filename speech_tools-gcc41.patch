@@ -28,7 +28,7 @@
  	    fir_stereo(inp + inoffset + inbaseidx,
  		       coep + cycctr * firlen, firlen,
 -		       outp + outidx++, outp + outidx++);
-+		       outp + outidx + 1, outp + outidx + 2);
++		       outp + outidx, outp + outidx + 1);
 +	    outidx += 2;
  	    cycctr++;
  	    if (!(cycctr %= up))
