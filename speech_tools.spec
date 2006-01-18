@@ -2,7 +2,7 @@ Summary:	Edinburgh Speech Tools Library
 Summary(pl):	Biblioteka narzêdzi mowy Edinburgh
 Name:		speech_tools
 Version:	1.2.95
-Release:	0.beta.1.1
+Release:	0.beta.1.2
 License:	distributable
 Group:		Applications/Sound
 #Source0:	http://www.cstr.ed.ac.uk/download/festival/1.4.3/%{name}-%{version}-release.tar.gz
@@ -82,15 +82,13 @@ cp -f /usr/share/automake/config.* .
 %{__autoconf}
 %{__autoheader}
 %configure
-%{__make} \
+%{__make} all test \
 	CC="%{__cc}" \
 	CXX="%{__cxx}" \
 	OPTIMISE_CCFLAGS="%{rpmcflags}" \
-	OPTIMISE_CXXFLAGS="%{rpmcflags} -fno-strict-aliasing" \
+	OPTIMISE_CXXFLAGS="%{rpmcflags}" \
 	OPTIMISE_LINKFLAGS="%{rpmldflags}" \
 	OS_LIBS="-ldl -lncurses"
-
-%{__make} test
 
 %install
 rm -rf $RPM_BUILD_ROOT
