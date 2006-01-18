@@ -5,7 +5,7 @@
  
    if (length() > 0)
 -    return ::operator +(EST_String(*this), "/");
-+    return ::operator + (*this, "/");
++    return EST_String(EST_String(*this) + "/");
    
    return "./";
  }
