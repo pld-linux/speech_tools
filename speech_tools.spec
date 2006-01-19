@@ -2,7 +2,7 @@ Summary:	Edinburgh Speech Tools Library
 Summary(pl):	Biblioteka narzêdzi mowy Edinburgh
 Name:		speech_tools
 Version:	1.2.95
-Release:	0.beta.1.2
+Release:	0.beta.2
 License:	distributable
 Group:		Applications/Sound
 #Source0:	http://www.cstr.ed.ac.uk/download/festival/1.4.3/%{name}-%{version}-release.tar.gz
@@ -20,6 +20,7 @@ BuildRequires:	automake
 BuildRequires:	coreutils >= 5.0-7
 BuildRequires:	libstdc++-devel
 BuildRequires:	ncurses-devel
+BuildRequires:	sed >= 4.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -75,6 +76,11 @@ Programy u¿ytkowe narzêdzi mowy Edinburgh.
 %patch2 -p1
 %patch3 -p0
 %patch4 -p1
+%if "%{_lib}" == "lib64"
+# fix regression output for 64-bit archs (sizeof(ptr)==8 instead of 4).
+sed -i 's:20 bytes:24 bytes:' testsuite/correct/matrix_regression.out
+sed -i 's:28 bytes:32 bytes:' testsuite/correct/matrix_regression.out
+%endif
 
 %build
 cp -f /usr/share/automake/config.* .
