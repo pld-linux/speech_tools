@@ -1,5 +1,5 @@
 Summary:	Edinburgh Speech Tools Library
-Summary(pl.UTF-8):   Biblioteka narzędzi mowy Edinburgh
+Summary(pl.UTF-8):	Biblioteka narzędzi mowy Edinburgh
 Name:		speech_tools
 Version:	1.2.95
 Release:	0.beta.3
@@ -34,7 +34,7 @@ użytkowych, które często używa się w syntezatorach mowy.
 
 %package devel
 Summary:	Developement files for speech tools
-Summary(pl.UTF-8):   Pliki nagłówkowe do narzędzi mowy
+Summary(pl.UTF-8):	Pliki nagłówkowe do narzędzi mowy
 Group:		Applications/Sound
 Requires:	libstdc++-devel
 Requires:	%{name} = %{version}-%{release}
@@ -47,7 +47,7 @@ Pliki nagłówkowe do narzędzi mowy.
 
 %package static
 Summary:	Static libraries for speech tools
-Summary(pl.UTF-8):   Statyczne biblioteki narzędzi mowy
+Summary(pl.UTF-8):	Statyczne biblioteki narzędzi mowy
 Group:		Applications/Sound
 Requires:	%{name}-devel = %{version}-%{release}
 
@@ -59,7 +59,7 @@ Statyczne biblioteki narzędzi mowy.
 
 %package utils
 Summary:	Speech tools utils
-Summary(pl.UTF-8):   Programy użytkowe narzędzi mowy Edinburgh
+Summary(pl.UTF-8):	Programy użytkowe narzędzi mowy Edinburgh
 Group:		Applications/Sound
 Requires:	%{name} = %{version}-%{release}
 
