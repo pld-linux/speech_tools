@@ -1,5 +1,5 @@
 Summary:	Edinburgh Speech Tools Library
-Summary(pl):	Biblioteka narzêdzi mowy Edinburgh
+Summary(pl.UTF-8):   Biblioteka narzÄ™dzi mowy Edinburgh
 Name:		speech_tools
 Version:	1.2.95
 Release:	0.beta.3
@@ -28,13 +28,13 @@ The Edinburgh speech tools system is a library of C++ classes,
 functions and utility programs that are frequently used in speech
 software.
 
-%description -l pl
-Narzêdzia mowy Edinburgh s± bibliotek± klas C++, funkcji i programów
-u¿ytkowych, które czêsto u¿ywa siê w syntezatorach mowy.
+%description -l pl.UTF-8
+NarzÄ™dzia mowy Edinburgh sÄ… bibliotekÄ… klas C++, funkcji i programÃ³w
+uÅ¼ytkowych, ktÃ³re czÄ™sto uÅ¼ywa siÄ™ w syntezatorach mowy.
 
 %package devel
 Summary:	Developement files for speech tools
-Summary(pl):	Pliki nag³ówkowe do narzêdzi mowy
+Summary(pl.UTF-8):   Pliki nagÅ‚Ã³wkowe do narzÄ™dzi mowy
 Group:		Applications/Sound
 Requires:	libstdc++-devel
 Requires:	%{name} = %{version}-%{release}
@@ -42,32 +42,32 @@ Requires:	%{name} = %{version}-%{release}
 %description devel
 Developement files for speech tools.
 
-%description devel -l pl
-Pliki nag³ówkowe do narzêdzi mowy.
+%description devel -l pl.UTF-8
+Pliki nagÅ‚Ã³wkowe do narzÄ™dzi mowy.
 
 %package static
 Summary:	Static libraries for speech tools
-Summary(pl):	Statyczne biblioteki narzêdzi mowy
+Summary(pl.UTF-8):   Statyczne biblioteki narzÄ™dzi mowy
 Group:		Applications/Sound
 Requires:	%{name}-devel = %{version}-%{release}
 
 %description static
 Static libraries for speech tools.
 
-%description static -l pl
-Statyczne biblioteki narzêdzi mowy.
+%description static -l pl.UTF-8
+Statyczne biblioteki narzÄ™dzi mowy.
 
 %package utils
 Summary:	Speech tools utils
-Summary(pl):	Programy u¿ytkowe narzêdzi mowy Edinburgh
+Summary(pl.UTF-8):   Programy uÅ¼ytkowe narzÄ™dzi mowy Edinburgh
 Group:		Applications/Sound
 Requires:	%{name} = %{version}-%{release}
 
 %description utils
 Speech tools utils.
 
-%description utils -l pl
-Programy u¿ytkowe narzêdzi mowy Edinburgh.
+%description utils -l pl.UTF-8
+Programy uÅ¼ytkowe narzÄ™dzi mowy Edinburgh.
 
 %prep
 %setup -q -n %{name}
