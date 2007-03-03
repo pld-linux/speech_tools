@@ -86,7 +86,6 @@ sed -i 's:28 bytes:32 bytes:' testsuite/correct/matrix_regression.out
 cp -f /usr/share/automake/config.* .
 %{__aclocal}
 %{__autoconf}
-%{__autoheader}
 %configure
 %{__make} all test \
 	CC="%{__cc}" \
