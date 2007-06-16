@@ -15,6 +15,7 @@ Patch2:		%{name}-soname.patch
 Patch3:		%{name}-bin_printf.patch
 Patch4:		%{name}-gcc41.patch
 Patch5:		%{name}-as-needed.patch
+Patch6:		%{name}-gcc42.patch
 URL:		http://www.cstr.ed.ac.uk/projects/speech_tools/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -78,6 +79,7 @@ Programy użytkowe narzędzi mowy Edinburgh.
 %patch3 -p0
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 %if "%{_lib}" == "lib64"
 # fix regression output for 64-bit archs (sizeof(ptr)==8 instead of 4).
 sed -i 's:20 bytes:24 bytes:' testsuite/correct/matrix_regression.out
