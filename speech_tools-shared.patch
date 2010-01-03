@@ -3,9 +3,9 @@ diff -ruN speech_tools./config/config.in speech_tools/config/config.in
 +++ speech_tools/config/config.in	Fri Jul  5 13:47:29 2002
 @@ -61,7 +61,7 @@
  # VERBOSE=1
- # DEBUG=1
+ #DEBUG=1
  # PROFILE=gprof
--# SHARED=1
+-#SHARED=2
 +SHARED=2
  
  ## Directory specific selections which override the above
