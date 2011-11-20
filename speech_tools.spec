@@ -1,4 +1,4 @@
-%define		rel	3
+%define		rel	4
 Summary:	Edinburgh Speech Tools Library
 Summary(pl.UTF-8):	Biblioteka narzędzi mowy Edinburgh
 Name:		speech_tools
