@@ -1,15 +1,14 @@
-%define		rel	4
 Summary:	Edinburgh Speech Tools Library
 Summary(pl.UTF-8):	Biblioteka narzędzi mowy Edinburgh
 Name:		speech_tools
-Version:	1.2.96
-Release:	0.beta.%{rel}
+Version:	2.1
+Release:	0.1
 License:	distributable
 Group:		Applications/Sound
 #Source0:	http://www.cstr.ed.ac.uk/download/festival/1.4.3/%{name}-%{version}-release.tar.gz
-Source0:	http://www.festvox.org/packed/festival/latest/%{name}-%{version}-beta.tar.gz
-# Source0-md5:	887e0c7586facb97cfc0114a105763b2
-Patch0:		%{name}-termcap.patch
+Source0:	http://www.festvox.org/packed/festival/latest/%{name}-%{version}-release.tar.gz
+# Source0-md5:	6920ddc75b042910a3bcfee3ab106938
+#Patch0:		%{name}-termcap.patch
 Patch1:		%{name}-shared.patch
 Patch2:		%{name}-soname.patch
 Patch3:		%{name}-bin_printf.patch
@@ -17,7 +16,6 @@ Patch4:		%{name}-rateconvtrivialbug.patch
 Patch5:		%{name}-as-needed.patch
 Patch6:		%{name}-gcc42.patch
 Patch7:		%{name}-gcc44.patch
-Patch8:		%{name}-wtf.patch
 URL:		http://www.cstr.ed.ac.uk/projects/speech_tools/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -75,7 +73,7 @@ Programy użytkowe narzędzi mowy Edinburgh.
 
 %prep
 %setup -q -n %{name}
-%patch0 -p1
+#%%patch0 -p1
 %patch1 -p1
 %patch2 -p1
 %patch3 -p0
@@ -83,7 +81,6 @@ Programy użytkowe narzędzi mowy Edinburgh.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
-%patch8 -p1
 %if "%{_lib}" == "lib64"
 # fix regression output for 64-bit archs (sizeof(ptr)==8 instead of 4).
 sed -i 's:20 bytes:24 bytes:' testsuite/correct/matrix_regression.out
