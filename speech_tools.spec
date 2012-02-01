@@ -22,8 +22,11 @@ BuildRequires:	automake
 BuildRequires:	coreutils >= 5.0-7
 BuildRequires:	libstdc++-devel
 BuildRequires:	ncurses-devel
+BuildRequires:	rpmbuild(macros) >= 1.583
 BuildRequires:	sed >= 4.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define         skip_post_check_so      libestools.so.*
 
 %description
 The Edinburgh speech tools system is a library of C++ classes,
