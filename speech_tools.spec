@@ -8,14 +8,13 @@ Group:		Applications/Sound
 #Source0:	http://www.cstr.ed.ac.uk/download/festival/1.4.3/%{name}-%{version}-release.tar.gz
 Source0:	http://www.festvox.org/packed/festival/latest/%{name}-%{version}-release.tar.gz
 # Source0-md5:	6920ddc75b042910a3bcfee3ab106938
-#Patch0:		%{name}-termcap.patch
-Patch1:		%{name}-shared.patch
-Patch2:		%{name}-soname.patch
-Patch3:		%{name}-bin_printf.patch
-Patch4:		%{name}-rateconvtrivialbug.patch
-Patch5:		%{name}-as-needed.patch
-Patch6:		%{name}-gcc42.patch
-Patch7:		%{name}-gcc44.patch
+Patch0:		%{name}-shared.patch
+Patch1:		%{name}-soname.patch
+Patch2:		%{name}-bin_printf.patch
+Patch3:		%{name}-rateconvtrivialbug.patch
+Patch4:		%{name}-as-needed.patch
+Patch5:		%{name}-gcc42.patch
+Patch6:		%{name}-gcc44.patch
 URL:		http://www.cstr.ed.ac.uk/projects/speech_tools/
 BuildRequires:	autoconf
 BuildRequires:	automake
@@ -76,14 +75,13 @@ Programy użytkowe narzędzi mowy Edinburgh.
 
 %prep
 %setup -q -n %{name}
-#%%patch0 -p1
+%patch0 -p1
 %patch1 -p1
-%patch2 -p1
-%patch3 -p0
-%patch4 -p2
+%patch2 -p0
+%patch3 -p2
+%patch4 -p1
 %patch5 -p1
 %patch6 -p1
-%patch7 -p1
 %if "%{_lib}" == "lib64"
 # fix regression output for 64-bit archs (sizeof(ptr)==8 instead of 4).
 sed -i 's:20 bytes:24 bytes:' testsuite/correct/matrix_regression.out
