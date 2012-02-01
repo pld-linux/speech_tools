@@ -84,8 +84,8 @@ Programy użytkowe narzędzi mowy Edinburgh.
 %patch6 -p1
 %if "%{_lib}" == "lib64"
 # fix regression output for 64-bit archs (sizeof(ptr)==8 instead of 4).
-sed -i 's:20 bytes:24 bytes:' testsuite/correct/matrix_regression.out
-sed -i 's:28 bytes:32 bytes:' testsuite/correct/matrix_regression.out
+%{__sed} -i 's:20 bytes:24 bytes:' testsuite/correct/matrix_regression.out
+%{__sed} -i 's:28 bytes:32 bytes:' testsuite/correct/matrix_regression.out
 %endif
 
 %build
@@ -145,7 +145,7 @@ rm $RPM_BUILD_ROOT%{_datadir}/%{name}/example_data/Makefile
 # more shit
 cp -r config $RPM_BUILD_ROOT%{_libdir}/%{name}
 cp -r testsuite $RPM_BUILD_ROOT%{_libdir}/%{name}
-rm $RPM_BUILD_ROOT%{_libdir}/%{name}/testsuite/*.o
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/testsuite/*.o
 install siod/siod.mak $RPM_BUILD_ROOT%{_libdir}/%{name}/siod
 install lib/siod/*.scm $RPM_BUILD_ROOT%{_libdir}/%{name}/siod
 install stats/ols.mak $RPM_BUILD_ROOT%{_libdir}/%{name}/stats
