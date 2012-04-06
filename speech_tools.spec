@@ -2,7 +2,7 @@ Summary:	Edinburgh Speech Tools Library
 Summary(pl.UTF-8):	Biblioteka narzędzi mowy Edinburgh
 Name:		speech_tools
 Version:	2.1
-Release:	0.1
+Release:	1
 License:	distributable
 Group:		Applications/Sound
 #Source0:	http://www.cstr.ed.ac.uk/download/festival/1.4.3/%{name}-%{version}-release.tar.gz
