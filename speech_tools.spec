@@ -1,3 +1,6 @@
+# TODO:
+# - fix libraries SONAME
+# - some utils have too generic names
 Summary:	Edinburgh Speech Tools Library
 Summary(pl.UTF-8):	Biblioteka narzędzi mowy Edinburgh
 Name:		speech_tools
@@ -5,7 +8,7 @@ Version:	2.1
 Release:	1
 License:	distributable
 Group:		Applications/Sound
-#Source0:	http://www.cstr.ed.ac.uk/download/festival/1.4.3/%{name}-%{version}-release.tar.gz
+# also:		http://www.cstr.ed.ac.uk/download/festival/2.1/%{name}-%{version}-release.tar.gz
 Source0:	http://www.festvox.org/packed/festival/latest/%{name}-%{version}-release.tar.gz
 # Source0-md5:	6920ddc75b042910a3bcfee3ab106938
 Patch0:		%{name}-shared.patch
@@ -16,6 +19,7 @@ Patch4:		%{name}-as-needed.patch
 Patch5:		%{name}-gcc42.patch
 Patch6:		%{name}-gcc44.patch
 URL:		http://www.cstr.ed.ac.uk/projects/speech_tools/
+BuildRequires:	alsa-lib-devel
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	coreutils >= 5.0-7
@@ -162,19 +166,69 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc README
-%attr(755,root,root) %{_libdir}/lib*.so.*.*
+%attr(755,root,root) %{_libdir}/libestbase.so.*.*.*
+%attr(755,root,root) %{_libdir}/libestools.so.*.*.*
+%attr(755,root,root) %{_libdir}/libeststring.so.*.*
 %{_datadir}/%{name}
 
 %files devel
 %defattr(644,root,root,755)
-%{_libdir}/lib*.so
+%attr(755,root,root) %{_libdir}/libestbase.so
+%attr(755,root,root) %{_libdir}/libestools.so
+%attr(755,root,root) %{_libdir}/libeststring.so
 %{_includedir}/EST
 %{_libdir}/%{name}
 
 %files static
 %defattr(644,root,root,755)
-%{_libdir}/lib*.a
+%{_libdir}/libestbase.a
+%{_libdir}/libestools.a
+%{_libdir}/libeststring.a
 
 %files utils
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_bindir}/align
+%attr(755,root,root) %{_bindir}/bcat
+%attr(755,root,root) %{_bindir}/build_docbook_index
+%attr(755,root,root) %{_bindir}/ch_lab
+%attr(755,root,root) %{_bindir}/ch_track
+%attr(755,root,root) %{_bindir}/ch_utt
+%attr(755,root,root) %{_bindir}/ch_wave
+%attr(755,root,root) %{_bindir}/cxx_to_docbook
+%attr(755,root,root) %{_bindir}/design_filter
+%attr(755,root,root) %{_bindir}/dp
+%attr(755,root,root) %{_bindir}/est_examples
+%attr(755,root,root) %{_bindir}/est_gdb
+%attr(755,root,root) %{_bindir}/est_program
+%attr(755,root,root) %{_bindir}/example_to_doc++
+%attr(755,root,root) %{_bindir}/fringe_client
+%attr(755,root,root) %{_bindir}/make_wagon_desc
+%attr(755,root,root) %{_bindir}/na_play
+%attr(755,root,root) %{_bindir}/na_record
+%attr(755,root,root) %{_bindir}/ngram_build
+%attr(755,root,root) %{_bindir}/ngram_test
+%attr(755,root,root) %{_bindir}/ols
+%attr(755,root,root) %{_bindir}/ols_test
+%attr(755,root,root) %{_bindir}/pda
+%attr(755,root,root) %{_bindir}/pitchmark
+%attr(755,root,root) %{_bindir}/pm
+%attr(755,root,root) %{_bindir}/raw_to_xgraph
+%attr(755,root,root) %{_bindir}/resynth
+%attr(755,root,root) %{_bindir}/scfg_make
+%attr(755,root,root) %{_bindir}/scfg_parse
+%attr(755,root,root) %{_bindir}/scfg_test
+%attr(755,root,root) %{_bindir}/scfg_train
+%attr(755,root,root) %{_bindir}/sig2fv
+%attr(755,root,root) %{_bindir}/sigfilter
+%attr(755,root,root) %{_bindir}/siod
+%attr(755,root,root) %{_bindir}/spectgen
+%attr(755,root,root) %{_bindir}/tex_to_images
+%attr(755,root,root) %{_bindir}/tilt_analysis
+%attr(755,root,root) %{_bindir}/tilt_synthesis
+%attr(755,root,root) %{_bindir}/viterbi
+%attr(755,root,root) %{_bindir}/wagon
+%attr(755,root,root) %{_bindir}/wagon_test
+%attr(755,root,root) %{_bindir}/wfst_build
+%attr(755,root,root) %{_bindir}/wfst_run
+%attr(755,root,root) %{_bindir}/wfst_train
+%attr(755,root,root) %{_bindir}/xml_parser
