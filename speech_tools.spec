@@ -17,6 +17,7 @@ Patch3:		%{name}-rateconvtrivialbug.patch
 Patch4:		%{name}-as-needed.patch
 Patch5:		%{name}-gcc42.patch
 Patch6:		%{name}-gcc44.patch
+Patch7:		%{name}-link.patch
 URL:		http://www.cstr.ed.ac.uk/projects/speech_tools/
 BuildRequires:	alsa-lib-devel
 BuildRequires:	autoconf
@@ -27,8 +28,6 @@ BuildRequires:	ncurses-devel
 BuildRequires:	rpmbuild(macros) >= 1.583
 BuildRequires:	sed >= 4.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%define         skip_post_check_so      libestools.so.*
 
 %description
 The Edinburgh speech tools system is a library of C++ classes,
@@ -85,6 +84,7 @@ Programy użytkowe narzędzi mowy Edinburgh.
 %patch4 -p1
 %patch5 -p1
 %patch6 -p1
+%patch7 -p1
 %if "%{_lib}" == "lib64"
 # fix regression output for 64-bit archs (sizeof(ptr)==8 instead of 4).
 %{__sed} -i 's:20 bytes:24 bytes:' testsuite/correct/matrix_regression.out
