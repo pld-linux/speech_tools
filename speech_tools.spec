@@ -1,5 +1,4 @@
 # TODO:
-# - fix libraries SONAME
 # - some utils have too generic names
 Summary:	Edinburgh Speech Tools Library
 Summary(pl.UTF-8):	Biblioteka narzędzi mowy Edinburgh
@@ -157,6 +156,8 @@ install stats/wagon/wagon.mak $RPM_BUILD_ROOT%{_libdir}/%{name}/stats/wagon
 install grammar/scfg/scfg.mak $RPM_BUILD_ROOT%{_libdir}/%{name}/grammar/scfg
 install grammar/wfst/wfst.mak $RPM_BUILD_ROOT%{_libdir}/%{name}/grammar/wfst
 
+/sbin/ldconfig -n $RPM_BUILD_ROOT%{_libdir}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -167,8 +168,11 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README
 %attr(755,root,root) %{_libdir}/libestbase.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libestbase.so.2.1
 %attr(755,root,root) %{_libdir}/libestools.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libestools.so.2.1
 %attr(755,root,root) %{_libdir}/libeststring.so.*.*
+%attr(755,root,root) %ghost %{_libdir}/libeststring.so.1
 %{_datadir}/%{name}
 
 %files devel

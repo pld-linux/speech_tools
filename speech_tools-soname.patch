@@ -16,9 +16,20 @@
  	@echo Link Shared Library $*
  	if [ -n "$(PROJECT_LIBRARY_NEEDS_SYSLIBS_$*)" ] ; then libs='$(JAVA_PROJECT_LIBS)' ; fi ;\
 -	$(subst XXX,$@.$(PROJECT_LIBRARY_VERSION_$*),$(MAKE_SHARED_LIB)) shared_space/*.o $(PROJECT_LIBRARY_USES_$*:%=-L. -l%) $$libs
-+	$(subst YYY,$@,$(subst XXX,$@.$(PROJECT_LIBRARY_VERSION_$*),$(MAKE_SHARED_LIB))) shared_space/*.o $(PROJECT_LIBRARY_USES_$*:%=-L. -l%) $$libs
++	$(subst YYY,$@.$(PROJECT_LIBRARY_SOVERSION_$*),$(subst XXX,$@.$(PROJECT_LIBRARY_VERSION_$*),$(MAKE_SHARED_LIB))) shared_space/*.o $(PROJECT_LIBRARY_USES_$*:%=-L. -l%) $$libs
  	@$(RM) -f shared_space/*.o $@
  	@ln -s $@.$(PROJECT_LIBRARY_VERSION_$*) $@
  
-
-
+--- speech_tools/config/project.mak.orig	2012-04-07 10:25:08.664304841 +0200
++++ speech_tools/config/project.mak	2012-04-07 18:57:14.971998561 +0200
+@@ -107,6 +107,10 @@
+ PROJECT_LIBRARY_VERSION_estbase = $(PROJECT_VERSION).1
+ PROJECT_LIBRARY_VERSION_eststring = 1.2
+ PROJECT_LIBRARY_VERSION_estjava = $(PROJECT_VERSION).1
++PROJECT_LIBRARY_SOVERSION_estools = $(PROJECT_VERSION)
++PROJECT_LIBRARY_SOVERSION_estbase = $(PROJECT_VERSION)
++PROJECT_LIBRARY_SOVERSION_eststring = 1
++PROJECT_LIBRARY_SOVERSION_estjava = $(PROJECT_VERSION)
+ 
+ PROJECT_LIBRARY_NEEDS_SYSLIBS_estbase=1
+ PROJECT_LIBRARY_NEEDS_SYSLIBS_estools=1
