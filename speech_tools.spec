@@ -4,7 +4,7 @@ Summary:	Edinburgh Speech Tools Library
 Summary(pl.UTF-8):	Biblioteka narzędzi mowy Edinburgh
 Name:		speech_tools
 Version:	2.1
-Release:	2.1
+Release:	3
 License:	distributable
 Group:		Applications/Sound
 # also:		http://www.cstr.ed.ac.uk/download/festival/2.1/%{name}-%{version}-release.tar.gz
@@ -96,6 +96,9 @@ Programy użytkowe narzędzi mowy Edinburgh.
 %{__sed} -i 's:28 bytes:32 bytes:' testsuite/correct/matrix_regression.out
 %endif
 
+# cleanup backups after patching
+find '(' -name '*~' -o -name '*.orig' ')' -print0 | xargs -0 -r -l512 rm -f
+
 %build
 cp -f /usr/share/automake/config.* .
 %{__aclocal}
@@ -160,6 +163,12 @@ install stats/ols.mak $RPM_BUILD_ROOT%{_libdir}/%{name}/stats
 install stats/wagon/wagon.mak $RPM_BUILD_ROOT%{_libdir}/%{name}/stats/wagon
 install grammar/scfg/scfg.mak $RPM_BUILD_ROOT%{_libdir}/%{name}/grammar/scfg
 install grammar/wfst/wfst.mak $RPM_BUILD_ROOT%{_libdir}/%{name}/grammar/wfst
+
+cp -a base_class $RPM_BUILD_ROOT%{_libdir}/%{name}
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/base_class/*.o
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/base_class/*/*.o
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/base_class/.build*
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/base_class/*/.build*
 
 /sbin/ldconfig -n $RPM_BUILD_ROOT%{_libdir}
 
