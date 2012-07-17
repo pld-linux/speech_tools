@@ -4,7 +4,7 @@ Summary:	Edinburgh Speech Tools Library
 Summary(pl.UTF-8):	Biblioteka narzędzi mowy Edinburgh
 Name:		speech_tools
 Version:	2.1
-Release:	1
+Release:	2
 License:	distributable
 Group:		Applications/Sound
 # also:		http://www.cstr.ed.ac.uk/download/festival/2.1/%{name}-%{version}-release.tar.gz
@@ -18,6 +18,7 @@ Patch4:		%{name}-as-needed.patch
 Patch5:		%{name}-gcc42.patch
 Patch6:		%{name}-gcc44.patch
 Patch7:		%{name}-link.patch
+Patch8:		%{name}-gcc47.patch
 URL:		http://www.cstr.ed.ac.uk/projects/speech_tools/
 BuildRequires:	alsa-lib-devel
 BuildRequires:	autoconf
@@ -85,6 +86,7 @@ Programy użytkowe narzędzi mowy Edinburgh.
 %patch5 -p1
 %patch6 -p1
 %patch7 -p1
+%patch8 -p1
 %if "%{_lib}" == "lib64"
 # fix regression output for 64-bit archs (sizeof(ptr)==8 instead of 4).
 %{__sed} -i 's:20 bytes:24 bytes:' testsuite/correct/matrix_regression.out
