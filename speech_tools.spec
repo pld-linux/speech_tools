@@ -3,24 +3,19 @@
 Summary:	Edinburgh Speech Tools Library
 Summary(pl.UTF-8):	Biblioteka narzędzi mowy Edinburgh
 Name:		speech_tools
-Version:	2.1
-Release:	4
+Version:	2.4
+Release:	1
 License:	distributable
 Group:		Applications/Sound
-# also:		http://www.cstr.ed.ac.uk/download/festival/2.1/%{name}-%{version}-release.tar.gz
-Source0:	http://www.festvox.org/packed/festival/latest/%{name}-%{version}-release.tar.gz
-# Source0-md5:	6920ddc75b042910a3bcfee3ab106938
+Source0:	http://www.festvox.org/packed/festival/2.4/%{name}-%{version}-release.tar.gz
+# Source0-md5:	3d60e563135363eb2548d947f7ef4e14
 Patch0:		%{name}-shared.patch
 Patch1:		%{name}-soname.patch
 Patch2:		%{name}-bin_printf.patch
-Patch3:		%{name}-rateconvtrivialbug.patch
+Patch3:		%{name}-alsa.patch
 Patch4:		%{name}-as-needed.patch
-Patch5:		%{name}-gcc42.patch
-Patch6:		%{name}-gcc44.patch
 Patch7:		%{name}-link.patch
-Patch8:		%{name}-gcc47.patch
-Patch9:		%{name}-pulse.patch
-Patch10:	format-security.patch
+Patch8:		%{name}-pulse.patch
 URL:		http://www.cstr.ed.ac.uk/projects/speech_tools/
 BuildRequires:	alsa-lib-devel
 BuildRequires:	autoconf
@@ -84,14 +79,10 @@ Programy użytkowe narzędzi mowy Edinburgh.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p0
-%patch3 -p2
+%patch3 -p1
 %patch4 -p1
-%patch5 -p1
-%patch6 -p1
 %patch7 -p1
 %patch8 -p1
-%patch9 -p1
-%patch10 -p1
 %if "%{_lib}" == "lib64"
 # fix regression output for 64-bit archs (sizeof(ptr)==8 instead of 4).
 %{__sed} -i 's:20 bytes:24 bytes:' testsuite/correct/matrix_regression.out
@@ -122,14 +113,10 @@ install -d $RPM_BUILD_ROOT{%{_bindir},%{_includedir}/EST,%{_datadir}/%{name}/exa
 # includes
 cp -r include/* $RPM_BUILD_ROOT%{_includedir}/EST
 find $RPM_BUILD_ROOT%{_includedir}/EST -name Makefile -exec rm \{\} \;
-for file in `find $RPM_BUILD_ROOT%{_includedir}/EST -type f`
-do
-	sed 's/\"\(.*h\)\"/\<EST\/\1\>/g' $file > $file.tmp
-	grep -v est_string_config\.h $file.tmp > $file
-	rm -f $file.tmp
+for file in `find $RPM_BUILD_ROOT%{_includedir}/EST -type f`; do
+	sed -i -e 's/\"\(.*h\)\"/\<EST\/\1\>/g' -e '/est_string_config\.h/d' $file
 done
-sed 's/\<EST\//&rxp\//g' $RPM_BUILD_ROOT%{_includedir}/EST/rxp/rxp.h > bzzz
-mv bzzz $RPM_BUILD_ROOT%{_includedir}/EST/rxp/rxp.h
+sed -i -e 's/\<EST\//&rxp\//g' $RPM_BUILD_ROOT%{_includedir}/EST/rxp/rxp.h
 for i in $RPM_BUILD_ROOT%{_includedir}/EST/rxp/*
 do
 	ln -s %{_includedir}/EST/rxp/`basename $i` $RPM_BUILD_ROOT%{_includedir}/EST/`basename $i`
@@ -137,15 +124,11 @@ done
 ln -s /usr/include/EST $RPM_BUILD_ROOT%{_libdir}/%{name}/include
 
 # libraries
-install lib/lib* $RPM_BUILD_ROOT%{_libdir}
-for i in $RPM_BUILD_ROOT%{_libdir}/*.so
-do
-	rm $i
-	ln -s `basename $i*` $i
-done
+cp -dp lib/lib* $RPM_BUILD_ROOT%{_libdir}
+/sbin/ldconfig -n $RPM_BUILD_ROOT%{_libdir}
 
 # binaries
-install `find bin -type f -perm +1` $RPM_BUILD_ROOT%{_bindir}
+install `find bin -type f -perm -001` $RPM_BUILD_ROOT%{_bindir}
 
 # scripts
 install scripts/{example_to_doc++.prl,make_wagon_desc.sh,resynth.sh,shared_script,shared_setup_prl,shared_setup_sh} \
@@ -153,9 +136,10 @@ install scripts/{example_to_doc++.prl,make_wagon_desc.sh,resynth.sh,shared_scrip
 
 # example data
 install lib/example_data/* $RPM_BUILD_ROOT%{_datadir}/%{name}/example_data
-rm $RPM_BUILD_ROOT%{_datadir}/%{name}/example_data/Makefile
+%{__rm} $RPM_BUILD_ROOT%{_datadir}/%{name}/example_data/Makefile
 
 # more shit
+# FIXME: do we need to package everything?
 cp -r config $RPM_BUILD_ROOT%{_libdir}/%{name}
 cp -r testsuite $RPM_BUILD_ROOT%{_libdir}/%{name}
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/testsuite/*.o
@@ -172,8 +156,6 @@ cp -a base_class $RPM_BUILD_ROOT%{_libdir}/%{name}
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/base_class/.build*
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/%{name}/base_class/*/.build*
 
-/sbin/ldconfig -n $RPM_BUILD_ROOT%{_libdir}
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -184,9 +166,9 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc README
 %attr(755,root,root) %{_libdir}/libestbase.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libestbase.so.2.1
+%attr(755,root,root) %ghost %{_libdir}/libestbase.so.2.4
 %attr(755,root,root) %{_libdir}/libestools.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libestools.so.2.1
+%attr(755,root,root) %ghost %{_libdir}/libestools.so.2.4
 %attr(755,root,root) %{_libdir}/libeststring.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libeststring.so.1
 %{_datadir}/%{name}
@@ -221,7 +203,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/est_gdb
 %attr(755,root,root) %{_bindir}/est_program
 %attr(755,root,root) %{_bindir}/example_to_doc++
-%attr(755,root,root) %{_bindir}/fringe_client
 %attr(755,root,root) %{_bindir}/make_wagon_desc
 %attr(755,root,root) %{_bindir}/na_play
 %attr(755,root,root) %{_bindir}/na_record

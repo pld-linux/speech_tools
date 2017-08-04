@@ -234,16 +234,15 @@ diff -up speech_tools/config/config.in.pulse speech_tools/config/config.in
 diff -up speech_tools/config/modules/Makefile.pulse speech_tools/config/modules/Makefile
 --- speech_tools/config/modules/Makefile.pulse	2004-07-15 19:03:05.000000000 -0400
 +++ speech_tools/config/modules/Makefile	2009-09-29 02:05:53.359687618 -0400
-@@ -41,7 +41,8 @@ RULESETS = efence.mak dmalloc.mak debugg
+@@ -41,7 +41,7 @@ RULESETS = efence.mak dmalloc.mak debugg
  	psola_tm.mak editline.mak tcl.mak \
  	freebsd16_audio.mak irix_audio.mak linux16_audio.mak \
  	sun16_audio.mak win32_audio.mak macosx_audio.mak \
--	mplayer_audio.mak nas_audio.mak esd_audio.mak
-+	mplayer_audio.mak nas_audio.mak esd_audio.mak \
-+	pulse_audio.mak
+-	mplayer_audio.mak nas_audio.mak esd_audio.mak \
++	mplayer_audio.mak nas_audio.mak esd_audio.mak pulse_audio.mak \
+ 	siod_python.mak
  
  FILES = Makefile descriptions $(RULESETS) 
- 
 diff -up /dev/null speech_tools/config/modules/pulse_audio.mak
 --- /dev/null	2009-09-29 00:23:01.118964058 -0400
 +++ speech_tools/config/modules/pulse_audio.mak	2009-09-29 02:05:53.361688082 -0400

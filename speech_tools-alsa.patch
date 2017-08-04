@@ -1,0 +1,11 @@
+--- speech_tools/configure.in.orig	2014-12-20 16:35:49.000000000 +0100
++++ speech_tools/configure.in	2017-07-20 17:26:19.669578458 +0200
+@@ -85,7 +85,7 @@
+ LINUXAUDIO=none
+ AC_TRY_COMPILE([#include <alsa/version.h>],
+                [int j=
+-                #if SND_LIB_SUBMINOR >= 11
++                #if (SND_LIB_MAJOR > 1) || ((SND_LIB_MAJOR == 1) && ((SND_LIB_MINOR > 0) || (SND_LIB_SUBMINOR >= 11)))
+                 3;
+                 #endif],
+               [LINUXAUDIO="alsa"])
