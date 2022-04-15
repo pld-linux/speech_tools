@@ -1,6 +1,5 @@
-diff -up speech_tools/audio/audioP.h.pulse speech_tools/audio/audioP.h
---- speech_tools/audio/audioP.h.pulse	2004-07-15 19:03:04.000000000 -0400
-+++ speech_tools/audio/audioP.h	2009-09-29 02:05:53.353695375 -0400
+--- speech_tools/audio/audioP.h.orig	2022-04-15 21:26:30.857889044 +0200
++++ speech_tools/audio/audioP.h	2022-04-15 21:27:25.887590923 +0200
 @@ -40,6 +40,7 @@
  #define __AUDIOP_H__
  
@@ -8,7 +7,7 @@ diff -up speech_tools/audio/audioP.h.pulse speech_tools/audio/audioP.h
 +int play_pulse_wave(EST_Wave &inwave, EST_Option &al);
  int play_esd_wave(EST_Wave &inwave, EST_Option &al);
  int play_sun16_wave(EST_Wave &inwave, EST_Option &al);
- int play_voxware_wave(EST_Wave &inwave, EST_Option &al);
+ int play_linux_wave(EST_Wave &inwave, EST_Option &al);
 @@ -49,6 +50,7 @@ int play_irix_wave(EST_Wave &inwave, EST
  int play_macosx_wave(EST_Wave &inwave, EST_Option &al);
  
@@ -16,7 +15,7 @@ diff -up speech_tools/audio/audioP.h.pulse speech_tools/audio/audioP.h
 +int record_pulse_wave(EST_Wave &inwave, EST_Option &al);
  int record_esd_wave(EST_Wave &inwave, EST_Option &al);
  int record_sun16_wave(EST_Wave &inwave, EST_Option &al);
- int record_voxware_wave(EST_Wave &inwave, EST_Option &al);
+ int record_linux_wave(EST_Wave &inwave, EST_Option &al);
 diff -up speech_tools/audio/gen_audio.cc.pulse speech_tools/audio/gen_audio.cc
 --- speech_tools/audio/gen_audio.cc.pulse	2004-09-30 08:53:35.000000000 -0400
 +++ speech_tools/audio/gen_audio.cc	2009-09-29 02:05:53.354687890 -0400
@@ -68,18 +67,17 @@ diff -up speech_tools/audio/gen_audio.cc.pulse speech_tools/audio/gen_audio.cc
      else if (upcase(protocol) == "ESDAUDIO")
          return record_esd_wave(wave,al);
      else if (upcase(protocol) == "SUN16AUDIO")
-diff -up speech_tools/audio/Makefile.pulse speech_tools/audio/Makefile
---- speech_tools/audio/Makefile.pulse	2004-07-15 19:03:04.000000000 -0400
-+++ speech_tools/audio/Makefile	2009-09-29 02:05:53.355692417 -0400
+--- speech_tools/audio/Makefile.orig	2022-04-15 21:27:49.414130135 +0200
++++ speech_tools/audio/Makefile	2022-04-15 21:29:15.460330649 +0200
 @@ -44,7 +44,7 @@ LOCAL_DEFAULT_LIBRARY = estbase
  H = audioP.h
- CPPSRCS = gen_audio.cc nas.cc esd.cc sun16audio.cc voxware.cc  \
+ CPPSRCS = gen_audio.cc nas.cc esd.cc sun16audio.cc \
            mplayer.cc win32audio.cc irixaudio.cc os2audio.cc \
 -          macosxaudio.cc linux_sound.cc
 +          macosxaudio.cc linux_sound.cc pulseaudio.cc
  
  SRCS = $(CPPSRCS)
- OBJS = $(CPPSRCS:.cc=.o)
+ OBJS = $(SRCS:.cc=.o)
 diff -up /dev/null speech_tools/audio/pulseaudio.cc
 --- /dev/null	2009-09-29 00:23:01.118964058 -0400
 +++ speech_tools/audio/pulseaudio.cc	2009-09-29 02:05:53.357688202 -0400
@@ -218,11 +216,10 @@ diff -up /dev/null speech_tools/audio/pulseaudio.cc
 +}
 +
 +#endif
-diff -up speech_tools/config/config.in.pulse speech_tools/config/config.in
---- speech_tools/config/config.in.pulse	2009-09-29 02:05:53.045693311 -0400
-+++ speech_tools/config/config.in	2009-09-29 02:05:53.358687421 -0400
+--- speech_tools/config/config.in.orig	2022-04-15 21:29:43.376846079 +0200
++++ speech_tools/config/config.in	2022-04-15 21:35:41.334906854 +0200
 @@ -79,6 +79,9 @@ OPTIMISE_sigpr = 3
- ## NCD's network audio system, This is recommended.
+ ## NCD's network audio system.
  # INCLUDE_MODULES += NAS_AUDIO
  
 +## PulseAudio sound server

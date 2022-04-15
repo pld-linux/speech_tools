@@ -1,10 +1,10 @@
---- speech_tools-orig/config/compilers/gcc_defaults.mak	Tue Apr 22 02:24:57 2003
-+++ speech_tools/config/compilers/gcc_defaults.mak	Tue Apr 22 02:25:19 2003
-@@ -78,7 +78,7 @@
- SHARED_LINKFLAGS = -fno-shared-data
- 
+--- speech_tools/config/compilers/gcc_defaults.mak.orig	2022-04-15 20:41:26.185874843 +0200
++++ speech_tools/config/compilers/gcc_defaults.mak	2022-04-15 20:45:16.744625799 +0200
+@@ -83,7 +83,7 @@ SHARED_LINKFLAGS =
  ifndef GCC_MAKE_SHARED_LIB
--    MAKE_SHARED_LIB = $(CXX) -shared -fno-shared-data -o XXX
+ # Older versions of gcc might have required -fno-shared-data
+ #    MAKE_SHARED_LIB = $(CXX) -shared -fno-shared-data -o XXX
+-    MAKE_SHARED_LIB = $(CXX) -shared -o XXX
 +    MAKE_SHARED_LIB = $(CXX) -shared -o XXX -Wl,-soname -Wl,YYY
  else
      MAKE_SHARED_LIB = $(GCC_MAKE_SHARED_LIB)
@@ -20,9 +20,9 @@
  	@$(RM) -f shared_space/*.o $@
  	@ln -s $@.$(PROJECT_LIBRARY_VERSION_$*) $@
  
---- speech_tools/config/project.mak.orig	2012-04-07 10:25:08.664304841 +0200
-+++ speech_tools/config/project.mak	2012-04-07 18:57:14.971998561 +0200
-@@ -107,6 +107,10 @@
+--- speech_tools/config/project.mak.orig	2022-04-15 20:45:46.624463926 +0200
++++ speech_tools/config/project.mak	2022-04-15 21:20:26.766528163 +0200
+@@ -107,6 +107,10 @@ PROJECT_LIBRARY_VERSION_estools = $(PROJ
  PROJECT_LIBRARY_VERSION_estbase = $(PROJECT_VERSION).1
  PROJECT_LIBRARY_VERSION_eststring = 1.2
  PROJECT_LIBRARY_VERSION_estjava = $(PROJECT_VERSION).1
@@ -31,5 +31,5 @@
 +PROJECT_LIBRARY_SOVERSION_eststring = 1
 +PROJECT_LIBRARY_SOVERSION_estjava = $(PROJECT_VERSION)
  
- PROJECT_LIBRARY_NEEDS_SYSLIBS_estbase=1
- PROJECT_LIBRARY_NEEDS_SYSLIBS_estools=1
+ PROJECT_LIBRARY_NEEDS_SYSLIBS_estjava=1
+ 

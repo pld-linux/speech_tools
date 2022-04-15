@@ -3,16 +3,15 @@
 Summary:	Edinburgh Speech Tools Library
 Summary(pl.UTF-8):	Biblioteka narzędzi mowy Edinburgh
 Name:		speech_tools
-Version:	2.4
+Version:	2.5.0
 Release:	1
 License:	distributable
 Group:		Applications/Sound
-Source0:	http://www.festvox.org/packed/festival/2.4/%{name}-%{version}-release.tar.gz
-# Source0-md5:	3d60e563135363eb2548d947f7ef4e14
+Source0:	http://www.festvox.org/packed/festival/2.5/%{name}-%{version}-release.tar.gz
+# Source0-md5:	bd6edc8de6548592faffd184b67b0668
 Patch0:		%{name}-shared.patch
 Patch1:		%{name}-soname.patch
 Patch2:		%{name}-bin_printf.patch
-Patch3:		%{name}-alsa.patch
 Patch4:		%{name}-as-needed.patch
 Patch7:		%{name}-link.patch
 Patch8:		%{name}-pulse.patch
@@ -79,7 +78,6 @@ Programy użytkowe narzędzi mowy Edinburgh.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p0
-%patch3 -p1
 %patch4 -p1
 %patch7 -p1
 %patch8 -p1
@@ -164,11 +162,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc README
-%attr(755,root,root) %{_libdir}/libestbase.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libestbase.so.2.4
-%attr(755,root,root) %{_libdir}/libestools.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libestools.so.2.4
+%doc README.md
+%attr(755,root,root) %{_libdir}/libestbase.so.*.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libestbase.so.2.5.0
+%attr(755,root,root) %{_libdir}/libestools.so.*.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libestools.so.2.5.0
 %attr(755,root,root) %{_libdir}/libeststring.so.*.*
 %attr(755,root,root) %ghost %{_libdir}/libeststring.so.1
 %{_datadir}/%{name}

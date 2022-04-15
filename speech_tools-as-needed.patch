@@ -1,8 +1,8 @@
---- speech_tools/config/project.mak~	2010-10-25 21:10:32.000000000 +0200
-+++ speech_tools/config/project.mak	2012-02-01 11:26:29.769223564 +0100
-@@ -108,6 +108,8 @@
- PROJECT_LIBRARY_VERSION_eststring = 1.2
- PROJECT_LIBRARY_VERSION_estjava = $(PROJECT_VERSION).1
+--- speech_tools/config/project.mak.orig	2022-04-15 21:22:09.909302724 +0200
++++ speech_tools/config/project.mak	2022-04-15 21:26:13.454649992 +0200
+@@ -112,6 +112,8 @@ PROJECT_LIBRARY_SOVERSION_estbase = $(PR
+ PROJECT_LIBRARY_SOVERSION_eststring = 1
+ PROJECT_LIBRARY_SOVERSION_estjava = $(PROJECT_VERSION)
  
 +PROJECT_LIBRARY_NEEDS_SYSLIBS_estbase=1
 +PROJECT_LIBRARY_NEEDS_SYSLIBS_estools=1
