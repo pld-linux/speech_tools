@@ -1,0 +1,10 @@
+--- speech_tools/siod/editline.c.orig	2017-09-04 17:54:03.000000000 +0200
++++ speech_tools/siod/editline.c	2022-04-16 18:03:07.073034061 +0200
+@@ -73,7 +73,6 @@
+ /* modified by awb to allow specifcation of history size at run time  */
+ /* (though only once)                                                 */
+ int editline_histsize=256;
+-char *editline_history_file;
+ /* If this is defined it'll be called for completion first, before the */
+ /* internal file name completion will be                               */
+ EL_USER_COMPLETION_FUNCTION_TYPE*el_user_completion_function = NULL;

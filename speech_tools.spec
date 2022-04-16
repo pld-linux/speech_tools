@@ -12,6 +12,7 @@ Source0:	http://www.festvox.org/packed/festival/2.5/%{name}-%{version}-release.t
 Patch0:		%{name}-shared.patch
 Patch1:		%{name}-soname.patch
 Patch2:		%{name}-bin_printf.patch
+Patch3:		%{name}-no-common.patch
 Patch4:		%{name}-as-needed.patch
 Patch7:		%{name}-link.patch
 Patch8:		%{name}-pulse.patch
@@ -78,6 +79,7 @@ Programy użytkowe narzędzi mowy Edinburgh.
 %patch0 -p1
 %patch1 -p1
 %patch2 -p0
+%patch3 -p1
 %patch4 -p1
 %patch7 -p1
 %patch8 -p1
