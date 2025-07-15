@@ -76,13 +76,13 @@ Programy użytkowe narzędzi mowy Edinburgh.
 
 %prep
 %setup -q -n %{name}
-%patch0 -p1
-%patch1 -p1
-%patch2 -p0
-%patch3 -p1
-%patch4 -p1
-%patch7 -p1
-%patch8 -p1
+%patch -P0 -p1
+%patch -P1 -p1
+%patch -P2 -p0
+%patch -P3 -p1
+%patch -P4 -p1
+%patch -P7 -p1
+%patch -P8 -p1
 %if "%{_lib}" == "lib64"
 # fix regression output for 64-bit archs (sizeof(ptr)==8 instead of 4).
 %{__sed} -i 's:20 bytes:24 bytes:' testsuite/correct/matrix_regression.out
